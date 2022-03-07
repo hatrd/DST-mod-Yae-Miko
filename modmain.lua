@@ -41,11 +41,11 @@ local require = GLOBAL.require
 local STRINGS = GLOBAL.STRINGS
 
 -- The character select screen lines
-STRINGS.CHARACTER_TITLES.esctemplate = "The Sample Character"
-STRINGS.CHARACTER_NAMES.esctemplate = "Esc"
-STRINGS.CHARACTER_DESCRIPTIONS.esctemplate = "*Perk 1\n*Perk 2\n*Perk 3"
-STRINGS.CHARACTER_QUOTES.esctemplate = "\"Quote\""
-STRINGS.CHARACTER_SURVIVABILITY.esctemplate = "Slim"
+STRINGS.CHARACTER_TITLES.esctemplate = "屑狐狸"
+STRINGS.CHARACTER_NAMES.esctemplate = "八重神子"
+STRINGS.CHARACTER_DESCRIPTIONS.esctemplate = "重生，然后化身八重宫司大人。"
+STRINGS.CHARACTER_QUOTES.esctemplate = "\"呜呜呜呜，好可怜呐\""
+STRINGS.CHARACTER_SURVIVABILITY.esctemplate = "严峻"
 
 -- Custom speech strings
 STRINGS.CHARACTERS.ESCTEMPLATE = require "speech_esctemplate"
