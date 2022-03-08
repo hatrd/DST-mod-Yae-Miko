@@ -1,5 +1,10 @@
 name = "Yae Miko"
-description = "Genshin Impact character."
+description = [[
+Genshin Impact character.
+Press "R" to use Charge Attack.
+Press "Z" to use ELemental Skill.
+Press "X" to use Elemental Burst.
+]]
 author = "NaNaN"
 version = "0.1.0"
 forumthread = ""
@@ -43,18 +48,18 @@ configuration_options = {
 		options={{description = "", data = 0}},
 		default = 0
 	},
-	{
-		name = "hp",
-		label = "Health",
-		hover = "",
-		options = {
-			{description = "140", data = 140},
-			{description = "150", data = 150},
-			{description = "200", data = 200},
-			{description = "250", data = 250},
-		},
-		default = 140
-	},
+	-- {
+	-- 	name = "hp",
+	-- 	label = "Health",
+	-- 	hover = "",
+	-- 	options = {
+	-- 		{description = "140", data = 140},
+	-- 		{description = "150", data = 150},
+	-- 		{description = "200", data = 200},
+	-- 		{description = "250", data = 250},
+	-- 	},
+	-- 	default = 140
+	-- },
 	{
 		name = "er",
 		label = "Energy Recharge",
@@ -71,6 +76,13 @@ configuration_options = {
 		hover = "",
 		options={{description = "", data = 0}},
 		default = 0
+	},
+  {
+		name = "charge",
+		label = "Charge Attack",
+		hover = "",
+		options = list,
+		default = "KEY_R",	
 	},
 	{
 		name = "skill",

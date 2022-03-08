@@ -37,8 +37,10 @@ Assets = {
 
 AddMinimapAtlas("images/map_icons/yaemiko.xml")
 
-local require = GLOBAL.require
-local STRINGS = GLOBAL.STRINGS
+
+--环境初始化
+GLOBAL.setmetatable(env, {__index = function(t,k) return GLOBAL.rawget(GLOBAL,k) end})
+
 
 -- The character select screen lines
 STRINGS.CHARACTER_TITLES.yaemiko = "屑狐狸"
