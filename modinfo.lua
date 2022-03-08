@@ -1,34 +1,89 @@
--- This information tells other players more about the mod
 name = "Yae Miko"
 description = "Genshin Impact character."
 author = "NaNaN"
-version = "0.1.0" -- This is the version of the template. Change it to your own number.
-
--- This is the URL name of the mod's thread on the forum; the part after the ? and before the first & in the url
+version = "0.1.0"
 forumthread = ""
-
--- This lets other players know if your mod is out of date, update it to match the current version in the game
 api_version = 10
-
--- Compatible with Don't Starve Together
 dst_compatible = true
-
--- Not compatible with Don't Starve
 dont_starve_compatible = false
 reign_of_giants_compatible = false
 shipwrecked_compatible = false
-
--- Character mods are required by all clients
 all_clients_require_mod = true 
 
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"
 
--- The mod's tags displayed on the server list
 server_filter_tags = {
 "character",
 }
 
 
 
---configuration_options = {}
+local keys = {"B","C","G","H","J","K","L","N","O","R","T","V","X","Z","LAlt","RAlt","LCtrl","RCtrl","LShift","RShift"}
+local list = {}
+local string = ""
+for i = 1, #keys do
+	list[i] = {description = "Key "..string.upper(keys[i]), data = "KEY_"..string.upper(keys[i])}
+end
+
+configuration_options = {
+	{
+		name = "language",
+		label = "Language",
+		hover = "",
+		options = {
+			{description = "English", data = 1, hover = ""},
+			{description = "中文", data = 2, hover = ""}
+		},
+		default = 2
+	},
+	{
+		name = "Stats",
+		hover = "",
+		options={{description = "", data = 0}},
+		default = 0
+	},
+	{
+		name = "hp",
+		label = "Health",
+		hover = "",
+		options = {
+			{description = "140", data = 140},
+			{description = "150", data = 150},
+			{description = "200", data = 200},
+			{description = "250", data = 250},
+		},
+		default = 140
+	},
+	{
+		name = "er",
+		label = "Energy Recharge",
+		hover = "",
+		options = {
+			{description = "100%", data = 1},
+			{description = "150%", data = 1.5},
+			{description = "200%", data = 2},
+		},
+		default = 1
+	},
+	{
+		name = "Key",
+		hover = "",
+		options={{description = "", data = 0}},
+		default = 0
+	},
+	{
+		name = "skill",
+		label = "Elemental Skill",
+		hover = "",
+		options = list,
+		default = "KEY_Z",	
+	},
+	{
+		name = "burst",
+		label = "Elemental Burst",
+		hover = "",
+		options = list,
+		default = "KEY_X",	
+	},
+}
