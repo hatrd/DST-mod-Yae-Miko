@@ -1,6 +1,7 @@
 PrefabFiles = {
 	"yaemiko",
 	"yaemiko_none",
+  "yushou",
 }
 
 Assets = {
@@ -33,6 +34,7 @@ Assets = {
 	
 	Asset( "IMAGE", "images/names_gold_yaemiko.tex" ),
     Asset( "ATLAS", "images/names_gold_yaemiko.xml" ),
+
 }
 
 AddMinimapAtlas("images/map_icons/yaemiko.xml")

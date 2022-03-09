@@ -14,14 +14,9 @@ dont_starve_compatible = false
 reign_of_giants_compatible = false
 shipwrecked_compatible = false
 all_clients_require_mod = true 
-
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"
-
-server_filter_tags = {
-"character",
-}
-
+server_filter_tags = {"character",}
 
 
 local keys = {"B","C","G","H","J","K","L","N","O","R","T","V","X","Z","LAlt","RAlt","LCtrl","RCtrl","LShift","RShift"}
