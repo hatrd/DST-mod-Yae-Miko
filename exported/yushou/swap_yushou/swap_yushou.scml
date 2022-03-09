@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
+    <folder id="0">
+        <file id="0" name="swap_yushou.png" width="100" height="100" pivot_x="0.509901" pivot_y="0.371287"/>
+    </folder>
+    <entity id="0" name="swap_yushou">
+        <animation id="0" name="BUILD" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="swap_yushou" folder="0" file="0" abs_x="-4.742144" abs_y="10.280911" abs_pivot_x="0.515987" abs_pivot_y="0.234954" abs_angle="360" abs_scale_x="349.245722" abs_scale_y="343.309106" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_yushou">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-4.742144" y="10.280911" pivot_x="0.515987" pivot_y="0.234954" scale_x="349.245722" scale_y="343.309106"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

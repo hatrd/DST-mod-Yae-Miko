@@ -35,6 +35,10 @@ Assets = {
 	Asset( "IMAGE", "images/names_gold_yaemiko.tex" ),
     Asset( "ATLAS", "images/names_gold_yaemiko.xml" ),
 
+    
+	Asset( "IMAGE", "images/hud/paimon.tex" ),
+	Asset( "ATLAS", "images/hud/paimon.xml" ),
+
 }
 
 AddMinimapAtlas("images/map_icons/yaemiko.xml")
@@ -69,6 +73,18 @@ local skin_modes = {
         offset = { 0, -25 } 
     },
 }
+--添加御守图片
+TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yushou = {
+	atlas = "images/inventoryimages/yushou.xml",
+	image = "yushou.tex"
+}
+
+--添加合成
+local yaemikotab = AddRecipeTab(STRINGS.NAMES.YAEMIKO, 88, "images/hud/paimon.xml", "paimon.tex", "yaemiko")
+AddRecipe("yushou",{Ingredient("papyrus", 2),Ingredient("boards", 1),},
+yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yushou.xml")
+
+
 
 -- Add mod character to mod character list. Also specify a gender. Possible genders are MALE, FEMALE, ROBOT, NEUTRAL, and PLURAL.
 AddModCharacter("yaemiko", "FEMALE", skin_modes)

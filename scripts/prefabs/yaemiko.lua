@@ -11,7 +11,7 @@ TUNING.YAEMIKO_SANITY = 220
 
 -- 初始道具
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.YAEMIKO = {
-	"flint",
+	"yushou",
 }
 
 local start_inv = {}
@@ -48,6 +48,9 @@ end
 local common_postinit = function(inst) 
 	-- Minimap icon
 	inst.MiniMapEntity:SetIcon( "yaemiko.tex" )
+  
+  inst:AddTag("yaemiko")
+
 end
 
 -- This initializes for the server only. Components are added here.
@@ -61,10 +64,10 @@ local master_postinit = function(inst)
 	-- Uncomment if "wathgrithr"(Wigfrid) or "webber" voice is used
     --inst.talker_path_override = "dontstarve_DLC001/characters/"
 	
-	-- Stats	
-	inst.components.health:SetMaxHealth(TUNING.YAEMIKO_HEALTH)
-	inst.components.hunger:SetMax(TUNING.YAEMIKO_HUNGER)
-	inst.components.sanity:SetMax(TUNING.YAEMIKO_SANITY)
+	-- -- 动态设置状态，目前不需要。	
+	-- inst.components.health:SetMaxHealth(TUNING.YAEMIKO_HEALTH)
+	-- inst.components.hunger:SetMax(TUNING.YAEMIKO_HUNGER)
+	-- inst.components.sanity:SetMax(TUNING.YAEMIKO_SANITY)
 	
 	-- Damage multiplier (optional)
     inst.components.combat.damagemultiplier = 1
@@ -75,6 +78,8 @@ local master_postinit = function(inst)
 	inst.OnLoad = onload
     inst.OnNewSpawn = onload
 	
+
+
 end
 
 return MakePlayerCharacter("yaemiko", prefabs, assets, common_postinit, master_postinit, prefabs)
