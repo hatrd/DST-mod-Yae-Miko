@@ -1,10 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
-    <entity id="0" name="entity_000">
-        <animation id="0" name="NewAnimation" length="1000">
+    <folder id="0">
+        <file id="0" name="ground_yushou/ground_yushou.png" width="100" height="100" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="1" name="swap_yushou">
+        <file id="0" name="swap_yushou/swap_yushou-2.png" width="356" height="312" pivot_x="0.457802" pivot_y="0.282748"/>
+        <file id="1" name="swap_yushou/swap_yushou-1.png" width="332" height="316" pivot_x="0.514724" pivot_y="0.38094"/>
+        <file id="2" name="swap_yushou/swap_yushou-0.png" width="356" height="374" pivot_x="0.477591" pivot_y="0.292086"/>
+    </folder>
+    <entity id="0" name="yushou">
+        <animation id="0" name="idle" length="1000">
             <mainline>
-                <key id="0"/>
+                <key id="0">
+                    <object_ref id="0" name="ground_yushou" folder="0" file="0" abs_x="-3.981023" abs_y="10.112623" abs_pivot_x="0.481023" abs_pivot_y="0.387377" abs_angle="0" abs_scale_x="1.316489" abs_scale_y="1.316489" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
             </mainline>
+            <timeline id="0" name="ground_yushou">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-3.981023" y="10.112623" pivot_x="0.481023" pivot_y="0.387377" angle="0" scale_x="1.316489" scale_y="1.316489"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="BUILD_PLAYER" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="swap_yushou-0" folder="1" file="2" abs_x="-97.891493" abs_y="25.309556" abs_pivot_x="0.004396" abs_pivot_y="0.996895" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="swap_yushou-1" folder="1" file="1" abs_x="-317.248043" abs_y="367.239881" abs_pivot_x="0.006107" abs_pivot_y="1.002055" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" name="swap_yushou-2" folder="1" file="0" abs_x="90.825489" abs_y="359.182857" abs_pivot_x="-0.002909" abs_pivot_y="0.994562" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_yushou-0">
+                <key id="0" spin="0">
+                    <object folder="1" file="2" x="-97.891493" y="25.309556" pivot_x="0.004396" pivot_y="0.996895"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="swap_yushou-1">
+                <key id="0" spin="0">
+                    <object folder="1" file="1" x="-317.248043" y="367.239881" pivot_x="0.006107" pivot_y="1.002055"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="swap_yushou-2">
+                <key id="0" spin="0">
+                    <object folder="1" file="0" x="90.825489" y="359.182857" pivot_x="-0.002909" pivot_y="0.994562"/>
+                </key>
+            </timeline>
         </animation>
     </entity>
 </spriter_data>
