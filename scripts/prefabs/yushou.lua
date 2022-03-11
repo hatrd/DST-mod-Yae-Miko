@@ -15,22 +15,29 @@ local function OnEquip(inst, owner)
 
 --平时恢复san
   inst.components.equippable.dapperness = TUNING.DAPPERNESS_SMALL
+  
 --做成佩戴御守战斗时恢复san值
   -- if owner.components.sanity ~= nil then
   --   owner.components.sanity:DoDelta(100, true) -- using overtime so it doesnt make the sanity sfx every time you attack
   -- end
 	
+	-- if owner.attacker and owner.attacker.components.sanity then
+	-- 	owner.attacker.components.health:DoDelta(3)
+	-- end
+
+  -- inst.task=inst:DoPeriodicTask(3, function()
+  --           if owner.components.combat ~= nil and not (owner.components.sanity ~= nil and owner.components.health:IsDead()) then
+  --             owner.components.sanity:DoDelta(3)
+  --           end
+  -- end)
+ 
 end
 
 local function OnUnequip(inst, owner)
 
+
 	owner.AnimState:ClearOverrideSymbol("swap_yushou")
-	
-	-- Show/Hide some of the layers of the character while unequipping the hat.
-
   owner.AnimState:Hide("HAT")
-
-	
 
 end
 
