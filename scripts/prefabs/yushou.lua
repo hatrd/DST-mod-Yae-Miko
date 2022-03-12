@@ -51,7 +51,7 @@ local function fn()
 
   STRINGS.NAMES.YUSHOU = "御守"
   STRINGS.RECIPE_DESC.YUSHOU = "想我的时候也可以拿出来看看哦？"
-  STRINGS.CHARACTERS.GENERIC.DESCRIBE.YUSHOU = "这是才智与美貌兼具的八重神子大人赠与我的！"
+  STRINGS.CHARACTERS.GENERIC.DESCRIBE.YUSHOU = "这是才智与美貌兼具的八重神子大人赠予我的！"
 
   anim:SetBank("yushou")
   anim:SetBuild("yushou")
@@ -59,11 +59,11 @@ local function fn()
 
 
   
-inst.entity:SetPristine()
+  inst.entity:SetPristine()
 
-    if not TheWorld.ismastersim then
-        return inst
-    end
+  if not TheWorld.ismastersim then
+      return inst
+  end
 
   inst:AddComponent("inspectable")
   inst:AddComponent("tradable")
