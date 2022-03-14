@@ -9,6 +9,7 @@ TUNING.YAEMIKO_HEALTH = 130
 TUNING.YAEMIKO_HUNGER = 150
 TUNING.YAEMIKO_SANITY = 220
 
+
 -- 初始道具
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.YAEMIKO = {
 	"yushou",
@@ -43,6 +44,45 @@ local function onload(inst)
     end
 end
 
+----------人物技能区------------------------------------------
+
+local function yaemiko_skill(inst)
+	inst.components.talker:Say("元素战技被触发")
+  -- if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
+	-- 	if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
+	-- 		if inst.components.rider and inst.components.rider:IsRiding() then return end
+	-- 		if not inst:HasTag("qiqi_e") then
+	-- 			HeraldofFrost(inst, inst.skill_rate, inst.heal_rate)
+	-- 			inst:AddTag("qiqi_e")
+	-- 			inst.components.timer:StartTimer("qiqi_e", 30)
+	-- 			inst:AddTag("qiqi_eh")
+	-- 			inst.components.timer:StartTimer("qiqi_eh", 13.3)
+	-- 		end
+	-- 	end
+	-- end
+end
+
+local function yaemiko_burst(inst)
+	inst.components.talker:Say("元素爆发被触发")
+
+	-- if not inst:HasTag("playerghost") and inst:HasTag("qiqi") then
+	-- 	if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
+	-- 		if inst.components.rider and inst.components.rider:IsRiding() then return end
+	-- 		if not inst:HasTag("qiqi_q") then
+	-- 			if inst.components.energy and inst.components.energy.current == 80 then
+	-- 				inst.components.energy:DoDelta(-80)
+	-- 				inst.sg:GoToState("qiqi_burst")
+	-- 				PreserverofFortune(inst, inst.burst_rate)
+	-- 				inst:AddTag("qiqi_q")
+	-- 				inst.components.timer:StartTimer("qiqi_q", 20)
+	-- 			end
+	-- 		end
+	-- 	end
+	-- end
+end
+
+
+-------------------------------------------------------------
 
 -- This initializes for both the server and client. Tags can be added here.
 local common_postinit = function(inst) 
@@ -50,7 +90,19 @@ local common_postinit = function(inst)
 	inst.MiniMapEntity:SetIcon( "yaemiko.tex" )
   
   inst:AddTag("yaemiko")
+  inst:AddTag("genshin_character")
+  inst:AddTag("electro")
+	inst:AddTag("catalyst_class")
 
+	inst.charge_rate = 1
+	inst.skill_rate = 1
+	inst.burst_rate = 1
+	inst.heal_rate = 1
+
+  --按键
+	inst:AddComponent("genshinkey")
+	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_SKILL_KEY], "yaemiko_skill")
+	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_BURST_KEY], "yaemiko_burst")
 end
 
 -- This initializes for the server only. Components are added here.
@@ -58,9 +110,17 @@ local master_postinit = function(inst)
 	-- Set starting inventory
     inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
 	
-	-- choose which sounds this character will play
+  --设置声音
 	inst.soundsname = "willow"
-	
+
+  --将event与函数连接
+	inst:ListenForEvent("yaemiko_skill", yaemiko_skill)
+	inst:ListenForEvent("yaemiko_burst", yaemiko_burst)
+
+
+
+
+
 	-- Uncomment if "wathgrithr"(Wigfrid) or "webber" voice is used
     --inst.talker_path_override = "dontstarve_DLC001/characters/"
 	
@@ -76,8 +136,7 @@ local master_postinit = function(inst)
 	inst.components.hunger.hungerrate = 1 * TUNING.WILSON_HUNGER_RATE
 	
 	inst.OnLoad = onload
-    inst.OnNewSpawn = onload
-	
+  inst.OnNewSpawn = onload
 
 
 end

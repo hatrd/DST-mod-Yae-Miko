@@ -14,7 +14,7 @@ local function OnEquip(inst, owner)
   owner.AnimState:Show("HAT")
 
 --平时恢复san
-  inst.components.equippable.dapperness = TUNING.DAPPERNESS_SMALL
+  inst.components.equippable.dapperness = TUNING.DAPPERNESS_HUGE
   
 --做成佩戴御守战斗时恢复san值
   -- if owner.components.sanity ~= nil then
@@ -46,6 +46,8 @@ local function fn()
   local trans = inst.entity:AddTransform()
   local anim = inst.entity:AddAnimState()
   local sound = inst.entity:AddSoundEmitter()
+	inst.entity:AddNetwork()
+
   MakeInventoryPhysics(inst)
 
 

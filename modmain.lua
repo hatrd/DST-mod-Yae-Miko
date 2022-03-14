@@ -39,6 +39,17 @@ Assets = {
 	Asset( "IMAGE", "images/hud/paimon.tex" ),
 	Asset( "ATLAS", "images/hud/paimon.xml" ),
 
+	Asset( "IMAGE", "images/skills/yaemiko_skill_0.tex" ),
+	Asset( "ATLAS", "images/skills/yaemiko_skill_0.xml" ),
+
+	Asset( "IMAGE", "images/skills/yaemiko_skill_1.tex" ),
+	Asset( "ATLAS", "images/skills/yaemiko_skill_1.xml" ),
+
+	Asset( "IMAGE", "images/skills/yaemiko_skill_2.tex" ),
+	Asset( "ATLAS", "images/skills/yaemiko_skill_2.xml" ),
+  
+	Asset( "IMAGE", "images/skills/yaemiko_skill_3.tex" ),
+	Asset( "ATLAS", "images/skills/yaemiko_skill_3.xml" ),
 }
 
 AddMinimapAtlas("images/map_icons/yaemiko.xml")
@@ -58,9 +69,15 @@ STRINGS.CHARACTER_SURVIVABILITY.yaemiko = "严峻"
 -- Custom speech strings
 STRINGS.CHARACTERS.YAEMIKO = require "speech_wilson"
 
--- The character's name as appears in-game 
+-- 游戏内名称
 STRINGS.NAMES.YAEMIKO = "Yae Miko"
 STRINGS.SKIN_NAMES.yaemiko_none = "Yae Miko"
+
+--设置全局TUNING
+TUNING.YAEMIKO_RECHARGE = GetModConfigData("er")
+TUNING.YAEMIKO_CHARGE_KEY = GetModConfigData("charge")
+TUNING.YAEMIKO_SKILL_KEY = GetModConfigData("skill")
+TUNING.YAEMIKO_BURST_KEY = GetModConfigData("burst")
 
 -- The skins shown in the cycle view window on the character select screen.
 -- A good place to see what you can put in here is in skinutils.lua, in the function GetSkinModes
@@ -73,6 +90,7 @@ local skin_modes = {
         offset = { 0, -25 } 
     },
 }
+
 --添加御守图片
 TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yushou = {
 	atlas = "images/inventoryimages/yushou.xml",
@@ -84,7 +102,18 @@ local yaemikotab = AddRecipeTab(STRINGS.NAMES.YAEMIKO, 88, "images/hud/paimon.xm
 AddRecipe("yushou",{Ingredient("papyrus", 2),Ingredient("boards", 1),},
 yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yushou.xml")
 
+---------------技能
+AddModRPCHandler("yaemiko", "yaemiko_burst", function(inst) inst:PushEvent("yaemiko_burst") end)
+AddAction("YAEMIKO_BURST", "Elemental Burst", function(act)
+	act.doer:PushEvent("yaemiko_burst")
+	return true
+end)
 
+AddModRPCHandler("yaemiko", "yaemiko_skill", function(inst) inst:PushEvent("yaemiko_skill") end)
+AddAction("YAEMIKO_SKILL", "Elemental Skill", function(act)
+	act.doer:PushEvent("yaemiko_skill")
+	return true
+end)
 
 -- Add mod character to mod character list. Also specify a gender. Possible genders are MALE, FEMALE, ROBOT, NEUTRAL, and PLURAL.
 AddModCharacter("yaemiko", "FEMALE", skin_modes)
