@@ -1,6 +1,7 @@
 PrefabFiles = {
 	"yaemiko",
 	"yaemiko_none",
+  "yaemiko_fx",
   "yushou",
 }
 

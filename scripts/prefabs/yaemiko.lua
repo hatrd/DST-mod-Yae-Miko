@@ -48,6 +48,15 @@ end
 
 local function yaemiko_skill(inst)
 	inst.components.talker:Say("元素战技被触发")
+  local x, y, z = inst.Transform:GetWorldPosition()
+	local angle = (inst.Transform:GetRotation() + 90) * DEGREES
+	local tx = 3 * math.sin(angle)
+	local tz = 3 * math.cos(angle)
+  
+  inst.Transform:SetPosition(x+tx, y, z+tz)
+  SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
+
+
   -- if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
 	-- 	if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
 	-- 		if inst.components.rider and inst.components.rider:IsRiding() then return end
