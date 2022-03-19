@@ -47,6 +47,8 @@ end
 ----------人物技能区------------------------------------------
 
 local function yaemiko_skill(inst)
+
+
   local x, y, z = inst.Transform:GetWorldPosition()
 	local angle = (inst.Transform:GetRotation() + 90) * DEGREES
 	local tx = 3 * math.sin(angle)
@@ -56,9 +58,12 @@ local function yaemiko_skill(inst)
     inst:DoTaskInTime(4, function(inst)
       inst:RemoveTag("yaemiko_e1")
     end)
+
+
     inst.Transform:SetPosition(x+tx, y, z+tz)
-    ssy=SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
-    ssy:AddTag(TUNING.)
+    SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
+    
+
     return
   end
 
@@ -81,6 +86,8 @@ local function yaemiko_skill(inst)
     SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
     return
   end
+
+
 
   -- if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
 	-- 	if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then

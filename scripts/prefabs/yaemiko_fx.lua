@@ -28,7 +28,9 @@ local function summonssy()
 
 
 	inst:AddTag("FX")
+  inst:AddTag("shashengying")
 	inst.entity:SetPristine()
+
 
 	if not TheWorld.ismastersim then
 		return inst
@@ -36,6 +38,14 @@ local function summonssy()
 
 	inst.persists = false
 
+	inst:AddComponent("yaemiko_skill")
+  
+  inst:DoTaskInTime(0, function()
+		inst:DoPeriodicTask(0.9, function()
+			inst.components.yaemiko_skill:luolei()
+		end)
+	end)
+  
   inst:DoTaskInTime(14,
     inst.Remove
   )
