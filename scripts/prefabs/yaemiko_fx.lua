@@ -19,7 +19,7 @@ local function summonssy()
   inst.Light:SetRadius(1.0)
   inst.Light:SetColour(130/255, 0/255, 255/255)
   inst.Light:Enable(true)
-  inst.
+  
 
 	inst.AnimState:SetBank("fx")
 	inst.AnimState:SetBuild("yaemiko_fx")

@@ -47,15 +47,40 @@ end
 ----------人物技能区------------------------------------------
 
 local function yaemiko_skill(inst)
-	inst.components.talker:Say("元素战技被触发")
   local x, y, z = inst.Transform:GetWorldPosition()
 	local angle = (inst.Transform:GetRotation() + 90) * DEGREES
 	local tx = 3 * math.sin(angle)
 	local tz = 3 * math.cos(angle)
-  
-  inst.Transform:SetPosition(x+tx, y, z+tz)
-  SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
+  if not inst:HasTag("yaemiko_e1") then
+    inst:AddTag("yaemiko_e1")
+    inst:DoTaskInTime(4, function(inst)
+      inst:RemoveTag("yaemiko_e1")
+    end)
+    inst.Transform:SetPosition(x+tx, y, z+tz)
+    ssy=SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
+    ssy:AddTag(TUNING.)
+    return
+  end
 
+  if not inst:HasTag("yaemiko_e2") then
+    inst:AddTag("yaemiko_e2")
+    inst:DoTaskInTime(4, function(inst)
+      inst:RemoveTag("yaemiko_e2")
+    end)
+    inst.Transform:SetPosition(x+tx, y, z+tz)
+    SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
+    return
+  end
+
+  if not inst:HasTag("yaemiko_e3") then
+    inst:AddTag("yaemiko_e3")
+    inst:DoTaskInTime(4, function(inst)
+      inst:RemoveTag("yaemiko_e3")
+    end)
+    inst.Transform:SetPosition(x+tx, y, z+tz)
+    SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
+    return
+  end
 
   -- if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
 	-- 	if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
@@ -89,6 +114,7 @@ local function yaemiko_burst(inst)
 	-- 	end
 	-- end
 end
+
 
 
 -------------------------------------------------------------
@@ -125,9 +151,6 @@ local master_postinit = function(inst)
   --将event与函数连接
 	inst:ListenForEvent("yaemiko_skill", yaemiko_skill)
 	inst:ListenForEvent("yaemiko_burst", yaemiko_burst)
-
-
-
 
 
 	-- Uncomment if "wathgrithr"(Wigfrid) or "webber" voice is used
