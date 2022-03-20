@@ -12,6 +12,7 @@ local yaemiko_skill = Class(function(self, inst)
 	self.sanity = false
 	self.spark = false
 	self.burn = false
+
 end)
 
 function yaemiko_skill:GetDamage()
@@ -55,9 +56,9 @@ function yaemiko_skill:luolei()
     return
 	else
 		-- SpawnPrefab("thunder").Transform:SetPosition(tgt.Transform:GetWorldPosition())
-		self.attacker:AddTag("noenergy")
+		-- self.attacker:AddTag("noenergy")
 		tgt.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
-		self.attacker:RemoveTag("noenergy")
+		-- self.attacker:RemoveTag("noenergy")
 
 		if tgt.components.sleeper and tgt.components.sleeper:IsAsleep() then
 			tgt.components.sleeper:WakeUp()

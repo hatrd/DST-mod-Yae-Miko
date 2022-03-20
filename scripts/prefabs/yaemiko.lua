@@ -47,45 +47,60 @@ end
 ----------人物技能区------------------------------------------
 
 local function yaemiko_skill(inst)
+  
+  if inst.ecnt > 0 then
+    inst.ecnt=inst.ecnt-1 
+    inst:AddTag("ecd")
 
+    if inst:HasTag("ecd") and not inst:HasTag("ecd_doing") then
+      inst:AddTag("ecd_doing")
+      inst.ECD = inst:DoPeriodicTask(4, function(inst)
+        inst.ecnt=inst.ecnt+1
+        if inst.ecnt >= 3 then
+          inst:RemoveTag("ecd")
+          inst:RemoveTag("ecd_doing")
+          inst.ECD:Cancel()
+        end
+      end)
+    end
 
-  local x, y, z = inst.Transform:GetWorldPosition()
-	local angle = (inst.Transform:GetRotation() + 90) * DEGREES
-	local tx = 3 * math.sin(angle)
-	local tz = 3 * math.cos(angle)
-  if not inst:HasTag("yaemiko_e1") then
-    inst:AddTag("yaemiko_e1")
-    inst:DoTaskInTime(4, function(inst)
-      inst:RemoveTag("yaemiko_e1")
-    end)
-
-
+    local x, y, z = inst.Transform:GetWorldPosition()
+    local angle = (inst.Transform:GetRotation() + 90) * DEGREES
+    local tx = 3 * math.sin(angle)
+    local tz = 3 * math.cos(angle)
     inst.Transform:SetPosition(x+tx, y, z+tz)
     SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
-    
-
-    return
   end
 
-  if not inst:HasTag("yaemiko_e2") then
-    inst:AddTag("yaemiko_e2")
-    inst:DoTaskInTime(4, function(inst)
-      inst:RemoveTag("yaemiko_e2")
-    end)
-    inst.Transform:SetPosition(x+tx, y, z+tz)
-    SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
-    return
-  end
+  -- if not inst:HasTag("yaemiko_e1") then
+  --   inst:AddTag("yaemiko_e1")
+  --   inst:DoTaskInTime(4, function(inst)
+  --     inst:RemoveTag("yaemiko_e1")
+  --   end)
+  --   inst.Transform:SetPosition(x+tx, y, z+tz)
+  --   SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
+  --   return
+  -- end
 
-  if not inst:HasTag("yaemiko_e3") then
-    inst:AddTag("yaemiko_e3")
-    inst:DoTaskInTime(4, function(inst)
-      inst:RemoveTag("yaemiko_e3")
-    end)
-    inst.Transform:SetPosition(x+tx, y, z+tz)
-    SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
-    return
-  end
+  -- if not inst:HasTag("yaemiko_e2") then
+  --   inst:AddTag("yaemiko_e2")
+  --   inst:DoTaskInTime(4, function(inst)
+  --     inst:RemoveTag("yaemiko_e2")
+  --   end)
+  --   inst.Transform:SetPosition(x+tx, y, z+tz)
+  --   SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
+  --   return
+  -- end
+
+  -- if not inst:HasTag("yaemiko_e3") then
+  --   inst:AddTag("yaemiko_e3")
+  --   inst:DoTaskInTime(4, function(inst)
+  --     inst:RemoveTag("yaemiko_e3")
+  --   end)
+  --   inst.Transform:SetPosition(x+tx, y, z+tz)
+  --   SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
+  --   return
+  -- end
 
 
 
@@ -145,6 +160,9 @@ local common_postinit = function(inst)
 	inst:AddComponent("genshinkey")
 	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_SKILL_KEY], "yaemiko_skill")
 	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_BURST_KEY], "yaemiko_burst")
+  
+  inst.ecnt=3
+  inst.ecd=4
 end
 
 -- This initializes for the server only. Components are added here.

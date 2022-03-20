@@ -1,6 +1,7 @@
 local assets =
 {
 	Asset( "ANIM", "anim/yaemiko_fx.zip" ),
+  	Asset("SOUND", "sound/perd.fsb"),
 }
 local function summonssy()
   
@@ -41,7 +42,7 @@ local function summonssy()
 	inst:AddComponent("yaemiko_skill")
   
   inst:DoTaskInTime(0, function()
-		inst:DoPeriodicTask(0.9, function()
+		inst:DoPeriodicTask(3, function()
 			inst.components.yaemiko_skill:luolei()
 		end)
 	end)
