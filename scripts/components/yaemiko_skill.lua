@@ -1,3 +1,4 @@
+
 --技能的代码实现
 local yaemiko_skill = Class(function(self, inst)
 	self.inst = inst
@@ -27,13 +28,33 @@ function yaemiko_skill:GetDamage()
 	return self.dmg * self.mult + self.bonus
 end
 
+
+
+function yaemiko_skill:chaozai(tgt,damage)
+  local x,y,z=tgt.Transform:GetWorldPosition()
+  local inst=SpawnPrefab("explosivehit").Transform:SetPosition(tgt.Transform:GetWorldPosition())
+	
+  local ents = TheSim:FindEntities(x, y, z, 3, nil, nil)
+  
+	for i, v in pairs(ents) do
+		if v ~= self.inst and v:IsValid() and not v:IsInLimbo() then
+			if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
+
+        --在这里爆炸
+        -- v.components.combat:GetAttacked(self.attacker, damage, nil, "pyro")
+      
+      end
+		end
+	end
+
+end
+
 local CANT_TAGS = {"INLIMBO", "player", "chester", "companion"}
 
-
-
+-- local LIGHTNINGSTRIKE_ONEOF_TAGS = { "lightningrod", "lightningtarget", "blows_air" }
 function yaemiko_skill:luolei()
 	local x, y, z = self.inst.Transform:GetWorldPosition()
-	local ents = TheSim:FindEntities(x, y, z, 12, nil, CANT_TAGS)
+	local ents = TheSim:FindEntities(x, y, z, 12, nil, CANT_TAGS,nil)
 	local damage = self:GetDamage()
 
 	-- if not target then
@@ -55,10 +76,25 @@ function yaemiko_skill:luolei()
 		-- SpawnPrefab("thunder").Transform:SetPosition(x+math.random(-5, 5), y, z+math.random(-5, 5))
     return
 	else
-		-- SpawnPrefab("thunder").Transform:SetPosition(tgt.Transform:GetWorldPosition())
+		SpawnPrefab("lightning").Transform:SetPosition(tgt.Transform:GetWorldPosition())
 		-- self.attacker:AddTag("noenergy")
+ 
 		tgt.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
 		-- self.attacker:RemoveTag("noenergy")
+    
+    --受到杀生樱攻击的生物会定位玩家攻击或者远离杀生樱
+    local players = FindPlayersInRange(x, y, z, 15,true)
+    if players ~= nil then
+      for i, v in pairs(players) do
+        if v then 
+          tgt.components.combat:SuggestTarget(v)
+        end
+      end
+    else
+      --远离暂时没做
+      -- RunAway(tgt.inst, "shashengying", 12, 15)
+    end
+  
 
 		if tgt.components.sleeper and tgt.components.sleeper:IsAsleep() then
 			tgt.components.sleeper:WakeUp()
@@ -66,13 +102,35 @@ function yaemiko_skill:luolei()
 		if tgt.components.burnable then
 			if tgt.components.burnable:IsBurning() then
         --添加超载爆炸
-
-				tgt.components.burnable:Extinguish()
+        yaemiko_skill:chaozai(tgt,damage*2)
+        
+      elseif tgt.components.burnable:IsSmoldering() then
+        yaemiko_skill:chaozai(tgt,damage*2)
 			end
 		end
 	end
 end
 
+function yaemiko_skill:aoeQ()
+  local x, y, z = self.inst.Transform:GetWorldPosition()
+  local attackcnt=0
+  local ssycnt = TheSim:FindEntities(x, y, z, 12, {"shashengying"}, nil,nil)
+  for i,v in pairs(ssycnt) do
+    if attackcnt<3 then
+      attackcnt=attackcnt+1
+      v:DoTaskInTime(0,function(inst)
+        if inst then
+          local ix,iy,iz=inst.Transform:GetWorldPosition()
+          SpawnPrefab("lightning_rod_fx").Transform:SetPosition(ix,iy-3,iz)
+          inst:Remove()
+        end
+      end)
+    else break
+    end
+  end
 
+
+  
+end
 
 return yaemiko_skill

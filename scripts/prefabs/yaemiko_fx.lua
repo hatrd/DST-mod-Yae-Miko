@@ -1,8 +1,10 @@
 local assets =
 {
 	Asset( "ANIM", "anim/yaemiko_fx.zip" ),
-  	Asset("SOUND", "sound/perd.fsb"),
+  Asset("ANIM", "anim/lightning_rod_fx.zip"),
 }
+
+
 local function summonssy()
   
 	local inst = CreateEntity()
@@ -47,9 +49,13 @@ local function summonssy()
 		end)
 	end)
   
-  inst:DoTaskInTime(14,
-    inst.Remove
-  )
+  inst:DoTaskInTime(12,function(inst)
+    if inst then
+      local ix,iy,iz=inst.Transform:GetWorldPosition()
+      SpawnPrefab("lightning_rod_fx").Transform:SetPosition(ix,iy-3,iz)
+      inst:Remove()
+    end
+  end)
 
 	return inst
 
