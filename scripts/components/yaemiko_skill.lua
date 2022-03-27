@@ -13,7 +13,7 @@ local yaemiko_skill = Class(function(self, inst)
 	self.sanity = false
 	self.spark = false
 	self.burn = false
-
+  self.ecnt = 3
 end)
 
 function yaemiko_skill:GetDamage()
@@ -118,15 +118,15 @@ function yaemiko_skill:luolei()
 end
 
 function yaemiko_skill:aoeQ()
-  local nearest = GetClosestInstWithTag({"monster"，"lightningrod"}, self.inst, 12)
+  local nearest = GetClosestInstWithTag({"monster"}, self.inst, 12)
   if nearest == nil then
     return
   end
-  if nearest HasTag("lightningrod") then
-      SpawnPrefab("lightning").Transform:SetPosition(nearest.Transform:GetWorldPosition())
-      nearest:PushEvent("lightningstrike")
-      return
-  end
+  -- if nearest:HasTag("lightningrod") then
+  --     SpawnPrefab("lightning").Transform:SetPosition(nearest.Transform:GetWorldPosition())
+  --     nearest:PushEvent("lightningstrike")
+  --     return
+  -- end
   local x, y, z = self.inst.Transform:GetWorldPosition()
   local attackcnt=0
   local ssycnt = TheSim:FindEntities(x, y, z, 12, {"shashengying"}, nil,nil)

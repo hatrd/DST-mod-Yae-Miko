@@ -48,15 +48,15 @@ end
 
 local function yaemiko_skill(inst)
   
-    if inst.ecnt > 0 then
-      inst.ecnt=inst.ecnt-1 
+    if inst.components.yaemiko_skill.ecnt > 0 then
+      inst.components.yaemiko_skill.ecnt=inst.components.yaemiko_skill.ecnt-1 
       inst:AddTag("ecd")
 
       if inst:HasTag("ecd") and not inst:HasTag("ecd_doing") then
         inst:AddTag("ecd_doing")
         inst.ECD = inst:DoPeriodicTask(4, function(inst)
-          inst.ecnt=inst.ecnt+1
-          if inst.ecnt >= 3 then
+          inst.components.yaemiko_skill.ecnt=inst.components.yaemiko_skill.ecnt+1
+          if inst.components.yaemiko_skill.ecnt >= 3 then
             inst:RemoveTag("ecd")
             inst:RemoveTag("ecd_doing")
             inst.ECD:Cancel()
@@ -131,7 +131,7 @@ local common_postinit = function(inst)
 	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_SKILL_KEY], "yaemiko_skill")
 	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_BURST_KEY], "yaemiko_burst")
   
-  inst.ecnt=3
+  -- inst.ecnt=3
 end
 
 -- This initializes for the server only. Components are added here.

@@ -98,6 +98,22 @@ TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yushou = {
 	image = "yushou.tex"
 }
 
+--技能图标
+-- local energy = require("widgets/yaemiko_energy")
+-- AddClassPostConstruct("widgets/controls", function(self)
+-- 	if self.owner and self.owner:HasTag("yaemiko") then
+-- 		self.status:AddChild(energy(self.owner))
+-- 	end
+-- end)
+
+local skill = require("widgets/yaemiko_skill")
+AddClassPostConstruct("widgets/controls", function(self)
+	if self.owner and self.owner:HasTag("yaemiko") then
+		self.status:AddChild(skill(self.owner))
+	end
+end)
+
+
 --添加合成
 local yaemikotab = AddRecipeTab(STRINGS.NAMES.YAEMIKO, 88, "images/hud/paimon.xml", "paimon.tex", "yaemiko")
 AddRecipe("yushou",{Ingredient("papyrus", 2),Ingredient("boards", 1),},
