@@ -51,6 +51,9 @@ Assets = {
   
 	Asset( "IMAGE", "images/skills/yaemiko_skill_3.tex" ),
 	Asset( "ATLAS", "images/skills/yaemiko_skill_3.xml" ),
+
+  
+	Asset( "ANIM", "anim/yaemiko_energy.zip" ),
 }
 
 AddMinimapAtlas("images/map_icons/yaemiko.xml")
@@ -99,12 +102,12 @@ TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yushou = {
 }
 
 --技能图标
--- local energy = require("widgets/yaemiko_energy")
--- AddClassPostConstruct("widgets/controls", function(self)
--- 	if self.owner and self.owner:HasTag("yaemiko") then
--- 		self.status:AddChild(energy(self.owner))
--- 	end
--- end)
+local energy = require("widgets/yaemiko_energy")
+AddClassPostConstruct("widgets/controls", function(self)
+	if self.owner and self.owner:HasTag("yaemiko") then
+		self.status:AddChild(energy(self.owner))
+	end
+end)
 
 local skill = require("widgets/yaemiko_skill")
 AddClassPostConstruct("widgets/controls", function(self)

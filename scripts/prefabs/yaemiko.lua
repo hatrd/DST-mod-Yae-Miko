@@ -125,8 +125,13 @@ local common_postinit = function(inst)
 	inst.burst_rate = 1
 	inst.heal_rate = 1
 
+
+  
+	inst.energy_max = net_ushortint(inst.GUID, "energy_max", "energy_maxdirty")
+	inst.energy_current = net_ushortint(inst.GUID, "energy_current", "energy_currentdirty")
+
   --按键
-  inst:AddComponent("yaemiko_skill")
+
 	inst:AddComponent("genshinkey")
 	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_SKILL_KEY], "yaemiko_skill")
 	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_BURST_KEY], "yaemiko_burst")
@@ -139,6 +144,8 @@ local master_postinit = function(inst)
 	-- Set starting inventory
     inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
 	
+  inst:AddComponent("energy")
+  inst:AddComponent("yaemiko_skill")
   --设置声音
 	inst.soundsname = "willow"
 
