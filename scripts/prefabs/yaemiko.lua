@@ -87,8 +87,9 @@ local function yaemiko_skill(inst)
 end
 
 local function yaemiko_burst(inst)
-	inst.components.talker:Say("元素爆发被触发")
+	-- inst.components.talker:Say("元素爆发被触发")
 
+  inst.components.yaemiko_skill:aoeQ()
 	-- if not inst:HasTag("playerghost") and inst:HasTag("qiqi") then
 	-- 	if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
 	-- 		if inst.components.rider and inst.components.rider:IsRiding() then return end
@@ -125,6 +126,7 @@ local common_postinit = function(inst)
 	inst.heal_rate = 1
 
   --按键
+  inst:AddComponent("yaemiko_skill")
 	inst:AddComponent("genshinkey")
 	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_SKILL_KEY], "yaemiko_skill")
 	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_BURST_KEY], "yaemiko_burst")

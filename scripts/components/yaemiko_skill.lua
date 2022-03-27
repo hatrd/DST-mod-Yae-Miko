@@ -63,6 +63,12 @@ function yaemiko_skill:luolei()
 	-- end
 
 	for i, v in pairs(ents) do
+    --打避雷针
+    if v:HasTag("lightningrod") then
+      SpawnPrefab("lightning").Transform:SetPosition(v.Transform:GetWorldPosition())
+      v:PushEvent("lightningstrike")
+      return
+    end
 		if v ~= self.inst and v:IsValid() and not v:IsInLimbo() then
 			if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
 				v:AddTag("yaemikotarget")
@@ -112,6 +118,10 @@ function yaemiko_skill:luolei()
 end
 
 function yaemiko_skill:aoeQ()
+  local nearest = GetClosestInstWithTag({"monster"}, self.inst, 12)
+  if nearest == nil then
+    return
+  end
   local x, y, z = self.inst.Transform:GetWorldPosition()
   local attackcnt=0
   local ssycnt = TheSim:FindEntities(x, y, z, 12, {"shashengying"}, nil,nil)
@@ -129,8 +139,45 @@ function yaemiko_skill:aoeQ()
     end
   end
 
+  local damage=self:GetDamage()*1.5
+  --根据attackcnt召唤落雷。
 
+  x,y,z=nearest.Transform:GetWorldPosition()
   
+  --根据坐标范围伤害
+  
+  SpawnPrefab("lightning").Transform:SetPosition(x,y,z)
+  local ents = TheSim:FindEntities(x, y, z, 3, nil, CANT_TAGS,nil)
+    for i, v in pairs(ents) do
+        if v:IsValid() and not v:IsInLimbo() then
+          if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
+            v.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
+          end
+        end
+    end
+
+  nearest.aoetask=nearest:DoPeriodicTask(1,function(nearest)
+    --闪电
+    local x1,y1,z1=nearest.Transform:GetWorldPosition()
+    SpawnPrefab("lightning").Transform:SetPosition(x1,y1,z1)
+    
+    --伤害
+    local ents = TheSim:FindEntities(x1, y1, z1, 3, nil, CANT_TAGS,nil)
+    for i, v in pairs(ents) do
+        if v:IsValid() and not v:IsInLimbo() then
+          if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
+            v.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
+          end
+        end
+    end
+
+  end)
+  nearest:DoTaskInTime(attackcnt,function(nearest)
+  if nearest.aoetask ~=nil then
+    nearest.aoetask:Cancel()
+    nearest.aoetask = nil
+  end
+  end)
 end
 
 return yaemiko_skill
