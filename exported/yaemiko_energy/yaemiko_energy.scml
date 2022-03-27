@@ -89,11 +89,11 @@
                     <object_ref id="0" timeline="1" key="15" z_index="0"/>
                     <object_ref id="1" timeline="0" key="15" z_index="1"/>
                 </key>
-                <key id="16" time="395">
+                <key id="16" time="400">
                     <object_ref id="0" timeline="1" key="16" z_index="0"/>
                     <object_ref id="1" timeline="0" key="16" z_index="1"/>
                 </key>
-                <key id="17" time="412">
+                <key id="17" time="426">
                     <object_ref id="0" timeline="1" key="17" z_index="0"/>
                     <object_ref id="1" timeline="0" key="17" z_index="1"/>
                 </key>
@@ -147,10 +147,10 @@
                 <key id="15" time="373" spin="0">
                     <object folder="0" file="15" angle="0"/>
                 </key>
-                <key id="16" time="395" spin="0">
+                <key id="16" time="400" spin="0">
                     <object folder="0" file="16" angle="0"/>
                 </key>
-                <key id="17" time="412" spin="0">
+                <key id="17" time="426" spin="0">
                     <object folder="0" file="16" angle="0"/>
                 </key>
             </timeline>
@@ -203,10 +203,10 @@
                 <key id="15" time="373" spin="0">
                     <object folder="1" file="0" angle="0"/>
                 </key>
-                <key id="16" time="395" spin="0">
+                <key id="16" time="400" spin="0">
                     <object folder="1" file="0" angle="0"/>
                 </key>
-                <key id="17" time="412" spin="0">
+                <key id="17" time="426" spin="0">
                     <object folder="1" file="0" angle="0"/>
                 </key>
             </timeline>

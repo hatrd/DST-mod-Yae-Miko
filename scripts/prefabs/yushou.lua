@@ -15,7 +15,14 @@ local function OnEquip(inst, owner)
 
 --平时恢复san
   inst.components.equippable.dapperness = TUNING.DAPPERNESS_HUGE
-  
+
+  -- if owner.sanity then
+	-- 	if owner.attacker and owner.attacker.components.sanity then
+	-- 		owner.attacker.components.sanity:DoDelta(30)
+	-- 	end
+	-- 	owner.sanity = false
+	-- end
+
 --做成佩戴御守战斗时恢复san值
   -- if owner.components.sanity ~= nil then
   --   owner.components.sanity:DoDelta(100, true) -- using overtime so it doesnt make the sanity sfx every time you attack

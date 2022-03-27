@@ -127,6 +127,7 @@ function yaemiko_skill:aoeQ()
   --     nearest:PushEvent("lightningstrike")
   --     return
   -- end
+  self.inst.components.energy:DoDelta(-90)
   local x, y, z = self.inst.Transform:GetWorldPosition()
   local attackcnt=0
   local ssycnt = TheSim:FindEntities(x, y, z, 12, {"shashengying"}, nil,nil)

@@ -46,6 +46,13 @@ local function summonssy()
   inst:DoTaskInTime(0, function()
 		inst:DoPeriodicTask(3, function()
 			inst.components.yaemiko_skill:luolei()
+      --恢复元素能量
+      for i, v in ipairs(AllPlayers) do
+      if v.components.energy then
+        v.components.energy:DoDelta(1)
+      end
+
+	end
 		end)
 	end)
   

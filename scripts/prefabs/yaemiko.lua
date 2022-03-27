@@ -88,8 +88,10 @@ end
 
 local function yaemiko_burst(inst)
 	-- inst.components.talker:Say("元素爆发被触发")
-
-  inst.components.yaemiko_skill:aoeQ()
+  if inst.components.energy and inst.components.energy.current == 90 then
+    inst.components.yaemiko_skill:aoeQ()
+  end
+  
 	-- if not inst:HasTag("playerghost") and inst:HasTag("qiqi") then
 	-- 	if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
 	-- 		if inst.components.rider and inst.components.rider:IsRiding() then return end
@@ -145,6 +147,8 @@ local master_postinit = function(inst)
     inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
 	
   inst:AddComponent("energy")
+  inst.components.energy:SetMax(90)
+  inst.components.energy:Recharge(TUNING.YAEMIKO_RECHARGE)
   inst:AddComponent("yaemiko_skill")
   --设置声音
 	inst.soundsname = "willow"
