@@ -3,17 +3,18 @@ PrefabFiles = {
 	"yaemiko_none",
   "yaemiko_fx",
   "yushou",
+  "yubi",
 }
 
 Assets = {
     Asset( "IMAGE", "images/saveslot_portraits/yaemiko.tex" ),
     Asset( "ATLAS", "images/saveslot_portraits/yaemiko.xml" ),
 
-    Asset( "IMAGE", "images/selectscreen_portraits/yaemiko.tex" ),
-    Asset( "ATLAS", "images/selectscreen_portraits/yaemiko.xml" ),
+    -- Asset( "IMAGE", "images/selectscreen_portraits/yaemiko.tex" ),
+    -- Asset( "ATLAS", "images/selectscreen_portraits/yaemiko.xml" ),
 	
-    Asset( "IMAGE", "images/selectscreen_portraits/yaemiko_silho.tex" ),
-    Asset( "ATLAS", "images/selectscreen_portraits/yaemiko_silho.xml" ),
+    -- Asset( "IMAGE", "images/selectscreen_portraits/yaemiko_silho.tex" ),
+    -- Asset( "ATLAS", "images/selectscreen_portraits/yaemiko_silho.xml" ),
 
     Asset( "IMAGE", "bigportraits/yaemiko.tex" ),
     Asset( "ATLAS", "bigportraits/yaemiko.xml" ),
@@ -37,8 +38,8 @@ Assets = {
     Asset( "ATLAS", "images/names_gold_yaemiko.xml" ),
 
     
-	Asset( "IMAGE", "images/hud/paimon.tex" ),
-	Asset( "ATLAS", "images/hud/paimon.xml" ),
+	-- Asset( "IMAGE", "images/hud/paimon.tex" ),
+	-- Asset( "ATLAS", "images/hud/paimon.xml" ),
 
 	Asset( "IMAGE", "images/skills/yaemiko_skill_0.tex" ),
 	Asset( "ATLAS", "images/skills/yaemiko_skill_0.xml" ),
@@ -95,12 +96,15 @@ local skin_modes = {
     },
 }
 
---添加御守图片
+--添加御守御币图片
 TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yushou = {
 	atlas = "images/inventoryimages/yushou.xml",
 	image = "yushou.tex"
 }
-
+TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yubi = {
+	atlas = "images/inventoryimages/yubi.xml",
+	image = "yubi.tex"
+}
 --技能图标
 local energy = require("widgets/yaemiko_energy")
 AddClassPostConstruct("widgets/controls", function(self)
@@ -121,6 +125,8 @@ end)
 local yaemikotab = AddRecipeTab(STRINGS.NAMES.YAEMIKO, 88, "images/hud/paimon.xml", "paimon.tex", "yaemiko")
 AddRecipe("yushou",{Ingredient("papyrus", 2),Ingredient("boards", 1),},
 yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yushou.xml")
+AddRecipe("yubi",{Ingredient("twigs", 1),Ingredient("papyrus", 2),},
+yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yubi.xml")
 
 ---------------技能
 AddModRPCHandler("yaemiko", "yaemiko_burst", function(inst) inst:PushEvent("yaemiko_burst") end)

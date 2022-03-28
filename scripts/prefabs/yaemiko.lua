@@ -12,7 +12,7 @@ TUNING.YAEMIKO_SANITY = 220
 
 -- 初始道具
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.YAEMIKO = {
-	"yushou",
+	"yushou","yubi"
 }
 
 local start_inv = {}

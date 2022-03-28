@@ -163,7 +163,7 @@ function yaemiko_skill:aoeQ()
         end
     end
 
-  nearest.aoetask=nearest:DoPeriodicTask(1,function(nearest)
+  nearest.aoetask=nearest:DoPeriodicTask(0.3,function(nearest)
     --闪电
     local x1,y1,z1=nearest.Transform:GetWorldPosition()
     SpawnPrefab("lightning").Transform:SetPosition(x1,y1,z1)
@@ -179,7 +179,7 @@ function yaemiko_skill:aoeQ()
     end
 
   end)
-  nearest:DoTaskInTime(attackcnt,function(nearest)
+  nearest:DoTaskInTime(attackcnt/3,function(nearest)
   if nearest.aoetask ~=nil then
     nearest.aoetask:Cancel()
     nearest.aoetask = nil
