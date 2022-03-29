@@ -5,14 +5,15 @@ local assets = {
 }
 
 -- 三值
-TUNING.YAEMIKO_HEALTH = 130
+TUNING.YAEMIKO_HEALTH = 100
 TUNING.YAEMIKO_HUNGER = 150
 TUNING.YAEMIKO_SANITY = 220
 
 
 -- 初始道具
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.YAEMIKO = {
-	"yushou","yubi"
+	"yushou",
+  "yubi",
 }
 
 local start_inv = {}

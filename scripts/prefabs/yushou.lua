@@ -7,37 +7,22 @@ Asset("IMAGE", "images/inventoryimages/yushou.tex"),
 local prefabs = {"yushou"}
 
 local function OnEquip(inst, owner)
-
   owner.AnimState:OverrideSymbol("swap_hat", "yushou", "swap_yushou")
-
-
   owner.AnimState:Show("HAT")
 
 --平时恢复san
-  inst.components.equippable.dapperness = TUNING.DAPPERNESS_HUGE
+  inst.components.equippable.dapperness = TUNING.DAPPERNESS_MED
 
-  -- if owner.sanity then
-	-- 	if owner.attacker and owner.attacker.components.sanity then
-	-- 		owner.attacker.components.sanity:DoDelta(30)
-	-- 	end
-	-- 	owner.sanity = false
-	-- end
+--战斗恢复san
+  inst:DoTaskInTime(0.2, function(inst)
+      inst.battlesan=inst:DoPeriodicTask(4, function()
+        if owner.components.combat and owner.components.combat.target and owner.components.sanity then
+          -- print("回san-是否有攻击目标")
+          owner.components.sanity:DoDelta(3)
+        end
+      end)
+  end)
 
---做成佩戴御守战斗时恢复san值
-  -- if owner.components.sanity ~= nil then
-  --   owner.components.sanity:DoDelta(100, true) -- using overtime so it doesnt make the sanity sfx every time you attack
-  -- end
-	
-	-- if owner.attacker and owner.attacker.components.sanity then
-	-- 	owner.attacker.components.health:DoDelta(3)
-	-- end
-
-  -- inst.task=inst:DoPeriodicTask(3, function()
-  --           if owner.components.combat ~= nil and not (owner.components.sanity ~= nil and owner.components.health:IsDead()) then
-  --             owner.components.sanity:DoDelta(3)
-  --           end
-  -- end)
- 
 end
 
 local function OnUnequip(inst, owner)
@@ -45,6 +30,11 @@ local function OnUnequip(inst, owner)
 
 	owner.AnimState:ClearOverrideSymbol("swap_yushou")
   owner.AnimState:Hide("HAT")
+
+  if inst.battlesan then
+    inst.battlesan:Cancel()
+    inst.battlesan = nil
+  end
 
 end
 
