@@ -49,21 +49,27 @@ end
 
 local function yaemiko_skill(inst)
   
-    if inst.components.yaemiko_skill.ecnt > 0 then
-      inst.components.yaemiko_skill.ecnt=inst.components.yaemiko_skill.ecnt-1 
-      inst:AddTag("ecd")
+  
+if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
+  if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
+    if inst.components.rider and inst.components.rider:IsRiding() then return 
+    end
 
-      if inst:HasTag("ecd") and not inst:HasTag("ecd_doing") then
-        inst:AddTag("ecd_doing")
-        inst.ECD = inst:DoPeriodicTask(4, function(inst)
-          inst.components.yaemiko_skill.ecnt=inst.components.yaemiko_skill.ecnt+1
-          if inst.components.yaemiko_skill.ecnt >= 3 then
-            inst:RemoveTag("ecd")
-            inst:RemoveTag("ecd_doing")
-            inst.ECD:Cancel()
-          end
-        end)
-      end
+      if inst.components.yaemiko_skill.ecnt > 0 then
+        inst.components.yaemiko_skill.ecnt=inst.components.yaemiko_skill.ecnt-1 
+        inst:AddTag("ecd")
+
+        if inst:HasTag("ecd") and not inst:HasTag("ecd_doing") then
+          inst:AddTag("ecd_doing")
+          inst.ECD = inst:DoPeriodicTask(4, function(inst)
+            inst.components.yaemiko_skill.ecnt=inst.components.yaemiko_skill.ecnt+1
+            if inst.components.yaemiko_skill.ecnt >= 3 then
+              inst:RemoveTag("ecd")
+              inst:RemoveTag("ecd_doing")
+              inst.ECD:Cancel()
+            end
+          end)
+        end
 
       local x, y, z = inst.Transform:GetWorldPosition()
       local angle = (inst.Transform:GetRotation() + 90) * DEGREES
@@ -71,42 +77,27 @@ local function yaemiko_skill(inst)
       local tz = 3 * math.cos(angle)
       inst.Transform:SetPosition(x+tx, y, z+tz)
       SpawnPrefab("shashengying").Transform:SetPosition(x+tx/2,y,z+tz/2)
-    end
+      end
 
-  -- if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
-	-- 	if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
-	-- 		if inst.components.rider and inst.components.rider:IsRiding() then return end
-	-- 		if not inst:HasTag("qiqi_e") then
-	-- 			HeraldofFrost(inst, inst.skill_rate, inst.heal_rate)
-	-- 			inst:AddTag("qiqi_e")
-	-- 			inst.components.timer:StartTimer("qiqi_e", 30)
-	-- 			inst:AddTag("qiqi_eh")
-	-- 			inst.components.timer:StartTimer("qiqi_eh", 13.3)
-	-- 		end
-	-- 	end
-	-- end
+  end
+end
+
 end
 
 local function yaemiko_burst(inst)
-	-- inst.components.talker:Say("元素爆发被触发")
+
   if inst.components.energy and inst.components.energy.current == 90 then
-    inst.components.yaemiko_skill:aoeQ()
+    if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
+		  if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
+			  if inst.components.rider and inst.components.rider:IsRiding() then return 
+        end
+        
+          inst.components.yaemiko_skill:aoeQ()
+          -- inst.sg:GoToState("mounted_idle")
+      end
+    end
   end
   
-	-- if not inst:HasTag("playerghost") and inst:HasTag("qiqi") then
-	-- 	if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
-	-- 		if inst.components.rider and inst.components.rider:IsRiding() then return end
-	-- 		if not inst:HasTag("qiqi_q") then
-	-- 			if inst.components.energy and inst.components.energy.current == 80 then
-	-- 				inst.components.energy:DoDelta(-80)
-	-- 				inst.sg:GoToState("qiqi_burst")
-	-- 				PreserverofFortune(inst, inst.burst_rate)
-	-- 				inst:AddTag("qiqi_q")
-	-- 				inst.components.timer:StartTimer("qiqi_q", 20)
-	-- 			end
-	-- 		end
-	-- 	end
-	-- end
 end
 
 

@@ -128,6 +128,7 @@ yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yush
 AddRecipe("yubi",{Ingredient("twigs", 1),Ingredient("papyrus", 2),},
 yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yubi.xml")
 
+
 ---------------技能
 AddModRPCHandler("yaemiko", "yaemiko_burst", function(inst) inst:PushEvent("yaemiko_burst") end)
 AddAction("YAEMIKO_BURST", "Elemental Burst", function(act)

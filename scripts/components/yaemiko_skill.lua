@@ -32,6 +32,7 @@ end
 
 function yaemiko_skill:chaozai(tgt,damage)
   local x,y,z=tgt.Transform:GetWorldPosition()
+  --爆炸特效
   local inst=SpawnPrefab("explosivehit").Transform:SetPosition(tgt.Transform:GetWorldPosition())
 	
   local ents = TheSim:FindEntities(x, y, z, 3, nil, nil)
@@ -39,14 +40,28 @@ function yaemiko_skill:chaozai(tgt,damage)
 	for i, v in pairs(ents) do
 		if v ~= self.inst and v:IsValid() and not v:IsInLimbo() then
 			if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
-
-        --在这里爆炸
-        -- v.components.combat:GetAttacked(self.attacker, damage, nil, "pyro")
+        --爆炸伤害
+        v.components.combat:GetAttacked(self.attacker, damage, nil, "pyro")
       
       end
 		end
 	end
 
+end
+
+function yaemiko_skill:FireCheck(v,damage)
+  if v.components.burnable then
+    if v.components.burnable:IsBurning() then
+      --着火则爆炸
+      yaemiko_skill:chaozai(v,damage)
+      v.components.burnable:Extinguish()
+      -- v.components.burnable.burning=false
+    elseif v.components.burnable:IsSmoldering() then
+      --过热则点燃
+      v.components.burnable:Ignite()      
+      v.components.burnable:SetBurnTime(4)
+    end
+  end
 end
 
 local CANT_TAGS = {"INLIMBO", "player", "chester", "companion"}
@@ -105,15 +120,7 @@ function yaemiko_skill:luolei()
 		if tgt.components.sleeper and tgt.components.sleeper:IsAsleep() then
 			tgt.components.sleeper:WakeUp()
 		end
-		if tgt.components.burnable then
-			if tgt.components.burnable:IsBurning() then
-        --添加超载爆炸
-        yaemiko_skill:chaozai(tgt,damage*2)
-        
-      elseif tgt.components.burnable:IsSmoldering() then
-        yaemiko_skill:chaozai(tgt,damage*2)
-			end
-		end
+    yaemiko_skill:FireCheck(tgt,damage)
 	end
 end
 
@@ -122,15 +129,12 @@ function yaemiko_skill:aoeQ()
   if nearest == nil then
     return
   end
-  -- if nearest:HasTag("lightningrod") then
-  --     SpawnPrefab("lightning").Transform:SetPosition(nearest.Transform:GetWorldPosition())
-  --     nearest:PushEvent("lightningstrike")
-  --     return
-  -- end
+
   self.inst.components.energy:DoDelta(-90)
   local x, y, z = self.inst.Transform:GetWorldPosition()
   local attackcnt=0
   local ssycnt = TheSim:FindEntities(x, y, z, 12, {"shashengying"}, nil,nil)
+  
   for i,v in pairs(ssycnt) do
     if attackcnt<3 then
       attackcnt=attackcnt+1
@@ -152,13 +156,16 @@ function yaemiko_skill:aoeQ()
   
   
   --根据坐标范围伤害
-  
+  self.inst.sg:GoToState("cookbook_close")     
   SpawnPrefab("lightning").Transform:SetPosition(x,y,z)
   local ents = TheSim:FindEntities(x, y, z, 3, nil, CANT_TAGS,nil)
     for i, v in pairs(ents) do
         if v:IsValid() and not v:IsInLimbo() then
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
             v.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
+            -- v.sg:GoToState("electrocute")
+            yaemiko_skill:FireCheck(tgt,damage)
+
           end
         end
     end
@@ -175,6 +182,7 @@ function yaemiko_skill:aoeQ()
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
             v.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
           end
+            yaemiko_skill:FireCheck(tgt)
         end
     end
 

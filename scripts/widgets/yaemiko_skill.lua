@@ -33,7 +33,6 @@ function yaemiko_skill:OnUpdate(dt)
 	-- self.skillcd1:SetString(self.owner._yaemiko_e1:value())
 	-- self.skillcd2:SetString(self.owner._yaemiko_e2:value())
   -- print("e可用次数：",self.owner.components.yaemiko_skill.ecnt)
-
 	if self.owner:HasTag("playerghost") then
 		self.yaemiko_skill_0:Hide()
 		self.yaemiko_skill_1:Hide()
@@ -59,36 +58,6 @@ function yaemiko_skill:OnUpdate(dt)
       self.yaemiko_skill_0:Show()    
     end
   end
-	-- if self.owner:HasTag("playerghost") then
-
-	-- 	self.yaemiko_skill_0:Hide()
-	-- 	self.yaemiko_skill_1:Hide()
-	-- 	self.yaemiko_skill_2:Hide()
-	-- 	self.yaemiko_skill_3:Hide()
-
-  -- elseif self.owner.components.yaemiko_skill.ecnt then
-	-- 	if self.owner.components.yaemiko_skill.ecnt==3 then
-	-- 		self.yaemiko_skill_3:Show()
-  --     self.yaemiko_skill_2:Hide()
-	-- 	elseif self.owner.components.yaemiko_skill.ecnt==2
-  --     -- self.skillcd1:Hide()
-	-- 		-- self.skillcd2:Show()
-	-- 		-- self.yaemiko_skill_0:Hide()
-	-- 		self.yaemiko_skill_2:Show()
-	-- 		self.yaemiko_skill_3:Hide()
-  --   elseif self.owner.components.yaemiko_skill.ecnt==1
-  --     -- self.skillcd1:Hide()
-	-- 		-- self.skillcd2:Show()
-	-- 		-- self.yaemiko_skill_0:Hide()
-	-- 		self.yaemiko_skill_1:Show()
-	-- 		self.yaemiko_skill_2:Hide()
-  --   elseif self.owner.components.yaemiko_skill.ecnt==0
-  --     self.yaemiko_skill_0:Show()
-	-- 		self.yaemiko_skill_1:Hide()
-	-- 	end
-	-- end
-
-
 end
 
 return yaemiko_skill
