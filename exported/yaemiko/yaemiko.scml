@@ -195,9 +195,6 @@
     <folder id="19" name="face_sail">
         <file id="0" name="face_sail/face_sail-0.png" width="200" height="200" pivot_x="0.622747" pivot_y="0.570002"/>
     </folder>
-    <folder id="20" name="qtail">
-        <file id="0" name="qtail/test.png" width="40" height="40" pivot_x="0" pivot_y="1"/>
-    </folder>
     <entity id="0" name="yaemiko">
         <animation id="0" name="BUILD_PLAYER" length="1000">
             <mainline>
