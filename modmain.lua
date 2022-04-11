@@ -95,7 +95,7 @@ local skin_modes = {
     },
 }
 
---添加御守御币图片
+--添加御守图片
 TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yushou = {
 	atlas = "images/inventoryimages/yushou.xml",
 	image = "yushou.tex"
