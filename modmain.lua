@@ -3,7 +3,6 @@ PrefabFiles = {
 	"yaemiko_none",
   "yaemiko_fx",
   "yushou",
-  "yubi",
 }
 
 Assets = {
@@ -101,10 +100,6 @@ TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yushou = {
 	atlas = "images/inventoryimages/yushou.xml",
 	image = "yushou.tex"
 }
-TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yubi = {
-	atlas = "images/inventoryimages/yubi.xml",
-	image = "yubi.tex"
-}
 --技能图标
 local energy = require("widgets/yaemiko_energy")
 AddClassPostConstruct("widgets/controls", function(self)
@@ -125,8 +120,6 @@ end)
 local yaemikotab = AddRecipeTab(STRINGS.NAMES.YAEMIKO, 88, "images/hud/paimon.xml", "paimon.tex", "yaemiko")
 AddRecipe("yushou",{Ingredient("papyrus", 2),Ingredient("boards", 1),},
 yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yushou.xml")
-AddRecipe("yubi",{Ingredient("twigs", 1),Ingredient("papyrus", 2),},
-yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yubi.xml")
 
 
 ---------------技能

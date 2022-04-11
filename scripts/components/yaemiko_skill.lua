@@ -164,7 +164,7 @@ function yaemiko_skill:aoeQ()
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
             v.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
             -- v.sg:GoToState("electrocute")
-            yaemiko_skill:FireCheck(tgt,damage)
+            yaemiko_skill:FireCheck(v,damage)
 
           end
         end
@@ -182,7 +182,7 @@ function yaemiko_skill:aoeQ()
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
             v.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
           end
-            yaemiko_skill:FireCheck(tgt)
+            yaemiko_skill:FireCheck(v,damage)
         end
     end
 

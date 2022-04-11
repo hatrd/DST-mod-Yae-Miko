@@ -7,13 +7,12 @@ local assets = {
 -- 三值
 TUNING.YAEMIKO_HEALTH = 100
 TUNING.YAEMIKO_HUNGER = 150
-TUNING.YAEMIKO_SANITY = 220
+TUNING.YAEMIKO_SANITY = 200
 
 
 -- 初始道具
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.YAEMIKO = {
 	"yushou",
-  "yubi",
 }
 
 local start_inv = {}
@@ -77,6 +76,7 @@ if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
       local tz = 3 * math.cos(angle)
       inst.Transform:SetPosition(x+tx, y, z+tz)
       SpawnPrefab("shashengying").Transform:SetPosition(x+tx/2,y,z+tz/2)
+      inst.components.sanity:DoDelta(-0.3)
       end
 
   end
@@ -153,10 +153,10 @@ local master_postinit = function(inst)
 	-- Uncomment if "wathgrithr"(Wigfrid) or "webber" voice is used
     --inst.talker_path_override = "dontstarve_DLC001/characters/"
 	
-	-- -- 动态设置状态，目前不需要。	
-	-- inst.components.health:SetMaxHealth(TUNING.YAEMIKO_HEALTH)
-	-- inst.components.hunger:SetMax(TUNING.YAEMIKO_HUNGER)
-	-- inst.components.sanity:SetMax(TUNING.YAEMIKO_SANITY)
+	-- 设置状态
+	inst.components.health:SetMaxHealth(TUNING.YAEMIKO_HEALTH)
+	inst.components.hunger:SetMax(TUNING.YAEMIKO_HUNGER)
+	inst.components.sanity:SetMax(TUNING.YAEMIKO_SANITY)
 	
 	-- Damage multiplier (optional)
     inst.components.combat.damagemultiplier = 1
