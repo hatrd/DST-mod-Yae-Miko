@@ -101,6 +101,10 @@ local function yaemiko_burst(inst)
   
 end
 
+local function Update(inst)
+  inst._ecnt:set(inst.components.yaemiko_skill.ecnt)
+
+end
 
 
 -------------------------------------------------------------
@@ -124,6 +128,7 @@ local common_postinit = function(inst)
   
 	inst.energy_max = net_ushortint(inst.GUID, "energy_max", "energy_maxdirty")
 	inst.energy_current = net_ushortint(inst.GUID, "energy_current", "energy_currentdirty")
+  inst._ecnt= net_ushortint(inst.GUID, "inst._ecnt", "inst._ecnt")
 
   --按键
 
@@ -168,7 +173,7 @@ local master_postinit = function(inst)
 	inst.OnLoad = onload
   inst.OnNewSpawn = onload
 
-
+	inst:DoPeriodicTask(0, Update)
 end
 
 return MakePlayerCharacter("yaemiko", prefabs, assets, common_postinit, master_postinit, prefabs)

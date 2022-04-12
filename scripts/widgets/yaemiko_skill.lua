@@ -41,25 +41,24 @@ function yaemiko_skill:OnUpdate(dt)
     return
   end
 
-  if self.owner.components.yaemiko_skill then
-	if self.owner.components.yaemiko_skill.ecnt then
-    if self.owner.components.yaemiko_skill.ecnt==3 then
-      self.yaemiko_skill_3:Show()
-      self.yaemiko_skill_2:Hide()
-    elseif self.owner.components.yaemiko_skill.ecnt==2 then
-      self.yaemiko_skill_3:Hide()
-      self.yaemiko_skill_2:Show()
-      self.yaemiko_skill_1:Hide()
-    elseif self.owner.components.yaemiko_skill.ecnt==1 then
-      self.yaemiko_skill_2:Hide()
-      self.yaemiko_skill_1:Show()
-      self.yaemiko_skill_0:Hide()
-    elseif self.owner.components.yaemiko_skill.ecnt==0 then
-      self.yaemiko_skill_1:Hide()
-      self.yaemiko_skill_0:Show()    
-    end
+  local ecnt=self.owner._ecnt:value()
+  -- print("e可用次数：",ecnt)
+  if ecnt==3 then
+    self.yaemiko_skill_3:Show()
+    self.yaemiko_skill_2:Hide()
+  elseif ecnt==2 then
+    self.yaemiko_skill_3:Hide()
+    self.yaemiko_skill_2:Show()
+    self.yaemiko_skill_1:Hide()
+  elseif ecnt==1 then
+    self.yaemiko_skill_2:Hide()
+    self.yaemiko_skill_1:Show()
+    self.yaemiko_skill_0:Hide()
+  elseif ecnt==0 then
+    self.yaemiko_skill_1:Hide()
+    self.yaemiko_skill_0:Show()    
   end
-end
+
 end
 
 return yaemiko_skill
