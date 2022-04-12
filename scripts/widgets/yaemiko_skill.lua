@@ -18,6 +18,7 @@ local  yaemiko_skill = Class(Widget, function(self, owner)
 	self.yaemiko_skill_1 = self:AddChild(Image("images/skills/yaemiko_skill_1.xml", "yaemiko_skill_1.tex"))
 	self.yaemiko_skill_2 = self:AddChild(Image("images/skills/yaemiko_skill_2.xml", "yaemiko_skill_2.tex"))
 	self.yaemiko_skill_3 = self:AddChild(Image("images/skills/yaemiko_skill_3.xml", "yaemiko_skill_3.tex"))
+  self.ecnt=3
 	-- self.skillcd1 = self:AddChild(Text(BODYTEXTFONT, 60))
 	-- self.skillcd1:SetHAlign(ANCHOR_MIDDLE)
 	-- self.skillcd1:MoveToFront()
@@ -41,20 +42,20 @@ function yaemiko_skill:OnUpdate(dt)
     return
   end
 
-  local ecnt=self.owner._ecnt:value()
+  self.ecnt=self.owner._ecnt:value()
   -- print("e可用次数：",ecnt)
-  if ecnt==3 then
+  if self.ecnt==3 then
     self.yaemiko_skill_3:Show()
     self.yaemiko_skill_2:Hide()
-  elseif ecnt==2 then
+  elseif self.ecnt==2 then
     self.yaemiko_skill_3:Hide()
     self.yaemiko_skill_2:Show()
     self.yaemiko_skill_1:Hide()
-  elseif ecnt==1 then
+  elseif self.ecnt==1 then
     self.yaemiko_skill_2:Hide()
     self.yaemiko_skill_1:Show()
     self.yaemiko_skill_0:Hide()
-  elseif ecnt==0 then
+  elseif self.ecnt==0 then
     self.yaemiko_skill_1:Hide()
     self.yaemiko_skill_0:Show()    
   end
