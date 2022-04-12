@@ -41,6 +41,7 @@ function yaemiko_skill:OnUpdate(dt)
     return
   end
 
+  if self.owner.components.yaemiko_skill then
 	if self.owner.components.yaemiko_skill.ecnt then
     if self.owner.components.yaemiko_skill.ecnt==3 then
       self.yaemiko_skill_3:Show()
@@ -58,6 +59,7 @@ function yaemiko_skill:OnUpdate(dt)
       self.yaemiko_skill_0:Show()    
     end
   end
+end
 end
 
 return yaemiko_skill

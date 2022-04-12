@@ -72,11 +72,12 @@ if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
 
       local x, y, z = inst.Transform:GetWorldPosition()
       local angle = (inst.Transform:GetRotation() + 90) * DEGREES
-      local tx = 3 * math.sin(angle)
-      local tz = 3 * math.cos(angle)
+      local tx = 6 * math.sin(angle)
+      local tz = 6 * math.cos(angle)
       inst.Transform:SetPosition(x+tx, y, z+tz)
       SpawnPrefab("shashengying").Transform:SetPosition(x+tx/2,y,z+tz/2)
       inst.components.sanity:DoDelta(-0.3)
+
       end
 
   end
