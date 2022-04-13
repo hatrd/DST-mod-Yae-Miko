@@ -72,11 +72,12 @@ if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
 
       local x, y, z = inst.Transform:GetWorldPosition()
       local angle = (inst.Transform:GetRotation() + 90) * DEGREES
-      local tx = 3 * math.sin(angle)
-      local tz = 3 * math.cos(angle)
+      local tx = 6 * math.sin(angle)
+      local tz = 6 * math.cos(angle)
       inst.Transform:SetPosition(x+tx, y, z+tz)
       SpawnPrefab("shashengying").Transform:SetPosition(x+tx/2,y,z+tz/2)
       inst.components.sanity:DoDelta(-0.3)
+
       end
 
   end
@@ -100,6 +101,10 @@ local function yaemiko_burst(inst)
   
 end
 
+local function Update(inst)
+  inst._ecnt:set(inst.components.yaemiko_skill.ecnt)
+
+end
 
 
 -------------------------------------------------------------
@@ -123,6 +128,7 @@ local common_postinit = function(inst)
   
 	inst.energy_max = net_ushortint(inst.GUID, "energy_max", "energy_maxdirty")
 	inst.energy_current = net_ushortint(inst.GUID, "energy_current", "energy_currentdirty")
+  inst._ecnt= net_ushortint(inst.GUID, "inst._ecnt", "inst._ecnt")
 
   --按键
 
@@ -167,7 +173,7 @@ local master_postinit = function(inst)
 	inst.OnLoad = onload
   inst.OnNewSpawn = onload
 
-
+	inst:DoPeriodicTask(0, Update)
 end
 
 return MakePlayerCharacter("yaemiko", prefabs, assets, common_postinit, master_postinit, prefabs)
