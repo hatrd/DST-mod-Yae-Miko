@@ -64,7 +64,7 @@ function yaemiko_skill:FireCheck(v,damage)
   end
 end
 
-local CANT_TAGS = {"INLIMBO", "player", "chester", "companion"}
+local CANT_TAGS = {"INLIMBO", "player", "chester", "companion","wall"}
 
 -- local LIGHTNINGSTRIKE_ONEOF_TAGS = { "lightningrod", "lightningtarget", "blows_air" }
 function yaemiko_skill:luolei()
