@@ -125,15 +125,16 @@ function yaemiko_skill:luolei()
 end
 
 function yaemiko_skill:aoeQ()
-  local nearest = GetClosestInstWithTag({"monster"}, self.inst, 12)
-  if nearest == nil then
-    return
-  end
-
-  self.inst.components.energy:DoDelta(-90)
-  local x, y, z = self.inst.Transform:GetWorldPosition()
-  local attackcnt=0
-  local ssycnt = TheSim:FindEntities(x, y, z, 12, {"shashengying"}, nil,nil)
+    local nearest = GetClosestInstWithTag({"monster"}, self.inst, 12)
+    if nearest == nil then
+            -- inst.components.talker:Say("附近没有有趣的东西呢")
+        return
+    end
+        
+    self.inst.components.energy:DoDelta(-90)
+    local x, y, z = self.inst.Transform:GetWorldPosition()
+    local attackcnt=0
+    local ssycnt = TheSim:FindEntities(x, y, z, 12, {"shashengying"}, nil,nil)
   
   for i,v in pairs(ssycnt) do
     if attackcnt<3 then

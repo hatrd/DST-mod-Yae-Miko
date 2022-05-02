@@ -47,40 +47,41 @@ end
 ----------人物技能区------------------------------------------
 
 local function yaemiko_skill(inst)
-  
-  
-if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
-  if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
-    if inst.components.rider and inst.components.rider:IsRiding() then return 
-    end
-
-      if inst.components.yaemiko_skill.ecnt > 0 then
-        inst.components.yaemiko_skill.ecnt=inst.components.yaemiko_skill.ecnt-1 
-        inst:AddTag("ecd")
-
-        if inst:HasTag("ecd") and not inst:HasTag("ecd_doing") then
-          inst:AddTag("ecd_doing")
-          inst.ECD = inst:DoPeriodicTask(4, function(inst)
-            inst.components.yaemiko_skill.ecnt=inst.components.yaemiko_skill.ecnt+1
-            if inst.components.yaemiko_skill.ecnt >= 3 then
-              inst:RemoveTag("ecd")
-              inst:RemoveTag("ecd_doing")
-              inst.ECD:Cancel()
-            end
-          end)
+    if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
+    if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
+        if inst.components.rider and inst.components.rider:IsRiding() then return 
         end
+            if inst.components.yaemiko_skill.ecnt > 0 then
+                inst.components.yaemiko_skill.ecnt=inst.components.yaemiko_skill.ecnt-1 
+                inst:AddTag("ecd")
+                
+                if inst:HasTag("ecd") and not inst:HasTag("ecd_doing") then
+                inst:AddTag("ecd_doing")
+                inst.ECD = inst:DoPeriodicTask(4, function(inst)
+                    inst.components.yaemiko_skill.ecnt=inst.components.yaemiko_skill.ecnt+1
+                    if inst.components.yaemiko_skill.ecnt >= 3 then
+                    inst:RemoveTag("ecd")
+                    inst:RemoveTag("ecd_doing")
+                    inst.ECD:Cancel()
+                    end
+                end)
+                end
 
-      local x, y, z = inst.Transform:GetWorldPosition()
-      local angle = (inst.Transform:GetRotation() + 90) * DEGREES
-      local tx = 6 * math.sin(angle)
-      local tz = 6 * math.cos(angle)
-      inst.Transform:SetPosition(x+tx, y, z+tz)
-      SpawnPrefab("shashengying").Transform:SetPosition(x+tx/2,y,z+tz/2)
-      inst.components.sanity:DoDelta(-0.3)
+                local x, y, z = inst.Transform:GetWorldPosition()
+                local angle = (inst.Transform:GetRotation() + 90) * DEGREES
+                local tx = 6 * math.sin(angle)
+                local tz = 6 * math.cos(angle)
+                if inst.components.playeractionpicker and inst.components.playeractionpicker.map:IsPassableAtPoint(x+tx, y, z+tz) then
 
-      end
+                    inst.Transform:SetPosition(x+tx, y, z+tz)
+                    SpawnPrefab("shashengying").Transform:SetPosition(x+tx/2,y,z+tz/2)
+                else
+                    SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
+                end
+                inst.components.sanity:DoDelta(-0.3)
 
-  end
+            end
+    end
 end
 
 end
@@ -92,7 +93,7 @@ local function yaemiko_burst(inst)
 		  if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
 			  if inst.components.rider and inst.components.rider:IsRiding() then return 
         end
-        
+
           inst.components.yaemiko_skill:aoeQ()
           -- inst.sg:GoToState("mounted_idle")
       end
@@ -107,6 +108,7 @@ local function Update(inst)
 end
 
 
+
 -------------------------------------------------------------
 
 -- This initializes for both the server and client. Tags can be added here.
@@ -114,9 +116,9 @@ local common_postinit = function(inst)
 	-- Minimap icon
 	inst.MiniMapEntity:SetIcon( "yaemiko.tex" )
   
-  inst:AddTag("yaemiko")
-  inst:AddTag("genshin_character")
-  inst:AddTag("electro")
+    inst:AddTag("yaemiko")
+    inst:AddTag("genshin_character")
+    inst:AddTag("electro")
 	inst:AddTag("catalyst_class")
 
 	inst.charge_rate = 1
@@ -128,7 +130,7 @@ local common_postinit = function(inst)
   
 	inst.energy_max = net_ushortint(inst.GUID, "energy_max", "energy_maxdirty")
 	inst.energy_current = net_ushortint(inst.GUID, "energy_current", "energy_currentdirty")
-  inst._ecnt= net_ushortint(inst.GUID, "inst._ecnt", "inst._ecnt")
+    inst._ecnt= net_ushortint(inst.GUID, "inst._ecnt", "inst._ecnt")
 
   --按键
 
@@ -171,7 +173,7 @@ local master_postinit = function(inst)
 	inst.components.hunger.hungerrate = 1 * TUNING.WILSON_HUNGER_RATE
 	
 	inst.OnLoad = onload
-  inst.OnNewSpawn = onload
+    inst.OnNewSpawn = onload
 
 	inst:DoPeriodicTask(0, Update)
 end
