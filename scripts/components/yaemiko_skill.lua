@@ -125,7 +125,7 @@ function yaemiko_skill:luolei()
 end
 
 function yaemiko_skill:aoeQ()
-    local nearest = GetClosestInstWithTag({"monster"}, self.inst, 12)
+    local nearest = GetClosestInstWithTag({"hostile"}, self.inst, 12)
     if nearest == nil then
             -- inst.components.talker:Say("附近没有有趣的东西呢")
         return
