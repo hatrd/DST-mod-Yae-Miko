@@ -1,5 +1,5 @@
 # DST-mod-Yae-Miko
-Don't Starve Together Mod of Yae Miko in Genshin Impact.
+Don't Starve Together Mod of Yae Miko in Genshin Impact.  
 饥荒联机版八重神子模组。
 
 # TODO
