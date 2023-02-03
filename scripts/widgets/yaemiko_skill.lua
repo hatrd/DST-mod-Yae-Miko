@@ -47,15 +47,21 @@ function yaemiko_skill:OnUpdate(dt)
   if self.ecnt==3 then
     self.yaemiko_skill_3:Show()
     self.yaemiko_skill_2:Hide()
+    self.yaemiko_skill_1:Hide()
+    self.yaemiko_skill_0:Hide()
   elseif self.ecnt==2 then
     self.yaemiko_skill_3:Hide()
     self.yaemiko_skill_2:Show()
     self.yaemiko_skill_1:Hide()
+    self.yaemiko_skill_0:Hide()
   elseif self.ecnt==1 then
+    self.yaemiko_skill_3:Hide()
     self.yaemiko_skill_2:Hide()
     self.yaemiko_skill_1:Show()
     self.yaemiko_skill_0:Hide()
   elseif self.ecnt==0 then
+    self.yaemiko_skill_3:Hide()
+    self.yaemiko_skill_2:Hide()
     self.yaemiko_skill_1:Hide()
     self.yaemiko_skill_0:Show()    
   end
