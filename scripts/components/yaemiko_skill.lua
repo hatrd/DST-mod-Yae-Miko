@@ -109,14 +109,15 @@ function yaemiko_skill:luolei()
 	local damage = self:GetDamage()
   local amtSsy = 0
 
-  --寻找附近杀生樱，距离4
-  local ssycnt = TheSim:FindEntities(x, y, z, 4, {"shashengying"}, nil,nil)
+  --寻找附近杀生樱，距离7
+  local ssycnt = TheSim:FindEntities(x, y, z, 7, {"shashengying"}, nil,nil)
   for i,v in pairs(ssycnt) do
     --检查距离内同一玩家的杀生樱数量
     if v.components.yaemiko_skill:GetUID()==self:GetUID() then
       amtSsy = amtSsy + 1
     end
   end
+  -- print(self:GetUID(),"有效杀生樱数量：",amtSsy)
   --防止爆数量
   if amtSsy >3 then
     amtSsy = 3
