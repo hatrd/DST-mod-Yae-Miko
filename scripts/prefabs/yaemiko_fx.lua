@@ -42,30 +42,28 @@ local function summonssy()
 	inst.persists = false
 
 	inst:AddComponent("yaemiko_skill")
-  
-  inst:DoTaskInTime(0, function()
-		inst:DoPeriodicTask(3, function()
-			inst.components.yaemiko_skill:luolei()
-      --恢复元素能量
-      for i, v in ipairs(AllPlayers) do
-      if v.components.energy then
-        v.components.energy:DoDelta(1)
-      end
-
-	end
+		inst:DoPeriodicTask(0.1, function()
+		inst.components.yaemiko_skill:StepRemainCnt()
+		local remainCnt = inst.components.yaemiko_skill:GetRemainCnt()
+	  	if (remainCnt%3000) == 0 then
+			local flg = inst.components.yaemiko_skill:luolei()
+			--如果产生有效命中
+			if flg then
+			--恢复元素能量
+				for i, v in ipairs(AllPlayers) do
+					if v.components.energy then
+						v.components.energy:DoDelta(1)
+					end
+				end
+			end
+	  	end
+			if remainCnt <= 0 then
+				local ix,iy,iz=inst.Transform:GetWorldPosition()
+				SpawnPrefab("lightning_rod_fx").Transform:SetPosition(ix,iy-3,iz)
+				inst:Remove()
+			end
 		end)
-	end)
-  
-  inst:DoTaskInTime(12,function(inst)
-    if inst then
-      local ix,iy,iz=inst.Transform:GetWorldPosition()
-      SpawnPrefab("lightning_rod_fx").Transform:SetPosition(ix,iy-3,iz)
-      inst:Remove()
-    end
-  end)
-
 	return inst
-
 end
 
 return Prefab("shashengying",summonssy,assets)
