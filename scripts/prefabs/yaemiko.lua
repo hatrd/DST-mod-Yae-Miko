@@ -99,7 +99,7 @@ local function yaemiko_skill(inst)
                 inst.components.sanity:DoDelta(-0.3)
 
                 --寻找附近杀生樱，距离20
-                local ssycnt = TheSim:FindEntities(x, y, z, 32, {"shashengying"}, nil,nil)
+                local ssycnt = TheSim:FindEntities(x, y, z, 20, {"shashengying"}, nil,nil)
                 local leastSsy = nil
                 local amtSsy = 0
                 for i,v in pairs(ssycnt) do
