@@ -45,7 +45,20 @@ local function onload(inst)
 end
 
 ----------人物技能区------------------------------------------
-
+--计算主手伤害 参考Yus的代码
+local function yaemiko_nowdamage(inst_f)
+    --不会有人没有物品栏吧
+    if inst_f.components.inventory then
+        local item = inst_f.components.inventory.equipslots[EQUIPSLOTS.HANDS]
+        if item and item.components.weapon then
+            --当主手持有武器，基本伤害为武器伤害+20
+            return item.components.weapon.damage+20
+        else
+            --其他情况给30基本伤害保底
+            return 30
+        end
+    end
+end
 local function yaemiko_skill(inst)
     if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
     if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
@@ -71,19 +84,48 @@ local function yaemiko_skill(inst)
                 local angle = (inst.Transform:GetRotation() + 90) * DEGREES
                 local tx = 6 * math.sin(angle)
                 local tz = 6 * math.cos(angle)
+
+                --生成杀生樱
+                local ssy = SpawnPrefab("shashengying")
                 if inst.components.playeractionpicker and inst.components.playeractionpicker.map:IsPassableAtPoint(x+tx, y, z+tz) then
 
                     inst.Transform:SetPosition(x+tx, y, z+tz)
-                    SpawnPrefab("shashengying").Transform:SetPosition(x+tx/2,y,z+tz/2)
+                    ssy.Transform:SetPosition(x+tx/2,y,z+tz/2)
                 else
-                    SpawnPrefab("shashengying").Transform:SetPosition(x,y,z)
+                    ssy.Transform:SetPosition(x,y,z)
                 end
+                --记录杀生樱信息
+                ssy.components.yaemiko_skill:SsySetInit(inst.userid,yaemiko_nowdamage(inst))
                 inst.components.sanity:DoDelta(-0.3)
 
+                --寻找附近杀生樱，距离20
+                local ssycnt = TheSim:FindEntities(x, y, z, 32, {"shashengying"}, nil,nil)
+                local leastSsy = nil
+                local amtSsy = 0
+                for i,v in pairs(ssycnt) do
+                    --检查距离内同一玩家的杀生樱数量，并记录最少剩余时间的杀生樱  
+                    if v.components.yaemiko_skill:GetUID()==inst.userid then
+                        if leastSsy == nil or v.components.yaemiko_skill:GetRemainCnt() <= leastSsy.components.yaemiko_skill:GetRemainCnt() then
+                            leastSsy = v
+                        end
+                        amtSsy = amtSsy + 1
+                    end
+                    --因为已经生成了 所以爆数量时应该有4个杀生樱正在场上
+                    if amtSsy >3 then
+                        --摧毁记录的杀生樱
+                        leastSsy:DoTaskInTime(0,function(para)
+                            if para then
+                            local ix,iy,iz=para.Transform:GetWorldPosition()
+                            SpawnPrefab("lightning_rod_fx").Transform:SetPosition(ix,iy-3,iz)
+                            para:Remove()
+                            end
+                        end)
+                    end
+                end
             end
+        end
     end
-end
-
+    
 end
 
 local function yaemiko_burst(inst)
@@ -94,7 +136,7 @@ local function yaemiko_burst(inst)
 			  if inst.components.rider and inst.components.rider:IsRiding() then return 
         end
 
-          inst.components.yaemiko_skill:aoeQ()
+          inst.components.yaemiko_skill:aoeQ(yaemiko_nowdamage(inst))
           -- inst.sg:GoToState("mounted_idle")
       end
     end
@@ -150,6 +192,8 @@ local master_postinit = function(inst)
   inst.components.energy:SetMax(90)
   inst.components.energy:Recharge(TUNING.YAEMIKO_RECHARGE)
   inst:AddComponent("yaemiko_skill")
+
+  inst.components.yaemiko_skill:MikoSetInit(inst.userid)
   --设置声音
 	inst.soundsname = "willow"
 
