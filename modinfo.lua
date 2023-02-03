@@ -4,7 +4,7 @@ Genshin Impact character.
 Press "Z" to use ELemental Skill.
 Press "X" to use Elemental Burst.
 ]]
-author = "NaNaN"
+author = "NaNaN & SekkaSKS"
 version = "1.0.9"
 forumthread = ""
 api_version = 10

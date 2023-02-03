@@ -189,8 +189,12 @@ end
 function yaemiko_skill:aoeQ(damage)
   local nearest = GetClosestInstWithTag({"hostile"}, self.inst, 12)
   if nearest == nil then
-    -- inst.components.talker:Say("附近没有有趣的东西呢")
-    return
+    self.inst:DoTaskInTime(0.1, function()
+      if self.inst.components.talker then
+        self.inst.components.talker:Say("附近没有什么有趣的东西呢。")
+      end
+    end)
+		return
   end
        
   self.inst.components.energy:DoDelta(-90)

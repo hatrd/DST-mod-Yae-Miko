@@ -196,7 +196,7 @@ local master_postinit = function(inst)
   inst.components.yaemiko_skill:MikoSetInit(inst.userid)
   --设置声音
 	inst.soundsname = "willow"
-
+    inst:AddComponent("talker")
   --将event与函数连接
 	inst:ListenForEvent("yaemiko_skill", yaemiko_skill)
 	inst:ListenForEvent("yaemiko_burst", yaemiko_burst)
