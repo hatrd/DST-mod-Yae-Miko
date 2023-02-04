@@ -50,7 +50,8 @@ local function yaemiko_nowdamage(inst_f)
     --不会有人没有物品栏吧
     if inst_f.components.inventory then
         local item = inst_f.components.inventory.equipslots[EQUIPSLOTS.HANDS]
-        if item and item.components.weapon then
+        --有的模组武器damage是个函数，需要避免它是其他东西
+        if item and item.components.weapon and type(item.components.weapon.damage)=="number" then
             --当主手持有武器，基本伤害为武器伤害+20
             return item.components.weapon.damage+20
         else
