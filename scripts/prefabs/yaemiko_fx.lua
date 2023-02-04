@@ -1,7 +1,7 @@
 local assets =
 {
 	Asset( "ANIM", "anim/yaemiko_fx.zip" ),
-  Asset("ANIM", "anim/lightning_rod_fx.zip"),
+    Asset("ANIM", "anim/lightning_rod_fx.zip"),
 }
 
 
@@ -12,26 +12,29 @@ local function summonssy()
 	inst.entity:AddTransform()
 	inst.entity:AddAnimState()
 	inst.entity:AddSoundEmitter()
-  inst.entity:AddLight()
+    inst.entity:AddLight()
 	inst.entity:AddNetwork()
 
   -- inst.AnimState:SetBloomEffectHandle("shaders/anim_bloom_ghost.ksh")
  
-  inst.Light:SetFalloff(.5)
-  inst.Light:SetIntensity(.8)
-  inst.Light:SetRadius(1.0)
-  inst.Light:SetColour(130/255, 0/255, 255/255)
-  inst.Light:Enable(true)
-  
+    inst.Light:SetFalloff(.5)
+    inst.Light:SetIntensity(.8)
+    inst.Light:SetRadius(1.0)
+    inst.Light:SetColour(130/255, 0/255, 255/255)
+    inst.Light:Enable(true)
+    
 
 	inst.AnimState:SetBank("fx")
 	inst.AnimState:SetBuild("yaemiko_fx")
 	inst.AnimState:PlayAnimation("shashengying",true)
 
+    inst.AnimState:SetBloomEffectHandle("shaders/anim_bloom_ghost.ksh")
+    inst.AnimState:SetLightOverride(.1)
+	inst.AnimState:SetFinalOffset(3)
 
 
 	inst:AddTag("FX")
-  inst:AddTag("shashengying")
+    inst:AddTag("shashengying")
 	inst.entity:SetPristine()
 
 

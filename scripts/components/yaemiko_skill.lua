@@ -107,29 +107,30 @@ function yaemiko_skill:luolei()
 	local x, y, z = self.inst.Transform:GetWorldPosition()
 	local ents = TheSim:FindEntities(x, y, z, 14, nil, CANT_TAGS,nil)--杀生樱索敌距离
 	local damage = self:GetDamage()
-  local amtSsy = 0
+    local amtSsy = 0
 
   --寻找附近杀生樱，距离7
-  local ssycnt = TheSim:FindEntities(x, y, z, 7, {"shashengying"}, nil,nil)
-  for i,v in pairs(ssycnt) do
-    --检查距离内同一玩家的杀生樱数量
-    if v.components.yaemiko_skill:GetUID()==self:GetUID() then
-      amtSsy = amtSsy + 1
+    local ssycnt = TheSim:FindEntities(x, y, z, 7, {"shashengying"}, nil,nil)
+    for i,v in pairs(ssycnt) do
+        --检查距离内同一玩家的杀生樱数量
+        if v.components.yaemiko_skill:GetUID()==self:GetUID() then
+        amtSsy = amtSsy + 1
+        end
     end
-  end
-  -- print(self:GetUID(),"有效杀生樱数量：",amtSsy)
-  --防止爆数量
-  if amtSsy >3 then
-    amtSsy = 3
-  --附近没找到同一玩家的杀生樱
-  --在落雷时如果此语句被触发必然是有BUG了
-  elseif amtSsy == 0 then
-    print("YaeMiko[ERROR]:Requested Luolei but cannot found Sessyouusakura created by player with userid:",self.inst.userid)
-    return false
-  end
-  
-  --乘算杀生樱伤害
-  damage = damage*self.ssyDamageMultiply[amtSsy]
+    -- print(self:GetUID(),"有效杀生樱数量：",amtSsy)
+    --防止爆数量
+    if amtSsy >3 then
+        amtSsy = 3
+    --附近没找到同一玩家的杀生樱
+    --在落雷时如果此语句被触发必然是有BUG了
+    elseif amtSsy == 0 then
+        print("YaeMiko[ERROR]:Requested Luolei but cannot found Sessyouusakura created by player with userid:",self.inst.userid)
+        return false
+    end
+    -- 充能特效
+    SpawnPrefab("electricchargedfx"):SetTarget(self.inst)
+    --乘算杀生樱伤害
+    damage = damage*self.ssyDamageMultiply[amtSsy]
 	-- if not target then
 	-- 	-- SpawnPrefab("thunder").Transform:SetPosition(x+math.random(-5, 5), y, z+math.random(-5, 5))
 	-- 	return
