@@ -1,7 +1,7 @@
 local assets =
 {
 	Asset( "ANIM", "anim/yaemiko_fx.zip" ),
-  Asset("ANIM", "anim/lightning_rod_fx.zip"),
+    Asset("ANIM", "anim/lightning_rod_fx.zip"),
 }
 
 
@@ -12,26 +12,29 @@ local function summonssy()
 	inst.entity:AddTransform()
 	inst.entity:AddAnimState()
 	inst.entity:AddSoundEmitter()
-  inst.entity:AddLight()
+    inst.entity:AddLight()
 	inst.entity:AddNetwork()
 
   -- inst.AnimState:SetBloomEffectHandle("shaders/anim_bloom_ghost.ksh")
  
-  inst.Light:SetFalloff(.5)
-  inst.Light:SetIntensity(.8)
-  inst.Light:SetRadius(1.0)
-  inst.Light:SetColour(130/255, 0/255, 255/255)
-  inst.Light:Enable(true)
-  
+    inst.Light:SetFalloff(.5)
+    inst.Light:SetIntensity(.8)
+    inst.Light:SetRadius(1.0)
+    inst.Light:SetColour(130/255, 0/255, 255/255)
+    inst.Light:Enable(true)
+    
 
 	inst.AnimState:SetBank("fx")
 	inst.AnimState:SetBuild("yaemiko_fx")
 	inst.AnimState:PlayAnimation("shashengying",true)
 
+    inst.AnimState:SetBloomEffectHandle("shaders/anim_bloom_ghost.ksh")
+    inst.AnimState:SetLightOverride(.1)
+	inst.AnimState:SetFinalOffset(3)
 
 
 	inst:AddTag("FX")
-  inst:AddTag("shashengying")
+    inst:AddTag("shashengying")
 	inst.entity:SetPristine()
 
 
@@ -42,30 +45,28 @@ local function summonssy()
 	inst.persists = false
 
 	inst:AddComponent("yaemiko_skill")
-  
-  inst:DoTaskInTime(0, function()
-		inst:DoPeriodicTask(3, function()
-			inst.components.yaemiko_skill:luolei()
-      --恢复元素能量
-      for i, v in ipairs(AllPlayers) do
-      if v.components.energy then
-        v.components.energy:DoDelta(1)
-      end
-
-	end
+		inst:DoPeriodicTask(0.1, function()
+		inst.components.yaemiko_skill:StepRemainCnt()
+		local remainCnt = inst.components.yaemiko_skill:GetRemainCnt()
+	  	if (remainCnt%3000) == 0 then
+			local flg = inst.components.yaemiko_skill:luolei()
+			--如果产生有效命中
+			if flg then
+			--恢复元素能量
+				for i, v in ipairs(AllPlayers) do
+					if v.components.energy then
+						v.components.energy:DoDelta(1)
+					end
+				end
+			end
+	  	end
+			if remainCnt <= 0 then
+				local ix,iy,iz=inst.Transform:GetWorldPosition()
+				SpawnPrefab("lightning_rod_fx").Transform:SetPosition(ix,iy-3,iz)
+				inst:Remove()
+			end
 		end)
-	end)
-  
-  inst:DoTaskInTime(12,function(inst)
-    if inst then
-      local ix,iy,iz=inst.Transform:GetWorldPosition()
-      SpawnPrefab("lightning_rod_fx").Transform:SetPosition(ix,iy-3,iz)
-      inst:Remove()
-    end
-  end)
-
 	return inst
-
 end
 
 return Prefab("shashengying",summonssy,assets)
