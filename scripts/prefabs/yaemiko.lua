@@ -50,16 +50,27 @@ local function yaemiko_nowdamage(inst_f)
     --不会有人没有物品栏吧
     if inst_f.components.inventory then
         local item = inst_f.components.inventory.equipslots[EQUIPSLOTS.HANDS]
-        --有的模组武器damage是个函数，需要避免它是其他东西
-        if item and item.components.weapon and type(item.components.weapon.damage)=="number" then
+        --有的模组武器damage是个函数，需要避免它是其他东西，防止(万一的)哪个奇怪武器伤害低于10
+        if item and item.components.weapon and type(item.components.weapon.damage)=="number" and item.components.weapon.damage>10 then
             --当主手持有武器，基本伤害为武器伤害+20
             return item.components.weapon.damage+20
+        --奇奇怪怪模组武器的单独支持
+        elseif item and item.components.weapon and type(item.components.weapon.damage)=="function" then
+            if item.prefab == "element_spear" then --元素反应-矛
+                --元素反应的damage函数，参数weapon,attacker,target
+                --return item.components.weapon:damage(nil,inst_f,nil)+20
+                --目前元素反应的武器伤害是原版矛伤害+角色伤害
+                return TUNING.SPEAR_DAMAGE+20
+            else
+                return 30
+            end
         else
             --其他情况给30基本伤害保底
             return 30
         end
     end
 end
+
 local function yaemiko_skill(inst)
     if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
     if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
