@@ -1,8 +1,9 @@
 PrefabFiles = {
 	"yaemiko",
 	"yaemiko_none",
-  "yaemiko_fx",
-  "yushou",
+  	"yaemiko_fx",
+	"yaemiko_lightning",
+  	"yushou",
 }
 
 Assets = {
@@ -54,6 +55,9 @@ Assets = {
 
   
 	Asset( "ANIM", "anim/yaemiko_energy.zip" ),
+
+    Asset("SOUNDPACKAGE", "sound/yaemiko_sfx.fev"),
+	Asset("SOUND", "sound/yaemiko_sfx.fsb"),
 }
 
 AddMinimapAtlas("images/map_icons/yaemiko.xml")

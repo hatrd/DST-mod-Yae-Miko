@@ -168,7 +168,7 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
 	for i, v in pairs(ents) do
     --打避雷针
     if v:HasTag("lightningrod") then
-      SpawnPrefab("lightning").Transform:SetPosition(v.Transform:GetWorldPosition())
+      SpawnPrefab("yaemiko_lightning").Transform:SetPosition(v.Transform:GetWorldPosition())
       v:PushEvent("lightningstrike")
       --未有效命中
       return false
@@ -187,7 +187,7 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
     --未有效命中
     return false
 	else
-		SpawnPrefab("lightning").Transform:SetPosition(tgt.Transform:GetWorldPosition())
+		SpawnPrefab("yaemiko_lightning").Transform:SetPosition(tgt.Transform:GetWorldPosition())
 		-- self.attacker:AddTag("noenergy")
  
 		tgt.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
@@ -257,7 +257,7 @@ function yaemiko_skill:aoeQ(damage)
   
   --根据坐标范围伤害
   self.inst.sg:GoToState("cookbook_close")     
-  SpawnPrefab("lightning").Transform:SetPosition(x,y,z)
+  SpawnPrefab("yaemiko_lightning").Transform:SetPosition(x,y,z)
   local ents = TheSim:FindEntities(x, y, z, 3, nil, CANT_TAGS,nil)
     for i, v in pairs(ents) do
         if v:IsValid() and not v:IsInLimbo() then
@@ -275,7 +275,7 @@ function yaemiko_skill:aoeQ(damage)
     nearest.aoetask=nearest:DoPeriodicTask(0.3,function(nearest)
       --闪电
       local x1,y1,z1=nearest.Transform:GetWorldPosition()
-      SpawnPrefab("lightning").Transform:SetPosition(x1,y1,z1)
+      SpawnPrefab("yaemiko_lightning").Transform:SetPosition(x1,y1,z1)
       --伤害
       local ents = TheSim:FindEntities(x1, y1, z1, 3, nil, CANT_TAGS,nil)
       for i, v in pairs(ents) do
