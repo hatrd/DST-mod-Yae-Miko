@@ -46,7 +46,7 @@ local function summonssy()
 
 	inst:AddComponent("yaemiko_skill")
 		inst:DoPeriodicTask(0.1, function()
-		inst.components.yaemiko_skill:StepRemainCnt()
+			inst.components.yaemiko_skill:StepRemainCnt()
 			local remainCnt = inst.components.yaemiko_skill:GetRemainCnt()
 			local x, y, z = inst.Transform:GetWorldPosition()
 			--寻找附近杀生樱，距离7
