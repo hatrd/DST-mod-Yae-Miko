@@ -2,7 +2,7 @@
 <spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
     <folder id="0" name="shashengying">
         <file id="0" name="shashengying/shashengying.png" width="256" height="256" pivot_x="0" pivot_y="1"/>
-        <file id="1" name="shashengying/ssyline.png" width="100" height="20" pivot_x="0.00535906" pivot_y="0.499149"/>
+        <file id="1" name="shashengying/ssyline.png" width="100" height="20" pivot_x="0.104879" pivot_y="0.449454"/>
     </folder>
     <entity id="0" name="fx">
         <animation id="0" name="shashengying" length="1000">
@@ -23,15 +23,77 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="1" name="ssyline" length="1000">
+        <animation id="1" name="ssyline" length="1200">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" name="ssyline" folder="0" file="1" abs_x="5.279061" abs_y="0.00195" abs_pivot_x="0.005359" abs_pivot_y="0.499149" abs_angle="360" abs_scale_x="7.50943" abs_scale_y="2.289613" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="0" name="ssyline" folder="0" file="1" abs_x="26.08429" abs_y="-3.689919" abs_pivot_x="0.104879" abs_pivot_y="0.449454" abs_angle="3.013759" abs_scale_x="2.258412" abs_scale_y="2.289613" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="ssyline_000" folder="0" file="1" abs_x="208.794724" abs_y="6.583186" abs_pivot_x="0.104879" abs_pivot_y="0.449454" abs_angle="346.153903" abs_scale_x="1.927334" abs_scale_y="2.527877" abs_a="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" name="ssyline_001" folder="0" file="1" abs_x="364.601177" abs_y="-33.440649" abs_pivot_x="0.104879" abs_pivot_y="0.449454" abs_angle="8.009764" abs_scale_x="2.162301" abs_scale_y="2.407189" abs_a="1" timeline="2" key="0" z_index="2"/>
+                </key>
+                <key id="1" time="294">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="1" z_index="2"/>
+                </key>
+                <key id="2" time="587">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="1" z_index="2"/>
+                </key>
+                <key id="3" time="588">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="2" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="2" z_index="2"/>
+                </key>
+                <key id="4" time="882">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="3" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="3" z_index="2"/>
                 </key>
             </mainline>
             <timeline id="0" name="ssyline">
-                <key id="0" spin="0">
-                    <object folder="0" file="1" x="5.279061" y="0.00195" scale_x="7.50943" scale_y="2.289613"/>
+                <key id="0" spin="-1">
+                    <object folder="0" file="1" x="26.08429" y="-3.689919" angle="3.013759" scale_x="2.258412" scale_y="2.289613"/>
+                </key>
+                <key id="1" time="294" spin="-1">
+                    <object folder="0" file="1" x="37.593888" y="-1.103337" angle="359.957561" scale_x="2.241598" scale_y="2.289613"/>
+                </key>
+                <key id="2" time="587" spin="-1">
+                    <object folder="0" file="1" x="37.002876" y="-1.236157" angle="351.022411" scale_x="2.192266" scale_y="2.289613" a="0.55263"/>
+                </key>
+                <key id="3" time="588">
+                    <object folder="0" file="1" x="37.000859" y="-1.23661" angle="350.991916" scale_x="2.192098" scale_y="2.289613"/>
+                </key>
+                <key id="4" time="882">
+                    <object folder="0" file="1" x="36.40783" y="-1.369883" angle="351.644987" scale_x="1.708768" scale_y="2.289613"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="ssyline_000">
+                <key id="0" spin="-1">
+                    <object folder="0" file="1" x="208.794724" y="6.583186" angle="346.153903" scale_x="1.927334" scale_y="2.527877"/>
+                </key>
+                <key id="1" time="294">
+                    <object folder="0" file="1" x="210.796525" y="2.250209" pivot_x="0.123601" pivot_y="0.51658" angle="345.998568" scale_x="1.927334" scale_y="2.527877"/>
+                </key>
+                <key id="2" time="588" spin="-1">
+                    <object folder="0" file="1" x="211.959206" y="-26.64046" pivot_x="0.122636" pivot_y="0.513121" angle="17.020264" scale_x="1.927334" scale_y="2.527877"/>
+                </key>
+                <key id="3" time="882" spin="-1">
+                    <object folder="0" file="1" x="181.407553" y="-18.506514" pivot_x="0.121671" pivot_y="0.509662" angle="12.90061" scale_x="1.927334" scale_y="2.527877"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="ssyline_001">
+                <key id="0">
+                    <object folder="0" file="1" x="364.601177" y="-33.440649" angle="8.009764" scale_x="2.162301" scale_y="2.407189"/>
+                </key>
+                <key id="1" time="294" spin="-1">
+                    <object folder="0" file="1" x="355.740417" y="-30.909004" angle="14.90028" scale_x="2.414508" scale_y="2.407189"/>
+                </key>
+                <key id="2" time="588">
+                    <object folder="0" file="1" x="353.66532" y="13.264351" angle="354.845829" scale_x="2.401513" scale_y="2.407189"/>
+                </key>
+                <key id="3" time="882">
+                    <object folder="0" file="1" x="331.34421" y="5.318124" pivot_x="0.105677" pivot_y="0.363444" angle="355.560943" scale_x="2.681827" scale_y="2.407189"/>
                 </key>
             </timeline>
         </animation>
