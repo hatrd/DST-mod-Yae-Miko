@@ -5,7 +5,7 @@ Press "Z" to use ELemental Skill.
 Press "X" to use Elemental Burst.
 ]]
 author = "NaNaN & SekkaSKS"
-version = "1.1.2"
+version = "1.1.3"
 forumthread = ""
 api_version = 10
 dst_compatible = true
