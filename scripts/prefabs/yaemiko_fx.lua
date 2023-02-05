@@ -126,8 +126,8 @@ local function createline()
     end
 
     inst:AddComponent("stretcher")
-    inst.components.stretcher:SetRestingLength(4.75)
-    inst.components.stretcher:SetWidthRatio(0)
+    inst.components.stretcher:SetRestingLength(4.5)
+    inst.components.stretcher:SetWidthRatio(.35)
 
     inst.persists = false
 
