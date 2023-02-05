@@ -39,14 +39,21 @@ end
 -- 记录杀生樱存在
 function yaemiko_skill:RecordLine(target)
   local ssyGUID = target.GUID
+	-- 原来的划线方式，会向自己也画一次线，在ssyline有高度时就多余了。
+  if ssyGUID==self.inst.GUID then
+    return
+  end
   -- 如果是没被记录在案的GUID
   if self.savedSsy[ssyGUID] == nil then
+    
     -- 生成连线
     local line = SpawnPrefab("ssyline")
-    line.Transform:SetPosition(self.inst.Transform:GetWorldPosition())
+    local x,y,z =self.inst.Transform:GetWorldPosition()
+    line.Transform:SetPosition(x,1.5,z)
     line:FacePoint(target:GetPosition())
     line.components.stretcher:SetStretchTarget(target)
     self.savedSsyLine[ssyGUID] = line
+
   end
   self.savedSsy[ssyGUID] = 1
 end
