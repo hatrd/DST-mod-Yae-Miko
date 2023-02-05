@@ -21,11 +21,60 @@ local yaemiko_skill = Class(function(self, inst)
 	self.burn = false
 	
 	self.remainCnt = 14000 --杀生樱计时(以毫秒计)
+  self.savedSsy = {} --附近的杀生樱 表
+  self.savedSsyLine = {} --连接附近杀生樱的线 表
 	
 	--玩家信息字段
 	
 	self.ecnt = 3 --玩家元素战技层数
 end)
+
+-- 重置杀生樱存在统计
+function yaemiko_skill:InitLineRecord()
+  for i,v in pairs(self.savedSsy) do
+    self.savedSsy[i] = 0
+  end
+end
+
+-- 记录杀生樱存在
+function yaemiko_skill:RecordLine(target)
+  local ssyGUID = target.GUID
+  -- 如果是没被记录在案的GUID
+  if self.savedSsy[ssyGUID] == nil then
+    -- 生成连线
+    -- 注意！目前连线暂时由暗影手_手臂替代，请不要进行发布。
+    local line = SpawnPrefab("shadowhand_arm")
+    line.Transform:SetPosition(self.inst.Transform:GetWorldPosition())
+    line:FacePoint(target:GetPosition())
+    line.components.stretcher:SetStretchTarget(target)
+    self.savedSsyLine[ssyGUID] = line
+  end
+  self.savedSsy[ssyGUID] = 1
+end
+
+-- 移除没统计到的线
+function yaemiko_skill:RemoveLine()
+  for i,v in pairs(self.savedSsy) do
+    if v == 0 then
+      if self.savedSsyLine[i] ~= nil then
+        self.savedSsyLine[i]:Remove()
+        table.remove(self.savedSsyLine,i)
+      end
+      table.remove(self.savedSsy,i)
+    end
+  end
+end
+
+-- 移除所有线
+function yaemiko_skill:CleanUpLine()
+  for i,v in pairs(self.savedSsy) do
+    if self.savedSsyLine[i]~=nil then
+      self.savedSsyLine[i]:Remove()
+      table.remove(self.savedSsyLine,i)
+    end
+    table.remove(self.savedSsy,i)
+  end
+end
 
 --获取杀生樱计时
 function yaemiko_skill:GetRemainCnt()
@@ -103,30 +152,10 @@ end
 local CANT_TAGS = {"INLIMBO", "player", "chester", "companion","wall","abigail"}
 
 -- local LIGHTNINGSTRIKE_ONEOF_TAGS = { "lightningrod", "lightningtarget", "blows_air" }
-function yaemiko_skill:luolei()
-	local x, y, z = self.inst.Transform:GetWorldPosition()
+function yaemiko_skill:luolei(x,y,z,amtSsy)
 	local ents = TheSim:FindEntities(x, y, z, 14, nil, CANT_TAGS,nil)--杀生樱索敌距离
 	local damage = self:GetDamage()
-    local amtSsy = 0
 
-  --寻找附近杀生樱，距离7
-    local ssycnt = TheSim:FindEntities(x, y, z, 7, {"shashengying"}, nil,nil)
-    for i,v in pairs(ssycnt) do
-        --检查距离内同一玩家的杀生樱数量
-        if v.components.yaemiko_skill:GetUID()==self:GetUID() then
-        amtSsy = amtSsy + 1
-        end
-    end
-    -- print(self:GetUID(),"有效杀生樱数量：",amtSsy)
-    --防止爆数量
-    if amtSsy >3 then
-        amtSsy = 3
-    --附近没找到同一玩家的杀生樱
-    --在落雷时如果此语句被触发必然是有BUG了
-    elseif amtSsy == 0 then
-        print("YaeMiko[ERROR]:Requested Luolei but cannot found Sessyouusakura created by player with userid:",self.inst.userid)
-        return false
-    end
     -- 充能特效
     SpawnPrefab("electricchargedfx"):SetTarget(self.inst)
     --乘算杀生樱伤害
@@ -212,6 +241,8 @@ function yaemiko_skill:aoeQ(damage)
         if inst then
           local ix,iy,iz=inst.Transform:GetWorldPosition()
           SpawnPrefab("lightning_rod_fx").Transform:SetPosition(ix,iy-3,iz)
+          --清除杀生樱连线
+          inst.components.yaemiko_skill:CleanUpLine()
           inst:Remove()
         end
       end)
