@@ -107,12 +107,17 @@ local function createline()
 	inst.AnimState:SetBank("fx")
 	inst.AnimState:SetBuild("yaemiko_fx")
 	
-	-- 不应该在地面,但不在地面，拉伸组件就不起作用
+	-- 不应该在地面,但不在地面，拉伸组件就不起作用。不调用SetLayer依旧可以渲染在上层。
     inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
-    inst.AnimState:SetLayer(LAYER_BACKGROUND)
-    inst.AnimState:SetSortOrder(3)
 	
     inst.AnimState:PlayAnimation("ssyline", true)
+
+	inst.entity:AddLight()
+	inst.Light:SetFalloff(1)
+    inst.Light:SetIntensity(.4)
+    inst.Light:SetRadius(.5)
+    inst.Light:SetColour(130/255, 0/255, 255/255)
+    inst.Light:Enable(true)
 
     inst.entity:SetPristine()
 
@@ -122,7 +127,7 @@ local function createline()
 
     inst:AddComponent("stretcher")
     inst.components.stretcher:SetRestingLength(4.75)
-    inst.components.stretcher:SetWidthRatio(.35)
+    inst.components.stretcher:SetWidthRatio(0)
 
     inst.persists = false
 
