@@ -93,4 +93,41 @@ local function summonssy()
 	return inst
 end
 
-return Prefab("shashengying",summonssy,assets)
+local function createline()
+	-- shadowhand.lua
+	local inst = CreateEntity()
+
+    inst:AddTag("NOCLICK")
+    inst:AddTag("FX")
+
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddNetwork()
+
+	inst.AnimState:SetBank("fx")
+	inst.AnimState:SetBuild("yaemiko_fx")
+	
+	-- 不应该在地面,但不在地面，拉伸组件就不起作用
+    inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
+    inst.AnimState:SetLayer(LAYER_BACKGROUND)
+    inst.AnimState:SetSortOrder(3)
+	
+    inst.AnimState:PlayAnimation("ssyline", true)
+
+    inst.entity:SetPristine()
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+
+    inst:AddComponent("stretcher")
+    inst.components.stretcher:SetRestingLength(4.75)
+    inst.components.stretcher:SetWidthRatio(.35)
+
+    inst.persists = false
+
+    return inst
+end
+
+return Prefab("shashengying",summonssy,assets),
+	Prefab("ssyline",createline,assets)
