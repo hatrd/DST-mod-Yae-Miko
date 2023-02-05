@@ -1,19 +1,14 @@
 PrefabFiles = {
 	"yaemiko",
 	"yaemiko_none",
-  "yaemiko_fx",
-  "yushou",
+  	"yaemiko_fx",
+	"yaemiko_lightning",
+  	"yushou",
 }
 
 Assets = {
     Asset( "IMAGE", "images/saveslot_portraits/yaemiko.tex" ),
     Asset( "ATLAS", "images/saveslot_portraits/yaemiko.xml" ),
-
-    -- Asset( "IMAGE", "images/selectscreen_portraits/yaemiko.tex" ),
-    -- Asset( "ATLAS", "images/selectscreen_portraits/yaemiko.xml" ),
-	
-    -- Asset( "IMAGE", "images/selectscreen_portraits/yaemiko_silho.tex" ),
-    -- Asset( "ATLAS", "images/selectscreen_portraits/yaemiko_silho.xml" ),
 
     Asset( "IMAGE", "bigportraits/yaemiko.tex" ),
     Asset( "ATLAS", "bigportraits/yaemiko.xml" ),
@@ -36,10 +31,6 @@ Assets = {
 	Asset( "IMAGE", "images/names_gold_yaemiko.tex" ),
     Asset( "ATLAS", "images/names_gold_yaemiko.xml" ),
 
-    
-	-- Asset( "IMAGE", "images/hud/paimon.tex" ),
-	-- Asset( "ATLAS", "images/hud/paimon.xml" ),
-
 	Asset( "IMAGE", "images/skills/yaemiko_skill_0.tex" ),
 	Asset( "ATLAS", "images/skills/yaemiko_skill_0.xml" ),
 
@@ -54,6 +45,9 @@ Assets = {
 
   
 	Asset( "ANIM", "anim/yaemiko_energy.zip" ),
+
+    Asset("SOUNDPACKAGE", "sound/yaemiko_sfx.fev"),
+	Asset("SOUND", "sound/yaemiko_sfx.fsb"),
 }
 
 AddMinimapAtlas("images/map_icons/yaemiko.xml")

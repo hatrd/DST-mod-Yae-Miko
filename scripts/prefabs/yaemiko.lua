@@ -9,6 +9,8 @@ TUNING.YAEMIKO_HEALTH = 100
 TUNING.YAEMIKO_HUNGER = 150
 TUNING.YAEMIKO_SANITY = 200
 
+-- 基本技能伤害
+TUNING.YAEMIKO_SKILL_DAMAGE_BASE = 20
 
 -- 初始道具
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.YAEMIKO = {
@@ -45,21 +47,38 @@ local function onload(inst)
 end
 
 ----------人物技能区------------------------------------------
---计算主手伤害 参考Yus的代码
+--计算技能基准伤害 参考Yus的代码
 local function yaemiko_nowdamage(inst_f)
     --不会有人没有物品栏吧
     if inst_f.components.inventory then
         local item = inst_f.components.inventory.equipslots[EQUIPSLOTS.HANDS]
-        --有的模组武器damage是个函数，需要避免它是其他东西
-        if item and item.components.weapon and type(item.components.weapon.damage)=="number" then
-            --当主手持有武器，基本伤害为武器伤害+20
-            return item.components.weapon.damage+20
+        --有的模组武器damage是个函数，需要避免它是其他东西，防止(万一的)哪个奇怪武器伤害低于10
+        if item and item.components.weapon and type(item.components.weapon.damage)=="number" and item.components.weapon.damage>10 then
+            --当主手持有武器，基准伤害为武器伤害 + 基本伤害
+            return item.components.weapon.damage + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+        --奇奇怪怪模组武器的单独支持，尤其是原神相关
+        elseif item and item.components.weapon and type(item.components.weapon.damage)=="function" then
+            if item.prefab == "element_spear" then --元素反应：元素长矛
+                --[[元素反应的damage函数，参数weapon,attacker,target
+                    return item.components.weapon:damage(nil,inst_f,nil) + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+                    目前元素反应的长矛伤害是固定的原版长矛伤害，保险起见先使用固定值，雷电将军的武器亦同]]
+                return TUNING.SPEAR_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+            elseif item.prefab == "engulfinglightning" and type(TUNING.ENGULFINGLIGHTNING_DAMAGE)=="number" then --雷电将军：薙草之稻光
+                return TUNING.ENGULFINGLIGHTNING_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+            elseif item.prefab == "favoniuslance" and type(TUNING.FAVONIUSLANCE_DAMAGE)=="number" then --雷电将军：西风长枪
+                return TUNING.FAVONIUSLANCE_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+            elseif item.prefab == "thecatch" and type(TUNING.THECATCH_DAMAGE)=="number" then --雷电将军：渔获
+                return TUNING.THECATCH_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+            else
+                return 10 + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+            end
         else
-            --其他情况给30基本伤害保底
-            return 30
+            --其他情况给10基本伤害保底
+            return 10 + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
         end
     end
 end
+
 local function yaemiko_skill(inst)
     if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
     if not (inst.sg:HasStateTag("busy") or inst.sg:HasStateTag("doing") or inst.sg.statemem.heavy) then
@@ -89,12 +108,12 @@ local function yaemiko_skill(inst)
                 --生成杀生樱
                 local ssy = SpawnPrefab("shashengying")
                 if inst.components.playeractionpicker and inst.components.playeractionpicker.map:IsPassableAtPoint(x+tx, y, z+tz) then
-
                     inst.Transform:SetPosition(x+tx, y, z+tz)
                     ssy.Transform:SetPosition(x+tx/2,y,z+tz/2)
                 else
                     ssy.Transform:SetPosition(x,y,z)
                 end
+                ssy.Transform:SetRotation(60)
                 --记录杀生樱信息
                 ssy.components.yaemiko_skill:SsySetInit(inst.userid,yaemiko_nowdamage(inst))
                 inst.components.sanity:DoDelta(-0.3)
@@ -118,6 +137,8 @@ local function yaemiko_skill(inst)
                             if para then
                             local ix,iy,iz=para.Transform:GetWorldPosition()
                             SpawnPrefab("lightning_rod_fx").Transform:SetPosition(ix,iy-3,iz)
+                            --清除杀生樱连线
+                            para.components.yaemiko_skill:CleanUpLine()
                             para:Remove()
                             end
                         end)
