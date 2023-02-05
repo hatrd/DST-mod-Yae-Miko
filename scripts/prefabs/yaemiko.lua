@@ -108,12 +108,12 @@ local function yaemiko_skill(inst)
                 --生成杀生樱
                 local ssy = SpawnPrefab("shashengying")
                 if inst.components.playeractionpicker and inst.components.playeractionpicker.map:IsPassableAtPoint(x+tx, y, z+tz) then
-
                     inst.Transform:SetPosition(x+tx, y, z+tz)
                     ssy.Transform:SetPosition(x+tx/2,y,z+tz/2)
                 else
                     ssy.Transform:SetPosition(x,y,z)
                 end
+                ssy.Transform:SetRotation(60)
                 --记录杀生樱信息
                 ssy.components.yaemiko_skill:SsySetInit(inst.userid,yaemiko_nowdamage(inst))
                 inst.components.sanity:DoDelta(-0.3)
@@ -137,6 +137,8 @@ local function yaemiko_skill(inst)
                             if para then
                             local ix,iy,iz=para.Transform:GetWorldPosition()
                             SpawnPrefab("lightning_rod_fx").Transform:SetPosition(ix,iy-3,iz)
+                            --清除杀生樱连线
+                            para.components.yaemiko_skill:CleanUpLine()
                             para:Remove()
                             end
                         end)
