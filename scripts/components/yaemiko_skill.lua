@@ -42,8 +42,7 @@ function yaemiko_skill:RecordLine(target)
   -- 如果是没被记录在案的GUID
   if self.savedSsy[ssyGUID] == nil then
     -- 生成连线
-    -- 注意！目前连线暂时由暗影手_手臂替代，请不要进行发布。
-    local line = SpawnPrefab("shadowhand_arm")
+    local line = SpawnPrefab("ssyline")
     line.Transform:SetPosition(self.inst.Transform:GetWorldPosition())
     line:FacePoint(target:GetPosition())
     line.components.stretcher:SetStretchTarget(target)
