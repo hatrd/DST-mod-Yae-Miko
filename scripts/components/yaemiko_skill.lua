@@ -150,17 +150,13 @@ local CANT_TAGS = {"INLIMBO", "player", "chester", "companion","wall","abigail"}
 
 -- local LIGHTNINGSTRIKE_ONEOF_TAGS = { "lightningrod", "lightningtarget", "blows_air" }
 function yaemiko_skill:luolei(x,y,z,amtSsy)
-	local ents = TheSim:FindEntities(x, y, z, 14, nil, CANT_TAGS,nil)--杀生樱索敌距离
-	local damage = self:GetDamage()
+    local ents = TheSim:FindEntities(x, y, z, 12, nil, CANT_TAGS,nil)--杀生樱索敌距离
+    local damage = self:GetDamage()
 
     -- 充能特效
     SpawnPrefab("electricchargedfx"):SetTarget(self.inst)
     --乘算杀生樱伤害
     damage = damage*self.ssyDamageMultiply[amtSsy]
-	-- if not target then
-	-- 	-- SpawnPrefab("thunder").Transform:SetPosition(x+math.random(-5, 5), y, z+math.random(-5, 5))
-	-- 	return
-	-- end
 
 	for i, v in pairs(ents) do
     --打避雷针
@@ -177,48 +173,23 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
 			end
 		end
 	end
-
+    
 	local tgt = GetRandomInstWithTag("yaemikotarget", self.inst, 12)
 	if tgt == nil then
-		--SpawnPrefab("thunder").Transform:SetPosition(x+math.random(-5, 5), y, z+math.random(-5, 5))
-    --未有效命中
-    return false
+        return false
 	else
 		SpawnPrefab("yaemiko_lightning").Transform:SetPosition(tgt.Transform:GetWorldPosition())
 		-- self.attacker:AddTag("noenergy")
- 
 		tgt.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
 		-- self.attacker:RemoveTag("noenergy")
-    
-    --现在直接让玩家成为attacker，使用生物的默认被击回调
-    --[[
-    --受到杀生樱攻击的生物会定位玩家攻击或者远离杀生樱
-    local players = FindPlayersInRange(x, y, z, 15,true)
-    if players ~= nil then
-      for i, v in pairs(players) do
-        --寻找杀生樱的释放者，若找到则设置仇恨
-        if v and v.userid == self.ssyCreatorId then
-          tgt.components.combat:SuggestTarget(v)
-        end
-      end
-    else
-      --远离暂时没做
-      -- RunAway(tgt.inst, "shashengying", 12, 15)
-    end
-    ]]
-  
-
-		if tgt.components.sleeper and tgt.components.sleeper:IsAsleep() then
-			tgt.components.sleeper:WakeUp()
-		end
-    yaemiko_skill:FireCheck(tgt,damage)
+        yaemiko_skill:FireCheck(tgt,damage)
 	end
   --有效命中
   return true
 end
-AOE_MUST_TAGS={""}
-AOE_CANT_TAGS={""}
-AOE_ONEOF_TAGS={"hostile","bee"}
+-- local AOE_MUST_TAGS={""}
+-- local AOE_CANT_TAGS={""}
+local AOE_ONEOF_TAGS={"hostile","bee"}
 function yaemiko_skill:aoeQ(damage)
   local nearest = FindClosestEntity(self.inst, 12, true, nil, nil, AOE_ONEOF_TAGS, nil)
   -- local nearest = GetClosestInstWithTag({"hostile"}, self.inst, 12)
@@ -230,7 +201,7 @@ function yaemiko_skill:aoeQ(damage)
     end)
 		return
   end
-       
+
   self.inst.components.energy:DoDelta(-90)
   local x, y, z = self.inst.Transform:GetWorldPosition()
   local attackcnt=0
