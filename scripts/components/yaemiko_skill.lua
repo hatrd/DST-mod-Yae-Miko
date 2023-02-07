@@ -159,12 +159,16 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
     damage = damage*self.ssyDamageMultiply[amtSsy]
 
 	for i, v in pairs(ents) do
-    --打避雷针
+    --打避雷针.
     if v:HasTag("lightningrod") then
-      SpawnPrefab("yaemiko_lightning").Transform:SetPosition(v.Transform:GetWorldPosition())
-      v:PushEvent("lightningstrike")
-      --未有效命中
-      return false
+        -- 用于检验伏特羊，避免挂了还在挨雷劈
+        if v.components.combat and (v.components.health and v.components.health:IsDead()) then
+            return false
+        end
+        SpawnPrefab("yaemiko_lightning").Transform:SetPosition(v.Transform:GetWorldPosition())
+        v:PushEvent("lightningstrike")
+        --未有效命中
+        return false
     end
 		if v ~= self.inst and v:IsValid() and not v:IsInLimbo() then
 			if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
