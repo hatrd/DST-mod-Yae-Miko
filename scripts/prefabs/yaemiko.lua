@@ -133,8 +133,8 @@ local function yaemiko_skill(inst)
                 ssy.components.yaemiko_skill:SsySetInit(inst,yaemiko_nowdamage(inst))
                 inst.components.sanity:DoDelta(-0.3)
 
-                --寻找附近杀生樱，距离20
-                local ssycnt = TheSim:FindEntities(x, y, z, 20, {"shashengying"}, nil,nil)
+                --寻找附近杀生樱，距离20不够。比如在屏幕边缘放
+                local ssycnt = TheSim:FindEntities(x, y, z, 32, {"shashengying"}, nil,nil)
                 local leastSsy = nil
                 local amtSsy = 0
                 for i,v in pairs(ssycnt) do

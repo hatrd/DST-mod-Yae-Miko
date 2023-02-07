@@ -216,9 +216,12 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
   --有效命中
   return true
 end
-
+AOE_MUST_TAGS={""}
+AOE_CANT_TAGS={""}
+AOE_ONEOF_TAGS={"hostile","bee"}
 function yaemiko_skill:aoeQ(damage)
-  local nearest = GetClosestInstWithTag({"hostile"}, self.inst, 12)
+  local nearest = FindClosestEntity(self.inst, 12, true, nil, nil, AOE_ONEOF_TAGS, nil)
+  -- local nearest = GetClosestInstWithTag({"hostile"}, self.inst, 12)
   if nearest == nil then
     self.inst:DoTaskInTime(0.1, function()
       if self.inst.components.talker then
