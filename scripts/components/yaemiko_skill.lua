@@ -11,8 +11,6 @@ local yaemiko_skill = Class(function(self, inst)
   self.ssyCreatorId = nil --释放本杀生樱的玩家uid/玩家uid
 
 	self.dmg = 10
-	self.mult = 1
-	self.bonus = 0
 
 	self.engenr = false
 	self.jden = false
@@ -99,21 +97,14 @@ end
 
 --获取杀生樱基本伤害
 function yaemiko_skill:GetDamage()
-	if self.attacker.components.combat then
-		if self.attacker.components.combat.damagemultiplier ~= nil then
-			self.mult = self.attacker.components.combat.damagemultiplier
-		end
-		if self.attacker.components.combat.damagebonus then
-			self.bonus = self.attacker.components.combat.damagebonus
-		end
-	end
-	return self.dmg * self.mult + self.bonus
+	return self.dmg
 end
 
 --初始化杀生樱参数
-function yaemiko_skill:SsySetInit(creatorId,damage)
+function yaemiko_skill:SsySetInit(creator,damage)
   self.dmg = damage
-  self.ssyCreatorId = creatorId
+  self.attacker = creator
+  self.ssyCreatorId = creator.userid
 end
 
 --初始化神子参数
@@ -199,6 +190,8 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
 		tgt.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
 		-- self.attacker:RemoveTag("noenergy")
     
+    --现在直接让玩家成为attacker，使用生物的默认被击回调
+    --[[
     --受到杀生樱攻击的生物会定位玩家攻击或者远离杀生樱
     local players = FindPlayersInRange(x, y, z, 15,true)
     if players ~= nil then
@@ -212,6 +205,7 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
       --远离暂时没做
       -- RunAway(tgt.inst, "shashengying", 12, 15)
     end
+    ]]
   
 
 		if tgt.components.sleeper and tgt.components.sleeper:IsAsleep() then

@@ -47,36 +47,51 @@ local function onload(inst)
 end
 
 ----------人物技能区------------------------------------------
---计算技能基准伤害 参考Yus的代码
+--计算技能基本伤害 参考Yus的代码
 local function yaemiko_nowdamage(inst_f)
+    local atkMult = 1 --圣遗物伤害倍率
+    local atkBonus = 0 --圣遗物伤害加成
+    local atkDamage = 30 --基准伤害
+    --获取基准伤害
     --不会有人没有物品栏吧
     if inst_f.components.inventory then
         local item = inst_f.components.inventory.equipslots[EQUIPSLOTS.HANDS]
         --有的模组武器damage是个函数，需要避免它是其他东西，防止(万一的)哪个奇怪武器伤害低于10
         if item and item.components.weapon and type(item.components.weapon.damage)=="number" and item.components.weapon.damage>10 then
             --当主手持有武器，基准伤害为武器伤害 + 基本伤害
-            return item.components.weapon.damage + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+            atkDamage = item.components.weapon.damage + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
         --奇奇怪怪模组武器的单独支持，尤其是原神相关
         elseif item and item.components.weapon and type(item.components.weapon.damage)=="function" then
             if item.prefab == "element_spear" then --元素反应：元素长矛
                 --[[元素反应的damage函数，参数weapon,attacker,target
-                    return item.components.weapon:damage(nil,inst_f,nil) + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+                    atkDamage = item.components.weapon:damage(nil,inst_f,nil) + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
                     目前元素反应的长矛伤害是固定的原版长矛伤害，保险起见先使用固定值，雷电将军的武器亦同]]
-                return TUNING.SPEAR_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+                    atkDamage = TUNING.SPEAR_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
             elseif item.prefab == "engulfinglightning" and type(TUNING.ENGULFINGLIGHTNING_DAMAGE)=="number" then --雷电将军：薙草之稻光
-                return TUNING.ENGULFINGLIGHTNING_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+                atkDamage = TUNING.ENGULFINGLIGHTNING_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
             elseif item.prefab == "favoniuslance" and type(TUNING.FAVONIUSLANCE_DAMAGE)=="number" then --雷电将军：西风长枪
-                return TUNING.FAVONIUSLANCE_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+                atkDamage = TUNING.FAVONIUSLANCE_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
             elseif item.prefab == "thecatch" and type(TUNING.THECATCH_DAMAGE)=="number" then --雷电将军：渔获
-                return TUNING.THECATCH_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+                atkDamage = TUNING.THECATCH_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
             else
-                return 10 + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+                atkDamage = 10 + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
             end
         else
-            --其他情况给10基本伤害保底
-            return 10 + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+            --其他情况给10伤害保底
+            atkDamage = 10 + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
         end
     end
+    if inst_f.components.combat then
+        --获取圣遗物倍率加成，我真的怕了全做number检查算了
+		if type(inst_f.components.combat.damagemultiplier)=="number" then
+			atkMult = inst_f.components.combat.damagemultiplier
+		end
+        --获取圣遗物数值加成，我真的怕了全做number检查算了
+		if type(inst_f.components.combat.damagebonus)=="number" then
+			atkBonus = inst_f.components.combat.damagebonus
+		end
+	end
+    return atkDamage * atkMult + atkBonus
 end
 
 local function yaemiko_skill(inst)
@@ -115,7 +130,7 @@ local function yaemiko_skill(inst)
                 end
                 ssy.Transform:SetRotation(60)
                 --记录杀生樱信息
-                ssy.components.yaemiko_skill:SsySetInit(inst.userid,yaemiko_nowdamage(inst))
+                ssy.components.yaemiko_skill:SsySetInit(inst,yaemiko_nowdamage(inst))
                 inst.components.sanity:DoDelta(-0.3)
 
                 --寻找附近杀生樱，距离20
