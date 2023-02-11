@@ -166,6 +166,14 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
             return false
         end
         SpawnPrefab("yaemiko_lightning").Transform:SetPosition(v.Transform:GetWorldPosition())
+        if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
+		    -- 给伏特羊伤害。
+            v.components.combat:GetAttacked(nil, damage, nil, "electro")
+            -- 手动设置仇恨。虽然伏特羊被雷击后进入攻击状态，但玩家太远会原地发呆。
+            v.components.combat:SuggestTarget(self.attacker)
+            v:PushEvent("lightningstrike")
+            return true
+        end
         v:PushEvent("lightningstrike")
         --未有效命中
         return false
@@ -193,7 +201,7 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
 end
 -- local AOE_MUST_TAGS={""}
 -- local AOE_CANT_TAGS={""}
-local AOE_ONEOF_TAGS={"hostile","bee"}
+local AOE_ONEOF_TAGS={"hostile","bee","lightninggoat"}
 function yaemiko_skill:aoeQ(damage)
   local nearest = FindClosestEntity(self.inst, 12, true, nil, nil, AOE_ONEOF_TAGS, nil)
   -- local nearest = GetClosestInstWithTag({"hostile"}, self.inst, 12)
@@ -203,7 +211,7 @@ function yaemiko_skill:aoeQ(damage)
         self.inst.components.talker:Say("附近没有什么有趣的东西呢。")
       end
     end)
-		return
+    return
   end
 
   self.inst.components.energy:DoDelta(-90)
@@ -236,11 +244,12 @@ function yaemiko_skill:aoeQ(damage)
   --根据坐标范围伤害
   self.inst.sg:GoToState("cookbook_close")     
   SpawnPrefab("yaemiko_lightning").Transform:SetPosition(x,y,z)
-  local ents = TheSim:FindEntities(x, y, z, 3, nil, CANT_TAGS,nil)
+  local ents = TheSim:FindEntities(x, y, z, 5, nil, CANT_TAGS,nil)
     for i, v in pairs(ents) do
         if v:IsValid() and not v:IsInLimbo() then
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
-            v.components.combat:GetAttacked(self.attacker, damage*self.thxzDamageMultiply[1], nil, "electro")
+            -- 来源为nil，是为了避免被伏特羊返雷
+            v.components.combat:GetAttacked(nil, damage*self.thxzDamageMultiply[1], nil, "electro")
             -- v.sg:GoToState("electrocute")
             yaemiko_skill:FireCheck(v,damage*self.thxzDamageMultiply[1])
 
@@ -259,7 +268,8 @@ function yaemiko_skill:aoeQ(damage)
       for i, v in pairs(ents) do
         if v:IsValid() and not v:IsInLimbo() then
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
-            v.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
+            -- 来源为nil，是为了避免被伏特羊返雷
+            v.components.combat:GetAttacked(nil, damage, nil, "electro")
           end
           yaemiko_skill:FireCheck(v,damage)
         end
