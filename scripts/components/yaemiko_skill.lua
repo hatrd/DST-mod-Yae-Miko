@@ -199,11 +199,11 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
   --有效命中
   return true
 end
--- local AOE_MUST_TAGS={""}
--- local AOE_CANT_TAGS={""}
-local AOE_ONEOF_TAGS={"hostile","bee","lightninggoat"}
+local AOE_MUST_TAGS={"_combat"} --似乎筛选功能不大。
+-- local AOE_CANT_TAGS={"player"} 沿用E技能的CANT_TAG
+-- local AOE_ONEOF_TAGS={"hostile","bee","lightninggoat"}
 function yaemiko_skill:aoeQ(damage)
-  local nearest = FindClosestEntity(self.inst, 12, true, nil, nil, AOE_ONEOF_TAGS, nil)
+  local nearest = FindClosestEntity(self.inst, 12, true, AOE_MUST_TAGS, CANT_TAGS, nil, nil)
   -- local nearest = GetClosestInstWithTag({"hostile"}, self.inst, 12)
   if nearest == nil then
     self.inst:DoTaskInTime(0.1, function()
