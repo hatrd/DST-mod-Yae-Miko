@@ -116,7 +116,7 @@ end)
 
 
 --添加合成
-local yaemikotab = AddRecipeTab(STRINGS.NAMES.YAEMIKO, 88, "images/hud/paimon.xml", nil, "yaemiko")
+local yaemikotab = AddRecipeTab(STRINGS.NAMES.YAEMIKO, 88, nil, nil, "yaemiko")
 AddRecipe("yushou",{Ingredient("papyrus", 1),Ingredient("boards", 1),Ingredient("nightmarefuel",2)},
 yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yushou.xml")
 AddRecipe("yubi",{Ingredient("papyrus", 2),Ingredient("purplegem", 1),Ingredient("twigs", 1),},
