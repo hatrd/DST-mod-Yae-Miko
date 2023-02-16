@@ -56,7 +56,7 @@ local function fn()
   anim:SetBuild("yushou")
   anim:PlayAnimation("idle")
 
-
+	MakeInventoryFloatable(inst)
   
   inst.entity:SetPristine()
 

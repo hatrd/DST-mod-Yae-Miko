@@ -1,52 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
     <folder id="0" name="ground_yubi">
-        <file id="0" name="ground_yubi/ground_yubi-0.png" width="190" height="285" pivot_x="0.468586" pivot_y="0.0856643"/>
-        <file id="1" name="ground_yubi/ground_yubi-1.png" width="190" height="285" pivot_x="0.510471" pivot_y="0.844406"/>
+        <file id="0" name="ground_yubi/ground_yubi.png" width="190" height="285" pivot_x="0.466151" pivot_y="0.102731"/>
+        <file id="1" name="ground_yubi/grass.png" width="65" height="46" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="1" name="swap_yubi">
+        <file id="0" name="swap_yubi/swap_yubi-0.png" width="190" height="285" pivot_x="0.458115" pivot_y="0.141608"/>
+        <file id="1" name="swap_yubi/swap_yubi-1.png" width="190" height="285" pivot_x="0.447644" pivot_y="0.103147"/>
+        <file id="2" name="swap_yubi/swap_yubi-2.png" width="190" height="285" pivot_x="0.458115" pivot_y="0.113636"/>
     </folder>
     <entity id="0" name="yubi">
-        <animation id="0" name="idle" length="4000">
+        <animation id="0" name="idle" length="1000">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" name="ground_yubi-1" folder="0" file="1" abs_x="10.989529" abs_y="216.655594" abs_pivot_x="0.510471" abs_pivot_y="0.844406" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="0"/>
-                    <object_ref id="1" name="ground_yubi-0" folder="0" file="0" abs_x="1.031414" abs_y="-0.585664" abs_pivot_x="0.468586" abs_pivot_y="0.085664" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="1"/>
-                </key>
-                <key id="1" time="1812">
-                    <object_ref id="0" timeline="1" key="1" z_index="0"/>
-                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
-                </key>
-                <key id="2" time="2156">
-                    <object_ref id="0" timeline="1" key="2" z_index="0"/>
-                    <object_ref id="1" timeline="0" key="1" z_index="1"/>
-                </key>
-                <key id="3" time="3976">
-                    <object_ref id="0" timeline="1" key="3" z_index="0"/>
-                    <object_ref id="1" timeline="0" key="2" z_index="1"/>
+                    <object_ref id="0" name="ground_yubi" folder="0" file="0" abs_x="4.045812" abs_y="10.534091" abs_pivot_x="0.466151" abs_pivot_y="0.102731" abs_angle="0" abs_scale_x="1.353403" abs_scale_y="1.344406" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="grass" folder="0" file="1" abs_x="-31" abs_y="30" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
                 </key>
             </mainline>
-            <timeline id="0" name="ground_yubi-0">
+            <timeline id="0" name="ground_yubi">
                 <key id="0" spin="0">
-                    <object folder="0" file="0" x="1.031414" y="-0.585664" angle="0"/>
-                </key>
-                <key id="1" time="2156" spin="0">
-                    <object folder="0" file="0" x="1.031414" y="-0.585664" angle="0"/>
-                </key>
-                <key id="2" time="3976" spin="0">
-                    <object folder="0" file="0" x="1.031414" y="-0.585664" angle="0"/>
+                    <object folder="0" file="0" x="4.045812" y="10.534091" angle="0" scale_x="1.353403" scale_y="1.344406"/>
                 </key>
             </timeline>
-            <timeline id="1" name="ground_yubi-1">
+            <timeline id="1" name="grass">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-31" y="30" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="BUILD_PLAYER" length="1000">
+            <mainline>
                 <key id="0">
-                    <object folder="0" file="1" x="10.989529" y="216.655594" angle="0"/>
+                    <object_ref id="0" name="swap_yubi-0" folder="1" file="0" abs_x="-326.958115" abs_y="59.358392" abs_pivot_x="0.458115" abs_pivot_y="0.141608" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" name="swap_yubi-1" folder="1" file="1" abs_x="-7.947644" abs_y="52.396853" abs_pivot_x="0.447644" abs_pivot_y="0.103147" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" name="swap_yubi-2" folder="1" file="2" abs_x="311.041885" abs_y="51.386364" abs_pivot_x="0.458115" abs_pivot_y="0.113636" abs_angle="0" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="2" key="0" z_index="2"/>
                 </key>
-                <key id="1" time="1812" spin="0">
-                    <object folder="0" file="1" x="10.989529" y="216.655594" angle="2"/>
+            </mainline>
+            <timeline id="0" name="swap_yubi-0">
+                <key id="0" spin="0">
+                    <object folder="1" file="0" x="-326.958115" y="59.358392" angle="0"/>
                 </key>
-                <key id="2" time="2156" spin="-1">
-                    <object folder="0" file="1" x="10.989529" y="216.655594" angle="2"/>
+            </timeline>
+            <timeline id="1" name="swap_yubi-1">
+                <key id="0" spin="0">
+                    <object folder="1" file="1" x="-7.947644" y="52.396853" angle="0"/>
                 </key>
-                <key id="3" time="3976" spin="0">
-                    <object folder="0" file="1" x="10.989529" y="216.655594" angle="0"/>
+            </timeline>
+            <timeline id="2" name="swap_yubi-2">
+                <key id="0" spin="0">
+                    <object folder="1" file="2" x="311.041885" y="51.386364" angle="0"/>
                 </key>
             </timeline>
         </animation>
