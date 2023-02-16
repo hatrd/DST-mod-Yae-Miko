@@ -14,7 +14,7 @@ TUNING.YAEMIKO_SKILL_DAMAGE_BASE = 20
 
 -- 初始道具
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.YAEMIKO = {
-	"yushou",
+	"yushou","yubi",
 }
 
 local start_inv = {}

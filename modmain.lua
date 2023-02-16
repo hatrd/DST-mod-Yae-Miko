@@ -4,6 +4,7 @@ PrefabFiles = {
   	"yaemiko_fx",
 	"yaemiko_lightning",
   	"yushou",
+	"yubi",
 }
 
 Assets = {
@@ -89,10 +90,14 @@ local skin_modes = {
     },
 }
 
---添加御守图片
+--添加御守、御币图片
 TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yushou = {
 	atlas = "images/inventoryimages/yushou.xml",
 	image = "yushou.tex"
+}
+TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yubi = {
+	atlas = "images/inventoryimages/yubi.xml",
+	image = "yubi.tex"
 }
 --技能图标
 local energy = require("widgets/yaemiko_energy")
@@ -111,10 +116,11 @@ end)
 
 
 --添加合成
-local yaemikotab = AddRecipeTab(STRINGS.NAMES.YAEMIKO, 88, "images/hud/paimon.xml", "paimon.tex", "yaemiko")
+local yaemikotab = AddRecipeTab(STRINGS.NAMES.YAEMIKO, 88, nil, nil, "yaemiko")
 AddRecipe("yushou",{Ingredient("papyrus", 2),Ingredient("boards", 1),},
 yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yushou.xml")
-
+AddRecipe("yubi",{Ingredient("papyrus", 2),Ingredient("purplegem", 1),Ingredient("twigs", 1),},
+yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yubi.xml")
 
 ---------------技能
 AddModRPCHandler("yaemiko", "yaemiko_burst", function(inst) inst:PushEvent("yaemiko_burst") end)
