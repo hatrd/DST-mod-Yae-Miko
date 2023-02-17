@@ -120,8 +120,8 @@ local function yaemiko_skill(inst)
                 
                 local ssy = SpawnPrefab("shashengying")
 
-                player.components.playercontroller:Enable(false)
-                player.components.locomotor:StopMoving()
+                inst.components.playercontroller:Enable(false)
+                inst.components.locomotor:StopMoving()
                 for v = 0,6,2 do
                     -- 0,2,4,6逐步试探
                     local tx = v * math.sin(angle)
@@ -133,7 +133,7 @@ local function yaemiko_skill(inst)
                         break
                     end
                 end
-                player.components.playercontroller:Enable(true)
+                inst.components.playercontroller:Enable(true)
                 
 
                 --记录杀生樱信息
