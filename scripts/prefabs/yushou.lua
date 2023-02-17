@@ -17,7 +17,6 @@ local function OnEquip(inst, owner)
   inst:DoTaskInTime(0.2, function(inst)
       inst.battlesan=inst:DoPeriodicTask(4, function()
         if owner.components.combat and owner.components.combat.target and owner.components.sanity then
-          -- print("回san-是否有攻击目标")
           owner.components.sanity:DoDelta(3)
         end
       end)

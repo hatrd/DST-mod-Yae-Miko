@@ -148,7 +148,6 @@ end
 
 local CANT_TAGS = {"INLIMBO", "player", "chester", "companion","wall","abigail"}
 local MUST_TAGS = {"_combat"}
--- local LIGHTNINGSTRIKE_ONEOF_TAGS = { "lightningrod", "lightningtarget", "blows_air" }
 function yaemiko_skill:luolei(x,y,z,amtSsy)
     --为了打避雷针，MUST_TAGS为nil
     local ents = TheSim:FindEntities(x, y, z, 12, nil, CANT_TAGS,nil)
@@ -156,11 +155,10 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
 
     -- 充能特效
     SpawnPrefab("electricchargedfx"):SetTarget(self.inst)
-    --乘算杀生樱伤害
     damage = damage*self.ssyDamageMultiply[amtSsy]
 
 	for i, v in pairs(ents) do
-    --打避雷针.
+    --打避雷针
     if v:HasTag("lightningrod") then
         -- 用于检验伏特羊，避免挂了还在挨雷劈
         if v.components.combat and (v.components.health and v.components.health:IsDead()) then
@@ -189,13 +187,11 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
     
 	local tgt = GetRandomInstWithTag("yaemikotarget", self.inst, 12)
 	if tgt == nil then
-        return false
+      return false
 	else
-		SpawnPrefab("yaemiko_lightning").Transform:SetPosition(tgt.Transform:GetWorldPosition())
-		-- self.attacker:AddTag("noenergy")
-		tgt.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
-		-- self.attacker:RemoveTag("noenergy")
-        yaemiko_skill:FireCheck(tgt,damage)
+      SpawnPrefab("yaemiko_lightning").Transform:SetPosition(tgt.Transform:GetWorldPosition())
+      tgt.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
+      yaemiko_skill:FireCheck(tgt,damage)
 	end
   --有效命中
   return true
@@ -249,7 +245,6 @@ function yaemiko_skill:aoeQ(damage)
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
             -- 来源为nil，是为了避免被伏特羊返雷
             v.components.combat:GetAttacked(nil, damage*self.thxzDamageMultiply[1], nil, "electro")
-            -- v.sg:GoToState("electrocute")
             yaemiko_skill:FireCheck(v,damage*self.thxzDamageMultiply[1])
 
           end

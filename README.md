@@ -13,3 +13,4 @@ Don't Starve Together Mod of Yae Miko in Genshin Impact.
 - 书本：《转身成为雷电将军，然后天下无敌》
 - 料理：福内乌冬（饥荒有油豆腐和面吗）
 - 在帐篷内睡觉可以放元素战技（非恶性bug，是特性）
+- 虽然大招生成了雷，但游戏的时候经常看不到。
