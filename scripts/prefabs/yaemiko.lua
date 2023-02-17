@@ -117,18 +117,20 @@ local function yaemiko_skill(inst)
 
                 local x, y, z = inst.Transform:GetWorldPosition()
                 local angle = (inst.Transform:GetRotation() + 90) * DEGREES
-                local tx = 6 * math.sin(angle)
-                local tz = 6 * math.cos(angle)
-
-                --生成杀生樱
+                
                 local ssy = SpawnPrefab("shashengying")
-                if inst.components.playeractionpicker and inst.components.playeractionpicker.map:IsPassableAtPoint(x+tx, y, z+tz) then
-                    inst.Transform:SetPosition(x+tx, y, z+tz)
-                    ssy.Transform:SetPosition(x+tx/2,y,z+tz/2)
-                else
-                    ssy.Transform:SetPosition(x,y,z)
+                for v = 0,6,2 do
+                    -- 0,2,4,6逐步试探
+                    local tx = v * math.sin(angle)
+                    local tz = v * math.cos(angle)
+                    if inst.components.playeractionpicker and inst.components.playeractionpicker.map:IsPassableAtPoint(x+tx, y, z+tz) then
+                        inst.Transform:SetPosition(x+tx, y, z+tz)
+                        ssy.Transform:SetPosition(x+tx/2,y,z+tz/2)
+                    else
+                        break
+                    end
                 end
-                ssy.Transform:SetRotation(60)
+
                 --记录杀生樱信息
                 ssy.components.yaemiko_skill:SsySetInit(inst,yaemiko_nowdamage(inst))
                 inst.components.sanity:DoDelta(-0.3)
@@ -159,6 +161,7 @@ local function yaemiko_skill(inst)
                         end)
                     end
                 end
+
             end
         end
     end

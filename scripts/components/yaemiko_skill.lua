@@ -147,10 +147,10 @@ function yaemiko_skill:FireCheck(v,damage)
 end
 
 local CANT_TAGS = {"INLIMBO", "player", "chester", "companion","wall","abigail"}
-
+local MUST_TAGS = {"_combat"}
 -- local LIGHTNINGSTRIKE_ONEOF_TAGS = { "lightningrod", "lightningtarget", "blows_air" }
 function yaemiko_skill:luolei(x,y,z,amtSsy)
-    local ents = TheSim:FindEntities(x, y, z, 12, nil, CANT_TAGS,nil)--杀生樱索敌距离
+    local ents = TheSim:FindEntities(x, y, z, 12, MUST_TAGS, CANT_TAGS,nil)--杀生樱索敌距离
     local damage = self:GetDamage()
 
     -- 充能特效
@@ -199,11 +199,9 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
   --有效命中
   return true
 end
-local AOE_MUST_TAGS={"_combat"} --似乎筛选功能不大。
--- local AOE_CANT_TAGS={"player"} 沿用E技能的CANT_TAG
--- local AOE_ONEOF_TAGS={"hostile","bee","lightninggoat"}
+
 function yaemiko_skill:aoeQ(damage)
-  local nearest = FindClosestEntity(self.inst, 12, true, AOE_MUST_TAGS, CANT_TAGS, nil, nil)
+  local nearest = FindClosestEntity(self.inst, 12, true, MUST_TAGS, CANT_TAGS, nil, nil)
   -- local nearest = GetClosestInstWithTag({"hostile"}, self.inst, 12)
   if nearest == nil then
     self.inst:DoTaskInTime(0.1, function()
@@ -244,7 +242,7 @@ function yaemiko_skill:aoeQ(damage)
   --根据坐标范围伤害
   self.inst.sg:GoToState("cookbook_close")     
   SpawnPrefab("yaemiko_lightning").Transform:SetPosition(x,y,z)
-  local ents = TheSim:FindEntities(x, y, z, 5, nil, CANT_TAGS,nil)
+  local ents = TheSim:FindEntities(x, y, z, 5, MUST_TAGS, CANT_TAGS,nil)
     for i, v in pairs(ents) do
         if v:IsValid() and not v:IsInLimbo() then
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
@@ -264,7 +262,7 @@ function yaemiko_skill:aoeQ(damage)
       local x1,y1,z1=nearest.Transform:GetWorldPosition()
       SpawnPrefab("yaemiko_lightning").Transform:SetPosition(x1,y1,z1)
       --伤害
-      local ents = TheSim:FindEntities(x1, y1, z1, 3, nil, CANT_TAGS,nil)
+      local ents = TheSim:FindEntities(x1, y1, z1, 3, MUST_TAGS, CANT_TAGS,nil)
       for i, v in pairs(ents) do
         if v:IsValid() and not v:IsInLimbo() then
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then

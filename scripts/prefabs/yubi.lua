@@ -69,12 +69,11 @@ local function fn()
     anim:SetBuild("yubi")
     anim:PlayAnimation("idle")
     
-    local tags= {"yaemiko_weapon","yubi","rangedweapon"}
-    if tags ~= nil then
-        for i, v in ipairs(tags) do
-            inst:AddTag(v)
-        end
-    end
+    inst:AddTag("yaemiko_weapon")
+    inst:AddTag("yubi")
+    inst:AddTag("rangedweapon")
+    -- 攻击时御币纸片应该挥舞，加whip标签，做whipline。
+    -- inst:AddTag("whip")
     
     inst.projectiledelay = FRAMES
 
