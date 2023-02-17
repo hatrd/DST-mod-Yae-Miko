@@ -124,7 +124,7 @@ local function yaemiko_skill(inst)
                     -- 0,2,4,6逐步试探
                     local tx = v * math.sin(angle)
                     local tz = v * math.cos(angle)
-                    if TheWorld.Map:IsPassableAtPoint(x+tx,y,z+tz) and not TheWorld.Map:IsGroundTargetBlocked(x+tx,y,z+tz) then
+                    if TheWorld.Map:IsPassableAtPoint(x+tx,y,z+tz) then
                     -- if inst.components.playeractionpicker and inst.components.playeractionpicker.map:IsPassableAtPoint(x+tx, y, z+tz) then
                         -- inst.Transform:SetPosition(x+tx, y, z+tz)
                         inst.Physics:Teleport(x+tx,y,z+tz)
