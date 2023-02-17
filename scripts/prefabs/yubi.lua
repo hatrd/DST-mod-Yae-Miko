@@ -102,8 +102,7 @@ local function fn()
     inst.components.weapon:SetDamage(30)
     inst.components.weapon:SetRange(8, 10)
     inst.components.weapon:SetOnAttack(onattack_yubi)
-    -- ice_projectile改成攻击特效的prefab
-    inst.components.weapon:SetProjectile("ice_projectile")
+    inst.components.weapon:SetProjectile("yubi_projectile")
     inst.components.weapon:SetElectric()
 
     return inst

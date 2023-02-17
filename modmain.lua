@@ -5,6 +5,7 @@ PrefabFiles = {
 	"yaemiko_lightning",
   	"yushou",
 	"yubi",
+	"yubi_projectile",
 }
 
 Assets = {
