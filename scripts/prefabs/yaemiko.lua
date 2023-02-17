@@ -119,6 +119,9 @@ local function yaemiko_skill(inst)
                 local angle = (inst.Transform:GetRotation() + 90) * DEGREES
                 
                 local ssy = SpawnPrefab("shashengying")
+
+                player.components.playercontroller:Enable(false)
+                player.components.locomotor:StopMoving()
                 for v = 0,6,2 do
                     -- 0,2,4,6逐步试探
                     local tx = v * math.sin(angle)
@@ -130,6 +133,8 @@ local function yaemiko_skill(inst)
                         break
                     end
                 end
+                player.components.playercontroller:Enable(true)
+                
 
                 --记录杀生樱信息
                 ssy.components.yaemiko_skill:SsySetInit(inst,yaemiko_nowdamage(inst))
