@@ -150,7 +150,8 @@ local CANT_TAGS = {"INLIMBO", "player", "chester", "companion","wall","abigail"}
 local MUST_TAGS = {"_combat"}
 -- local LIGHTNINGSTRIKE_ONEOF_TAGS = { "lightningrod", "lightningtarget", "blows_air" }
 function yaemiko_skill:luolei(x,y,z,amtSsy)
-    local ents = TheSim:FindEntities(x, y, z, 12, MUST_TAGS, CANT_TAGS,nil)--杀生樱索敌距离
+    --为了打避雷针，MUST_TAGS为nil
+    local ents = TheSim:FindEntities(x, y, z, 12, nil, CANT_TAGS,nil)
     local damage = self:GetDamage()
 
     -- 充能特效
