@@ -233,10 +233,11 @@ function yaemiko_skill:aoeQ(damage)
   if attackcnt >3 then
     attackcnt = 3
   end
-  --记录攻击发生位置
-  x,y,z=nearest.Transform:GetWorldPosition()
+  -- 一命效果。每株杀生樱恢复8点能量。
+  self.inst.components.energy:DoDelta(8*attackcnt)
   
   --根据坐标范围伤害
+  x,y,z=nearest.Transform:GetWorldPosition()
   self.inst.sg:GoToState("cookbook_close")     
   SpawnPrefab("yaemiko_lightning").Transform:SetPosition(x,y,z)
   local ents = TheSim:FindEntities(x, y, z, 5, MUST_TAGS, CANT_TAGS,nil)

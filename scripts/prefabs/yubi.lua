@@ -63,7 +63,7 @@ local function fn()
   
     STRINGS.NAMES.YUBI = "御币"
     STRINGS.RECIPE_DESC.YUBI = "驱魔好帮手（物理）"
-    STRINGS.CHARACTERS.GENERIC.DESCRIBE.YUBI = "紫水晶给了它雷的力量。"
+    STRINGS.CHARACTERS.GENERIC.DESCRIBE.YUBI = "紫水晶给了它雷的力量，这很科学。"
   
     anim:SetBank("yubi")
     anim:SetBuild("yubi")
@@ -89,6 +89,8 @@ local function fn()
     inst.components.inventoryitem.imagename = "yubi"
     inst.components.inventoryitem.atlasname = "images/inventoryimages/yubi.xml"
     inst:AddComponent("equippable")
+    -- 考虑是限定为神子才能装备，还是给其他角色加debuff
+    -- inst.components.equippable.restrictedtag = "yaemiko"
 
     inst.components.equippable:SetOnEquip(function(inst, owner)
         owner.AnimState:OverrideSymbol("swap_object", "yubi", "swap_yubi")
