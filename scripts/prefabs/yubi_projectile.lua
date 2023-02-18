@@ -1,5 +1,5 @@
 local assets = {
-	Asset("ANIM", "anim/ganyu_arrow.zip")
+	Asset("ANIM", "anim/yubi_projectile.zip")
 }
 
 local prefabs = {"moose_nest_fx_hit"}
@@ -17,6 +17,9 @@ local function OnHit(inst, attacker, target)
 		end
 	end
 	inst:Remove()
+	if attacker and attacker.components.energy then
+		attacker.components.energy:DoDelta(0.3)
+	end
 end
 
 local function fn()
@@ -29,9 +32,9 @@ local function fn()
 
 	MakeInventoryPhysics(inst)
 
-	inst.AnimState:SetBank("ganyu_arrow")
-	inst.AnimState:SetBuild("ganyu_arrow")
-	inst.AnimState:PlayAnimation("normal")
+	inst.AnimState:SetBank("yubi_projectile")
+	inst.AnimState:SetBuild("yubi_projectile")
+	inst.AnimState:PlayAnimation("huli")
 
 	inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
 
@@ -52,13 +55,15 @@ local function fn()
 	inst:AddComponent("weapon")
 
 	inst:AddComponent("projectile")
-	inst.components.projectile:SetSpeed(30)
-	-- inst.components.projectile.range = 20
+	inst.components.projectile:SetSpeed(60)
+	inst.components.projectile.range = 12
 	-- inst.components.projectile.has_damage_set = true
-	-- inst.components.projectile:SetLaunchOffset(Vector3(1, 1, 0))
-	-- inst.components.projectile:SetHoming(false)
-	-- inst.components.projectile:SetHitDist(1.5)
+	-- Vector中第一个值代表发射半径，太大会导致打不中近处的东西。为0依然可能打不中近处
+	inst.components.projectile:SetLaunchOffset(Vector3(0, 1, 0))
+	inst.components.projectile:SetHoming(false)
+	inst.components.projectile:SetHitDist(1.5)
 	inst.components.projectile:SetOnHitFn(OnHit)
+	inst.components.projectile:SetOnMissFn(inst.Remove)
 
 	return inst
 end

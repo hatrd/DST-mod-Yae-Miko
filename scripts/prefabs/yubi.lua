@@ -13,13 +13,13 @@ end
 
 
 local function onattack_yubi(inst, attacker, target, skipsanity)
-    if not skipsanity and attacker ~= nil then
-        if attacker.components.staffsanity then
-            attacker.components.staffsanity:DoCastingDelta(-TUNING.SANITY_SUPERTINY)
-        elseif attacker.components.sanity ~= nil then
-            attacker.components.sanity:DoDelta(-TUNING.SANITY_SUPERTINY)
-        end
-    end
+    -- if not skipsanity and attacker ~= nil then
+    --     if attacker.components.staffsanity then
+    --         attacker.components.staffsanity:DoCastingDelta(-TUNING.SANITY_SUPERTINY)
+    --     elseif attacker.components.sanity ~= nil then
+    --         attacker.components.sanity:DoDelta(-TUNING.SANITY_SUPERTINY)
+    --     end
+    -- end
 
     if not target:IsValid() then
         --target killed or removed in combat damage phase
@@ -88,24 +88,32 @@ local function fn()
     inst:AddComponent("inventoryitem")
     inst.components.inventoryitem.imagename = "yubi"
     inst.components.inventoryitem.atlasname = "images/inventoryimages/yubi.xml"
-    inst:AddComponent("equippable")
-    -- 考虑是限定为神子才能装备，还是给其他角色加debuff
-    -- inst.components.equippable.restrictedtag = "yaemiko"
 
-    inst.components.equippable:SetOnEquip(function(inst, owner)
-        owner.AnimState:OverrideSymbol("swap_object", "yubi", "swap_yubi")
-        owner.AnimState:Show("ARM_carry")
-        owner.AnimState:Hide("ARM_normal")
-    end)
-    inst.components.equippable:SetOnUnequip(onunequip)
-
-    
     inst:AddComponent("weapon")
     inst.components.weapon:SetDamage(30)
     inst.components.weapon:SetRange(8, 10)
     inst.components.weapon:SetOnAttack(onattack_yubi)
     inst.components.weapon:SetProjectile("yubi_projectile")
     inst.components.weapon:SetElectric()
+
+    inst:AddComponent("equippable")
+    
+    -- 考虑是限定为神子才能装备，还是给其他角色加debuff
+    -- inst.components.equippable.restrictedtag = "yaemiko"
+    inst.components.equippable:SetOnEquip(function(inst, owner)
+        -- 只有神子能打出狐灵
+        if owner:HasTag("yaemiko") then
+            inst.components.weapon:SetProjectile("yubi_projectile")
+            inst.components.weapon:SetRange(8, 10)
+        else
+            inst.components.weapon:SetProjectile(nil)
+            inst.components.weapon:SetRange(0, 0)
+        end
+        owner.AnimState:OverrideSymbol("swap_object", "yubi", "swap_yubi")
+        owner.AnimState:Show("ARM_carry")
+        owner.AnimState:Hide("ARM_normal")
+    end)
+    inst.components.equippable:SetOnUnequip(onunequip)
 
     return inst
 end
