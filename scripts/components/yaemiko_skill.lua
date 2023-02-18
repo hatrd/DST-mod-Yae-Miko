@@ -245,6 +245,7 @@ function yaemiko_skill:aoeQ(damage)
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
             -- 来源为nil，是为了避免被伏特羊返雷
             v.components.combat:GetAttacked(nil, damage*self.thxzDamageMultiply[1], nil, "electro")
+            v.components.combat:SuggestTarget(self.attacker)
             yaemiko_skill:FireCheck(v,damage*self.thxzDamageMultiply[1])
 
           end
@@ -264,6 +265,7 @@ function yaemiko_skill:aoeQ(damage)
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
             -- 来源为nil，是为了避免被伏特羊返雷
             v.components.combat:GetAttacked(nil, damage, nil, "electro")
+            v.components.combat:SuggestTarget(self.attacker)
           end
           yaemiko_skill:FireCheck(v,damage)
         end
