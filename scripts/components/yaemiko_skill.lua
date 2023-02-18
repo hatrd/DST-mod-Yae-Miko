@@ -147,19 +147,18 @@ function yaemiko_skill:FireCheck(v,damage)
 end
 
 local CANT_TAGS = {"INLIMBO", "player", "chester", "companion","wall","abigail"}
-
--- local LIGHTNINGSTRIKE_ONEOF_TAGS = { "lightningrod", "lightningtarget", "blows_air" }
+local MUST_TAGS = {"_combat"}
 function yaemiko_skill:luolei(x,y,z,amtSsy)
-    local ents = TheSim:FindEntities(x, y, z, 12, nil, CANT_TAGS,nil)--杀生樱索敌距离
+    --为了打避雷针，MUST_TAGS为nil
+    local ents = TheSim:FindEntities(x, y, z, 12, nil, CANT_TAGS,nil)
     local damage = self:GetDamage()
 
     -- 充能特效
     SpawnPrefab("electricchargedfx"):SetTarget(self.inst)
-    --乘算杀生樱伤害
     damage = damage*self.ssyDamageMultiply[amtSsy]
 
 	for i, v in pairs(ents) do
-    --打避雷针.
+    --打避雷针
     if v:HasTag("lightningrod") then
         -- 用于检验伏特羊，避免挂了还在挨雷劈
         if v.components.combat and (v.components.health and v.components.health:IsDead()) then
@@ -188,22 +187,18 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
     
 	local tgt = GetRandomInstWithTag("yaemikotarget", self.inst, 12)
 	if tgt == nil then
-        return false
+      return false
 	else
-		SpawnPrefab("yaemiko_lightning").Transform:SetPosition(tgt.Transform:GetWorldPosition())
-		-- self.attacker:AddTag("noenergy")
-		tgt.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
-		-- self.attacker:RemoveTag("noenergy")
-        yaemiko_skill:FireCheck(tgt,damage)
+      SpawnPrefab("yaemiko_lightning").Transform:SetPosition(tgt.Transform:GetWorldPosition())
+      tgt.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
+      yaemiko_skill:FireCheck(tgt,damage)
 	end
   --有效命中
   return true
 end
-local AOE_MUST_TAGS={"_combat"} --似乎筛选功能不大。
--- local AOE_CANT_TAGS={"player"} 沿用E技能的CANT_TAG
--- local AOE_ONEOF_TAGS={"hostile","bee","lightninggoat"}
+
 function yaemiko_skill:aoeQ(damage)
-  local nearest = FindClosestEntity(self.inst, 12, true, AOE_MUST_TAGS, CANT_TAGS, nil, nil)
+  local nearest = FindClosestEntity(self.inst, 12, true, MUST_TAGS, CANT_TAGS, nil, nil)
   -- local nearest = GetClosestInstWithTag({"hostile"}, self.inst, 12)
   if nearest == nil then
     self.inst:DoTaskInTime(0.1, function()
@@ -238,19 +233,20 @@ function yaemiko_skill:aoeQ(damage)
   if attackcnt >3 then
     attackcnt = 3
   end
-  --记录攻击发生位置
-  x,y,z=nearest.Transform:GetWorldPosition()
+  -- 一命效果。每株杀生樱恢复8点能量。
+  self.inst.components.energy:DoDelta(8*attackcnt)
   
   --根据坐标范围伤害
+  x,y,z=nearest.Transform:GetWorldPosition()
   self.inst.sg:GoToState("cookbook_close")     
   SpawnPrefab("yaemiko_lightning").Transform:SetPosition(x,y,z)
-  local ents = TheSim:FindEntities(x, y, z, 5, nil, CANT_TAGS,nil)
+  local ents = TheSim:FindEntities(x, y, z, 5, MUST_TAGS, CANT_TAGS,nil)
     for i, v in pairs(ents) do
         if v:IsValid() and not v:IsInLimbo() then
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
             -- 来源为nil，是为了避免被伏特羊返雷
             v.components.combat:GetAttacked(nil, damage*self.thxzDamageMultiply[1], nil, "electro")
-            -- v.sg:GoToState("electrocute")
+            v.components.combat:SuggestTarget(self.attacker)
             yaemiko_skill:FireCheck(v,damage*self.thxzDamageMultiply[1])
 
           end
@@ -264,12 +260,13 @@ function yaemiko_skill:aoeQ(damage)
       local x1,y1,z1=nearest.Transform:GetWorldPosition()
       SpawnPrefab("yaemiko_lightning").Transform:SetPosition(x1,y1,z1)
       --伤害
-      local ents = TheSim:FindEntities(x1, y1, z1, 3, nil, CANT_TAGS,nil)
+      local ents = TheSim:FindEntities(x1, y1, z1, 3, MUST_TAGS, CANT_TAGS,nil)
       for i, v in pairs(ents) do
         if v:IsValid() and not v:IsInLimbo() then
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
             -- 来源为nil，是为了避免被伏特羊返雷
             v.components.combat:GetAttacked(nil, damage, nil, "electro")
+            v.components.combat:SuggestTarget(self.attacker)
           end
           yaemiko_skill:FireCheck(v,damage)
         end

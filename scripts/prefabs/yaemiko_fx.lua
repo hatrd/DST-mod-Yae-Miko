@@ -14,15 +14,12 @@ local function summonssy()
 	inst.entity:AddSoundEmitter()
     inst.entity:AddLight()
 	inst.entity:AddNetwork()
-
-  -- inst.AnimState:SetBloomEffectHandle("shaders/anim_bloom_ghost.ksh")
  
     inst.Light:SetFalloff(.5)
     inst.Light:SetIntensity(.8)
     inst.Light:SetRadius(1.0)
     inst.Light:SetColour(130/255, 0/255, 255/255)
     inst.Light:Enable(true)
-    
 
 	inst.AnimState:SetBank("fx")
 	inst.AnimState:SetBuild("yaemiko_fx")
@@ -32,11 +29,9 @@ local function summonssy()
     inst.AnimState:SetLightOverride(.1)
 	inst.AnimState:SetFinalOffset(3)
 
-
 	inst:AddTag("FX")
     inst:AddTag("shashengying")
 	inst.entity:SetPristine()
-
 
 	if not TheWorld.ismastersim then
 		return inst

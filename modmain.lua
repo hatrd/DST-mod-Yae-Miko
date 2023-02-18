@@ -5,6 +5,7 @@ PrefabFiles = {
 	"yaemiko_lightning",
   	"yushou",
 	"yubi",
+	"yubi_projectile",
 }
 
 Assets = {
@@ -43,7 +44,6 @@ Assets = {
   
 	Asset( "IMAGE", "images/skills/yaemiko_skill_3.tex" ),
 	Asset( "ATLAS", "images/skills/yaemiko_skill_3.xml" ),
-
   
 	Asset( "ANIM", "anim/yaemiko_energy.zip" ),
 
@@ -53,10 +53,8 @@ Assets = {
 
 AddMinimapAtlas("images/map_icons/yaemiko.xml")
 
-
 --环境初始化
 GLOBAL.setmetatable(env, {__index = function(t,k) return GLOBAL.rawget(GLOBAL,k) end})
-
 
 -- The character select screen lines
 STRINGS.CHARACTER_TITLES.yaemiko = "屑狐狸"
@@ -113,7 +111,6 @@ AddClassPostConstruct("widgets/controls", function(self)
 		self.status:AddChild(skill(self.owner))
 	end
 end)
-
 
 --添加合成
 local yaemikotab = AddRecipeTab(STRINGS.NAMES.YAEMIKO, 88, nil, nil, "yaemiko")

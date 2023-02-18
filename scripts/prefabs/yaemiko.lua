@@ -117,18 +117,24 @@ local function yaemiko_skill(inst)
 
                 local x, y, z = inst.Transform:GetWorldPosition()
                 local angle = (inst.Transform:GetRotation() + 90) * DEGREES
-                local tx = 6 * math.sin(angle)
-                local tz = 6 * math.cos(angle)
-
-                --生成杀生樱
+                
                 local ssy = SpawnPrefab("shashengying")
-                if inst.components.playeractionpicker and inst.components.playeractionpicker.map:IsPassableAtPoint(x+tx, y, z+tz) then
-                    inst.Transform:SetPosition(x+tx, y, z+tz)
-                    ssy.Transform:SetPosition(x+tx/2,y,z+tz/2)
-                else
-                    ssy.Transform:SetPosition(x,y,z)
+
+                for v = 0,6,2 do
+                    -- 0,2,4,6逐步试探
+                    local tx = v * math.sin(angle)
+                    local tz = v * math.cos(angle)
+                    if TheWorld.Map:IsPassableAtPoint(x+tx,y,z+tz) then
+                    -- if inst.components.playeractionpicker and inst.components.playeractionpicker.map:IsPassableAtPoint(x+tx, y, z+tz) then
+                        inst.Transform:SetPosition(x+tx, y, z+tz)
+                        -- inst.Physics:Teleport(x+tx,y,z+tz)
+                        ssy.Transform:SetPosition(x+tx/2,y,z+tz/2)
+                    else
+                        break
+                    end
                 end
-                ssy.Transform:SetRotation(60)
+                
+
                 --记录杀生樱信息
                 ssy.components.yaemiko_skill:SsySetInit(inst,yaemiko_nowdamage(inst))
                 inst.components.sanity:DoDelta(-0.3)
@@ -159,6 +165,7 @@ local function yaemiko_skill(inst)
                         end)
                     end
                 end
+
             end
         end
     end
@@ -204,20 +211,16 @@ local common_postinit = function(inst)
 	inst.skill_rate = 1
 	inst.burst_rate = 1
 	inst.heal_rate = 1
-
-
   
 	inst.energy_max = net_ushortint(inst.GUID, "energy_max", "energy_maxdirty")
 	inst.energy_current = net_ushortint(inst.GUID, "energy_current", "energy_currentdirty")
     inst._ecnt= net_ushortint(inst.GUID, "inst._ecnt", "inst._ecnt")
 
   --按键
-
 	inst:AddComponent("genshinkey")
 	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_SKILL_KEY], "yaemiko_skill")
 	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_BURST_KEY], "yaemiko_burst")
   
-  -- inst.ecnt=3
 end
 
 -- This initializes for the server only. Components are added here.
@@ -225,19 +228,18 @@ local master_postinit = function(inst)
 	-- Set starting inventory
     inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
 	
-  inst:AddComponent("energy")
-  inst.components.energy:SetMax(90)
-  inst.components.energy:Recharge(TUNING.YAEMIKO_RECHARGE)
-  inst:AddComponent("yaemiko_skill")
+    inst:AddComponent("energy")
+    inst.components.energy:SetMax(90)
+    inst.components.energy:Recharge(TUNING.YAEMIKO_RECHARGE)
+    inst:AddComponent("yaemiko_skill")
 
-  inst.components.yaemiko_skill:MikoSetInit(inst.userid)
-  --设置声音
-	inst.soundsname = "willow"
+    inst.components.yaemiko_skill:MikoSetInit(inst.userid)
+
+    inst.soundsname = "willow"
     inst:AddComponent("talker")
-  --将event与函数连接
+    --将event与函数连接
 	inst:ListenForEvent("yaemiko_skill", yaemiko_skill)
 	inst:ListenForEvent("yaemiko_burst", yaemiko_burst)
-
 
 	-- Uncomment if "wathgrithr"(Wigfrid) or "webber" voice is used
     --inst.talker_path_override = "dontstarve_DLC001/characters/"
