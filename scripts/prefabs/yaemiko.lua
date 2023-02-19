@@ -150,13 +150,13 @@ local function OnBlinked(inst)
         end
     end
 
-    inst:Show()
+    -- inst:Show()
     if inst.components.health ~= nil then
         inst.components.health:SetInvincible(false)
     end
-    if inst.DynamicShadow ~= nil then
-        inst.DynamicShadow:Enable(true)
-    end
+    -- if inst.DynamicShadow ~= nil then
+    --     inst.DynamicShadow:Enable(true)
+    -- end
 end
 
 local function yaemiko_skill(inst)
@@ -182,14 +182,14 @@ local function yaemiko_skill(inst)
 
                 inst.components.playercontroller:Enable(false)
                 inst.components.locomotor:StopMoving()
-                inst:Hide()
-                if inst.DynamicShadow ~= nil then
-                    inst.DynamicShadow:Enable(false)
-                end
+                -- inst:Hide()
+                -- if inst.DynamicShadow ~= nil then
+                --     inst.DynamicShadow:Enable(false)
+                -- end
                 if inst.components.health ~= nil then
                     inst.components.health:SetInvincible(true)
                 end
-                inst:DoTaskInTime(.05,OnBlinked)
+                inst:DoTaskInTime(1,OnBlinked)
 
             end
         end
