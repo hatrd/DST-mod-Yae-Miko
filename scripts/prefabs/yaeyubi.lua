@@ -1,10 +1,10 @@
 local assets={
-    Asset("ANIM", "anim/yubi.zip"),
-    Asset("ATLAS", "images/inventoryimages/yubi.xml"),
-    Asset("IMAGE", "images/inventoryimages/yubi.tex"),
+    Asset("ANIM", "anim/yaeyubi.zip"),
+    Asset("ATLAS", "images/inventoryimages/yaeyubi.xml"),
+    Asset("IMAGE", "images/inventoryimages/yaeyubi.tex"),
 }
 
-local prefabs = {"yubi"}
+local prefabs = {"yaeyubi"}
 
 local function onunequip(inst, owner)
     owner.AnimState:Hide("ARM_carry")
@@ -12,19 +12,19 @@ local function onunequip(inst, owner)
 end
 
 -- 可以在考虑modinfo里配置强化上限以支持更高的强化(或禁止强化)，0为无限
-TUNING.YAEMIKO_YUBI_REFINE_LIMIT=5
+TUNING.YAEYUBI_REFINE_LIMIT=5
 
 -- 进行精炼
 local function onRefine(inst, giver, item)
-    if TUNING.YAEMIKO_YUBI_REFINE_LIMIT == 0 or inst.components.yaemikoyubistatus:GetRefine()<TUNING.YAEMIKO_YUBI_REFINE_LIMIT then
-        inst.components.yaemikoyubistatus:RefineDoDelta(1)
+    if TUNING.YAEYUBI_REFINE_LIMIT == 0 or inst.components.yaeyubi_info:GetRefine()<TUNING.YAEYUBI_REFINE_LIMIT then
+        inst.components.yaeyubi_info:RefineDoDelta(1)
     end
     inst.SoundEmitter:PlaySound("dontstarve/common/telebase_gemplace")
 end
 
 -- 判断给予的物品是否符合要求；是否现在还可以精炼
 local function canRefine(inst, item)
-    if item == nil or item.prefab ~= "purplegem" or (TUNING.YAEMIKO_YUBI_REFINE_LIMIT ~= 0 and inst.components.yaemikoyubistatus:GetRefine()>=TUNING.YAEMIKO_YUBI_REFINE_LIMIT) then
+    if item == nil or item.prefab ~= "purplegem" or (TUNING.YAEYUBI_REFINE_LIMIT ~= 0 and inst.components.yaeyubi_info:GetRefine()>=TUNING.YAEYUBI_REFINE_LIMIT) then
         return false
     end
     return true
@@ -79,16 +79,16 @@ local function fn()
   
     MakeInventoryPhysics(inst)
   
-    STRINGS.NAMES.YUBI = "御币"
-    STRINGS.RECIPE_DESC.YUBI = "驱魔好帮手（物理）"
-    STRINGS.CHARACTERS.GENERIC.DESCRIBE.YUBI = "紫水晶给了它雷的力量，这很科学。"
+    STRINGS.NAMES.YAEYUBI = "御币"
+    STRINGS.RECIPE_DESC.YAEYUBI = "驱魔好帮手（物理）。合成的御币可以用紫水晶进一步强化。"
+    STRINGS.CHARACTERS.GENERIC.DESCRIBE.YAEYUBI = "紫水晶给了它雷的力量，这很科学。"
   
     anim:SetBank("yubi")
-    anim:SetBuild("yubi")
+    anim:SetBuild("yaeyubi")
     anim:PlayAnimation("idle")
     
     inst:AddTag("yaemiko_weapon")
-    inst:AddTag("yubi")
+    inst:AddTag("yaeyubi")
     inst:AddTag("rangedweapon")
     -- 攻击时御币纸片应该挥舞，加whip标签，做whipline。
     -- inst:AddTag("whip")
@@ -104,8 +104,8 @@ local function fn()
     inst:AddComponent("inspectable")
     inst:AddComponent("tradable")
     inst:AddComponent("inventoryitem")
-    inst.components.inventoryitem.imagename = "yubi"
-    inst.components.inventoryitem.atlasname = "images/inventoryimages/yubi.xml"
+    inst.components.inventoryitem.imagename = "yaeyubi"
+    inst.components.inventoryitem.atlasname = "images/inventoryimages/yaeyubi.xml"
 
     inst:AddComponent("weapon")
     inst.components.weapon:SetDamage(20)
@@ -133,7 +133,7 @@ local function fn()
     end)
     inst.components.equippable:SetOnUnequip(onunequip)
 
-    inst:AddComponent("yaemikoyubistatus")
+    inst:AddComponent("yaeyubi_info")
 
     inst:AddComponent("trader")
     inst.components.trader:SetAbleToAcceptTest(canRefine)
@@ -142,4 +142,4 @@ local function fn()
     return inst
 end
 
-return  Prefab("common/inventory/yubi", fn, assets, prefabs)
+return  Prefab("common/inventory/yaeyubi", fn, assets, prefabs)

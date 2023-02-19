@@ -4,7 +4,7 @@ PrefabFiles = {
   	"yaemiko_fx",
 	"yaemiko_lightning",
   	"yushou",
-	"yubi",
+	"yaeyubi",
 	"yubi_projectile",
 }
 
@@ -93,9 +93,9 @@ TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yushou = {
 	atlas = "images/inventoryimages/yushou.xml",
 	image = "yushou.tex"
 }
-TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yubi = {
-	atlas = "images/inventoryimages/yubi.xml",
-	image = "yubi.tex"
+TUNING.STARTING_ITEM_IMAGE_OVERRIDE.yaeyubi = {
+	atlas = "images/inventoryimages/yaeyubi.xml",
+	image = "yaeyubi.tex"
 }
 --技能图标
 local energy = require("widgets/yaemiko_energy")
@@ -116,8 +116,8 @@ end)
 local yaemikotab = AddRecipeTab(STRINGS.NAMES.YAEMIKO, 88, nil, nil, "yaemiko")
 AddRecipe("yushou",{Ingredient("papyrus", 2),Ingredient("boards", 1),},
 yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yushou.xml")
-AddRecipe("yubi",{Ingredient("papyrus", 2),Ingredient("purplegem", 1),Ingredient("twigs", 1),},
-yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yubi.xml")
+AddRecipe("yaeyubi",{Ingredient("papyrus", 2),Ingredient("purplegem", 1),Ingredient("twigs", 1),},
+yaemikotab, TECH.NONE, nil, nil, nil, 1, "yaemiko", "images/inventoryimages/yaeyubi.xml")
 
 ---------------技能
 AddModRPCHandler("yaemiko", "yaemiko_burst", function(inst) inst:PushEvent("yaemiko_burst") end)

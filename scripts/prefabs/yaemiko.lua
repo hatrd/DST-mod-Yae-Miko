@@ -14,7 +14,7 @@ TUNING.YAEMIKO_SKILL_DAMAGE_BASE = 20
 
 -- 初始道具
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.YAEMIKO = {
-	"yushou","yubi",
+	"yushou","yaeyubi",
 }
 
 local start_inv = {}
@@ -58,7 +58,7 @@ local function yaemiko_nowdamage(inst_f)
         local item = inst_f.components.inventory.equipslots[EQUIPSLOTS.HANDS]
         --有的模组武器damage是个函数，需要避免它是其他东西，防止(万一的)哪个奇怪武器伤害低于10
         if item and item.components.weapon and type(item.components.weapon.damage)=="number" and item.components.weapon.damage>10 then
-            if item.prefab == "yubi" then
+            if item.prefab == "yaeyubi" then
                 --当主手是御币 补偿1.5倍的伤害，基准伤害为武器伤害 + 基本伤害
                 atkDamage = item.components.weapon.damage * 1.5 + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
             else

@@ -1,5 +1,5 @@
 -- 御币信息类
-local yaemikoyubistatus = Class(function(self, inst)
+local yaeyubi_info = Class(function(self, inst)
     self.inst = inst
     self.refine = 1
     self.damage = 20
@@ -12,7 +12,7 @@ nil,
 {
 })
 
-function yaemikoyubistatus:OnSave()
+function yaeyubi_info:OnSave()
     local data = {
         refine = self.refine,
         damage = self.damage
@@ -20,18 +20,18 @@ function yaemikoyubistatus:OnSave()
     return data
 end
 
-function yaemikoyubistatus:OnLoad(data)
+function yaeyubi_info:OnLoad(data)
     self.refine = data.refine or 1
     self.damage = data.damage or 20
     -- 保险起见还原伤害
 	self.inst.components.weapon:SetDamage(self.damage)
 end
 
-function yaemikoyubistatus:GetRefine()
+function yaeyubi_info:GetRefine()
     return self.refine
 end
 
-function yaemikoyubistatus:RefineDoDelta(delta)
+function yaeyubi_info:RefineDoDelta(delta)
     self.refine = self.refine + delta
     if self.inst.components.weapon then
         -- 目前想法是简单的线性伤害
@@ -39,7 +39,7 @@ function yaemikoyubistatus:RefineDoDelta(delta)
         -- 更改伤害
 		self.inst.components.weapon:SetDamage(self.damage)
     end
-    self.inst:PushEvent("RefineYaeMikoYubi")
+    self.inst:PushEvent("RefineYaeYubi")
 end
 
-return yaemikoyubistatus
+return yaeyubi_info
