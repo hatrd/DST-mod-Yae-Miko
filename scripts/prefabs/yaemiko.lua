@@ -119,7 +119,10 @@ local function yaemiko_skill(inst)
                 local angle = (inst.Transform:GetRotation() + 90) * DEGREES
                 
                 local ssy = SpawnPrefab("shashengying")
-
+                
+                if inst.sg and inst.sg.statemem.onstartblinking ~= nil then
+                    inst.sg.statemem.onstartblinking()
+                end
                 for v = 0,6,2 do
                     -- 0,2,4,6逐步试探
                     local tx = v * math.sin(angle)
@@ -133,7 +136,9 @@ local function yaemiko_skill(inst)
                         break
                     end
                 end
-                
+                if inst.sg and inst.sg.statemem.onstopblinking ~= nil then
+                    inst.sg.statemem.onstopblinking()
+                end
 
                 --记录杀生樱信息
                 ssy.components.yaemiko_skill:SsySetInit(inst,yaemiko_nowdamage(inst))
