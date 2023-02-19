@@ -98,7 +98,7 @@ local function yaemiko_nowdamage(inst_f)
 	end
     return atkDamage * atkMult + atkBonus
 end
-local function OnBlinked(inst)
+local function MoveAndSummonSsy(inst)
     local x, y, z = inst.Transform:GetWorldPosition()
     local angle = (inst.Transform:GetRotation() + 90) * DEGREES
     
@@ -109,8 +109,6 @@ local function OnBlinked(inst)
         local tx = v * math.sin(angle)
         local tz = v * math.cos(angle)
         if TheWorld.Map:IsPassableAtPoint(x+tx,y,z+tz) then
-        -- if inst.components.playeractionpicker and inst.components.playeractionpicker.map:IsPassableAtPoint(x+tx, y, z+tz) then
-            -- inst.Transform:SetPosition(x+tx, y, z+tz)
             inst.Physics:Teleport(x+tx,y,z+tz)
             ssy.Transform:SetPosition(x+tx/2,y,z+tz/2)
         else
@@ -151,9 +149,10 @@ local function OnBlinked(inst)
     end
 
     -- inst:Show()
-    if inst.components.health ~= nil then
-        inst.components.health:SetInvincible(false)
-    end
+    -- 这里取消无敌会导致玩家本来的无敌被删掉。
+    -- if inst.components.health ~= nil then
+    --     inst.components.health:SetInvincible(false)
+    -- end
     -- if inst.DynamicShadow ~= nil then
     --     inst.DynamicShadow:Enable(true)
     -- end
@@ -186,10 +185,10 @@ local function yaemiko_skill(inst)
                 -- if inst.DynamicShadow ~= nil then
                 --     inst.DynamicShadow:Enable(false)
                 -- end
-                if inst.components.health ~= nil then
-                    inst.components.health:SetInvincible(true)
-                end
-                inst:DoTaskInTime(.01,OnBlinked)
+                -- if inst.components.health ~= nil then
+                --     inst.components.health:SetInvincible(true)
+                -- end
+                inst:DoTaskInTime(0,MoveAndSummonSsy)
 
             end
         end
