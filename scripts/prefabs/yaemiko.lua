@@ -110,8 +110,8 @@ local function OnBlinked(inst)
         local tz = v * math.cos(angle)
         if TheWorld.Map:IsPassableAtPoint(x+tx,y,z+tz) then
         -- if inst.components.playeractionpicker and inst.components.playeractionpicker.map:IsPassableAtPoint(x+tx, y, z+tz) then
-            inst.Transform:SetPosition(x+tx, y, z+tz)
-            -- inst.Physics:Teleport(x+tx,y,z+tz)
+            -- inst.Transform:SetPosition(x+tx, y, z+tz)
+            inst.Physics:Teleport(x+tx,y,z+tz)
             ssy.Transform:SetPosition(x+tx/2,y,z+tz/2)
         else
             break
@@ -189,7 +189,7 @@ local function yaemiko_skill(inst)
                 if inst.components.health ~= nil then
                     inst.components.health:SetInvincible(true)
                 end
-                inst:DoTaskInTime(.10,OnBlinked)
+                inst:DoTaskInTime(.05,OnBlinked)
 
             end
         end
