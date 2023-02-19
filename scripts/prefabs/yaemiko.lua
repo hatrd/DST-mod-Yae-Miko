@@ -98,6 +98,62 @@ local function yaemiko_nowdamage(inst_f)
 	end
     return atkDamage * atkMult + atkBonus
 end
+local function OnBlinked(inst)
+    local x, y, z = inst.Transform:GetWorldPosition()
+    local angle = (inst.Transform:GetRotation() + 90) * DEGREES
+    
+    local ssy = SpawnPrefab("shashengying")
+    
+    for v = 0,6,2 do
+        -- 0,2,4,6逐步试探
+        local tx = v * math.sin(angle)
+        local tz = v * math.cos(angle)
+        if TheWorld.Map:IsPassableAtPoint(x+tx,y,z+tz) then
+        -- if inst.components.playeractionpicker and inst.components.playeractionpicker.map:IsPassableAtPoint(x+tx, y, z+tz) then
+            inst.Transform:SetPosition(x+tx, y, z+tz)
+            -- inst.Physics:Teleport(x+tx,y,z+tz)
+            ssy.Transform:SetPosition(x+tx/2,y,z+tz/2)
+        else
+            break
+        end
+    end
+    if inst.sg and inst.sg.statemem.onstopblinking ~= nil then
+        print("stop blinking")
+        inst.sg.statemem.onstopblinking()
+    end
+
+    --记录杀生樱信息
+    ssy.components.yaemiko_skill:SsySetInit(inst,yaemiko_nowdamage(inst))
+    inst.components.sanity:DoDelta(-0.3)
+
+    --寻找附近杀生樱，距离20不够。比如在屏幕边缘放
+    local ssycnt = TheSim:FindEntities(x, y, z, 32, {"shashengying"}, nil,nil)
+    local leastSsy = nil
+    local amtSsy = 0
+    for i,v in pairs(ssycnt) do
+        --检查距离内同一玩家的杀生樱数量，并记录最少剩余时间的杀生樱  
+        if v.components.yaemiko_skill:GetUID()==inst.userid then
+            if leastSsy == nil or v.components.yaemiko_skill:GetRemainCnt() <= leastSsy.components.yaemiko_skill:GetRemainCnt() then
+                leastSsy = v
+            end
+            amtSsy = amtSsy + 1
+        end
+        --因为已经生成了 所以爆数量时应该有4个杀生樱正在场上
+        if amtSsy >3 then
+            --摧毁记录的杀生樱
+            leastSsy:DoTaskInTime(0,function(para)
+                if para then
+                local ix,iy,iz=para.Transform:GetWorldPosition()
+                SpawnPrefab("lightning_rod_fx").Transform:SetPosition(ix,iy-3,iz)
+                --清除杀生樱连线
+                para.components.yaemiko_skill:CleanUpLine()
+                para:Remove()
+                end
+            end)
+        end
+    end
+
+end
 
 local function yaemiko_skill(inst)
     if not inst:HasTag("playerghost") and inst:HasTag("yaemiko") then
@@ -120,61 +176,11 @@ local function yaemiko_skill(inst)
                 end)
                 end
 
-                local x, y, z = inst.Transform:GetWorldPosition()
-                local angle = (inst.Transform:GetRotation() + 90) * DEGREES
-                
-                local ssy = SpawnPrefab("shashengying")
-                
                 if inst.sg and inst.sg.statemem.onstartblinking ~= nil then
+                    print("start blinking")
                     inst.sg.statemem.onstartblinking()
                 end
-                for v = 0,6,2 do
-                    -- 0,2,4,6逐步试探
-                    local tx = v * math.sin(angle)
-                    local tz = v * math.cos(angle)
-                    if TheWorld.Map:IsPassableAtPoint(x+tx,y,z+tz) then
-                    -- if inst.components.playeractionpicker and inst.components.playeractionpicker.map:IsPassableAtPoint(x+tx, y, z+tz) then
-                        inst.Transform:SetPosition(x+tx, y, z+tz)
-                        -- inst.Physics:Teleport(x+tx,y,z+tz)
-                        ssy.Transform:SetPosition(x+tx/2,y,z+tz/2)
-                    else
-                        break
-                    end
-                end
-                if inst.sg and inst.sg.statemem.onstopblinking ~= nil then
-                    inst.sg.statemem.onstopblinking()
-                end
-
-                --记录杀生樱信息
-                ssy.components.yaemiko_skill:SsySetInit(inst,yaemiko_nowdamage(inst))
-                inst.components.sanity:DoDelta(-0.3)
-
-                --寻找附近杀生樱，距离20不够。比如在屏幕边缘放
-                local ssycnt = TheSim:FindEntities(x, y, z, 32, {"shashengying"}, nil,nil)
-                local leastSsy = nil
-                local amtSsy = 0
-                for i,v in pairs(ssycnt) do
-                    --检查距离内同一玩家的杀生樱数量，并记录最少剩余时间的杀生樱  
-                    if v.components.yaemiko_skill:GetUID()==inst.userid then
-                        if leastSsy == nil or v.components.yaemiko_skill:GetRemainCnt() <= leastSsy.components.yaemiko_skill:GetRemainCnt() then
-                            leastSsy = v
-                        end
-                        amtSsy = amtSsy + 1
-                    end
-                    --因为已经生成了 所以爆数量时应该有4个杀生樱正在场上
-                    if amtSsy >3 then
-                        --摧毁记录的杀生樱
-                        leastSsy:DoTaskInTime(0,function(para)
-                            if para then
-                            local ix,iy,iz=para.Transform:GetWorldPosition()
-                            SpawnPrefab("lightning_rod_fx").Transform:SetPosition(ix,iy-3,iz)
-                            --清除杀生樱连线
-                            para.components.yaemiko_skill:CleanUpLine()
-                            para:Remove()
-                            end
-                        end)
-                    end
-                end
+                inst:DoTaskInTime(.10,OnBlinked)
 
             end
         end
