@@ -84,7 +84,7 @@ local function fn()
     STRINGS.CHARACTERS.GENERIC.DESCRIBE.YAEYUBI = "紫水晶给了它雷的力量，这很科学。"
   
     anim:SetBank("yubi")
-    anim:SetBuild("yaeyubi")
+    anim:SetBuild("yubi") --编译时的名称是yubi.zip，但是可以改名/anim/yaeyubi.zip并正常工作
     anim:PlayAnimation("idle")
     
     inst:AddTag("yaemiko_weapon")
