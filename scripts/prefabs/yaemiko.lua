@@ -189,7 +189,7 @@ local function yaemiko_skill(inst)
                 if inst.components.health ~= nil then
                     inst.components.health:SetInvincible(true)
                 end
-                inst:DoTaskInTime(.25,OnBlinked)
+                inst:DoTaskInTime(.01,OnBlinked)
 
             end
         end
