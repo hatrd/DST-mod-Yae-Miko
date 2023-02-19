@@ -11,6 +11,24 @@ local function onunequip(inst, owner)
     owner.AnimState:Show("ARM_normal")
 end
 
+-- 可以在考虑modinfo里配置强化上限以支持更高的强化(或禁止强化)，0为无限
+TUNING.YAEMIKO_YUBI_REFINE_LIMIT=5
+
+-- 进行精炼
+local function onRefine(inst, giver, item)
+    if TUNING.YAEMIKO_YUBI_REFINE_LIMIT == 0 or inst.components.yaemikoyubistatus:GetRefine()<TUNING.YAEMIKO_YUBI_REFINE_LIMIT then
+        inst.components.yaemikoyubistatus:RefineDoDelta(1)
+    end
+    inst.SoundEmitter:PlaySound("dontstarve/common/telebase_gemplace")
+end
+
+-- 判断给予的物品是否符合要求；是否现在还可以精炼
+local function canRefine(inst, item)
+    if item == nil or item.prefab ~= "purplegem" or (TUNING.YAEMIKO_YUBI_REFINE_LIMIT ~= 0 and inst.components.yaemikoyubistatus:GetRefine()>=TUNING.YAEMIKO_YUBI_REFINE_LIMIT) then
+        return false
+    end
+    return true
+end
 
 local function onattack_yubi(inst, attacker, target, skipsanity)
     -- if not skipsanity and attacker ~= nil then
@@ -90,7 +108,7 @@ local function fn()
     inst.components.inventoryitem.atlasname = "images/inventoryimages/yubi.xml"
 
     inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(30)
+    inst.components.weapon:SetDamage(20)
     inst.components.weapon:SetRange(8, 10)
     inst.components.weapon:SetOnAttack(onattack_yubi)
     inst.components.weapon:SetProjectile("yubi_projectile")
@@ -114,6 +132,12 @@ local function fn()
         owner.AnimState:Hide("ARM_normal")
     end)
     inst.components.equippable:SetOnUnequip(onunequip)
+
+    inst:AddComponent("yaemikoyubistatus")
+
+    inst:AddComponent("trader")
+    inst.components.trader:SetAbleToAcceptTest(canRefine)
+    inst.components.trader.onaccept = onRefine
 
     return inst
 end
