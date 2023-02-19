@@ -117,10 +117,7 @@ local function OnBlinked(inst)
             break
         end
     end
-    if inst.sg and inst.sg.statemem.onstopblinking ~= nil then
-        print("stop blinking")
-        inst.sg.statemem.onstopblinking()
-    end
+    inst.components.playercontroller:Enable(true)
 
     --记录杀生樱信息
     ssy.components.yaemiko_skill:SsySetInit(inst,yaemiko_nowdamage(inst))
@@ -153,6 +150,13 @@ local function OnBlinked(inst)
         end
     end
 
+    inst:Show()
+    if inst.components.health ~= nil then
+        inst.components.health:SetInvincible(false)
+    end
+    if inst.DynamicShadow ~= nil then
+        inst.DynamicShadow:Enable(true)
+    end
 end
 
 local function yaemiko_skill(inst)
@@ -176,9 +180,14 @@ local function yaemiko_skill(inst)
                 end)
                 end
 
-                if inst.sg and inst.sg.statemem.onstartblinking ~= nil then
-                    print("start blinking")
-                    inst.sg.statemem.onstartblinking()
+                inst.components.playercontroller:Enable(false)
+                inst.components.locomotor:StopMoving()
+                inst:Hide()
+                if inst.DynamicShadow ~= nil then
+                    inst.DynamicShadow:Enable(false)
+                end
+                if inst.components.health ~= nil then
+                    inst.components.health:SetInvincible(true)
                 end
                 inst:DoTaskInTime(.10,OnBlinked)
 
