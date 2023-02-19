@@ -181,7 +181,7 @@ local function yaemiko_skill(inst)
                 end
 
                 inst.components.playercontroller:Enable(false)
-                inst.components.locomotor:StopMoving()
+                inst.components.locomotor:Stop()
                 -- inst:Hide()
                 -- if inst.DynamicShadow ~= nil then
                 --     inst.DynamicShadow:Enable(false)
@@ -189,7 +189,7 @@ local function yaemiko_skill(inst)
                 if inst.components.health ~= nil then
                     inst.components.health:SetInvincible(true)
                 end
-                inst:DoTaskInTime(1,OnBlinked)
+                inst:DoTaskInTime(.25,OnBlinked)
 
             end
         end
