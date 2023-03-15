@@ -168,12 +168,18 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
         end
         SpawnPrefab("yaemiko_lightning").Transform:SetPosition(v.Transform:GetWorldPosition())
         if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
-		    -- 给伏特羊伤害。
+		      -- 给包含(伏特羊)Tag的目标伤害时，将攻击者设置为空。
+          -- 鉴于有的地方存在不会进行攻击者的空校验的情况，最好还是单独仅排除伏特羊
+          -- 同时，部分模组（例如海难模组）的水母也会造成反雷，但伤害属实不怎么样，就暂时不管
+          if v:HasTag("lightninggoat") then
             v.components.combat:GetAttacked(nil, damage, nil, "electro")
             -- 手动设置仇恨。虽然伏特羊被雷击后进入攻击状态，但玩家太远会原地发呆。
             v.components.combat:SuggestTarget(self.attacker)
-            v:PushEvent("lightningstrike")
-            return true
+          else
+            v.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
+          end
+          v:PushEvent("lightningstrike")
+          return true
         end
         v:PushEvent("lightningstrike")
         --未有效命中
@@ -279,9 +285,16 @@ function yaemiko_skill:aoeQ(damage)
       for i, v in pairs(ents) do
         if v:IsValid() and not v:IsInLimbo() then
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
-            -- 来源为nil，是为了避免被伏特羊返雷
-            v.components.combat:GetAttacked(nil, damage, nil, "electro")
-            v.components.combat:SuggestTarget(self.attacker)
+            -- 给包含(伏特羊)Tag的目标伤害时，将攻击者设置为空。
+            -- 鉴于有的地方存在不会进行攻击者的空校验的情况，最好还是单独仅排除伏特羊
+            -- 同时，部分模组（例如海难模组）的水母也会造成反雷，但伤害属实不怎么样，就暂时不管
+            if v:HasTag("lightninggoat") then
+              v.components.combat:GetAttacked(nil, damage, nil, "electro")
+              -- 手动设置仇恨。虽然伏特羊被雷击后进入攻击状态，但玩家太远会原地发呆。
+              v.components.combat:SuggestTarget(self.attacker)
+            else
+              v.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
+            end
           end
           yaemiko_skill:FireCheck(v,damage)
         end
