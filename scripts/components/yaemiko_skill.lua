@@ -213,6 +213,7 @@ function yaemiko_skill:aoeQ(damage)
   local x, y, z = self.inst.Transform:GetWorldPosition()
   local attackcnt=0
   --寻找附近杀生樱，距离8
+  --范围在游戏里感觉还是有点小，走位放容易吃不到，可以考虑加大
   local ssycnt = TheSim:FindEntities(x, y, z, 8, {"shashengying"}, nil,nil)
   for i,v in pairs(ssycnt) do
     --检查距离内同一玩家的杀生樱数量
@@ -235,6 +236,20 @@ function yaemiko_skill:aoeQ(damage)
   end
   -- 一命效果。每株杀生樱恢复8点能量。
   self.inst.components.energy:DoDelta(8*attackcnt)
+  -- 天赋 神篱之御荫效果，返还摧毁杀生樱数量的元素战技层数
+  -- 原本的效果其实是每摧毁一株杀生樱，就重置一次元素战技CD，但是对于现有的CD计算实现太复杂了，遂采用直接返还层数的方式来等效
+  local should_ecnt=self.ecnt + attackcnt
+  -- 够充满了，直接设置3层然后取消ECD计算
+  if should_ecnt >= 3 then
+    self.ecnt = 3
+    self.inst:RemoveTag("ecd")
+    self.inst:RemoveTag("ecd_doing")
+    if self.inst.ECD then
+      self.inst.ECD:Cancel()
+    end
+  else
+    self.ecnt = should_ecnt
+  end
   
   --根据坐标范围伤害
   x,y,z=nearest.Transform:GetWorldPosition()
