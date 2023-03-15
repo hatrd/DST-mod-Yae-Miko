@@ -117,7 +117,7 @@ local function MoveAndSummonSsy(inst)
             break
         end
     end
-    inst.components.playercontroller:Enable(true)
+    -- inst.components.playercontroller:Enable(true)
 
     --记录杀生樱信息
     ssy.components.yaemiko_skill:SsySetInit(inst,yaemiko_nowdamage(inst))
@@ -182,8 +182,8 @@ local function yaemiko_skill(inst)
                 end)
                 end
 
-                inst.components.playercontroller:Enable(false)
-                inst.components.locomotor:Stop()
+                -- inst.components.playercontroller:Enable(false)
+                -- inst.components.locomotor:Stop()
                 -- inst:Hide()
                 -- if inst.DynamicShadow ~= nil then
                 --     inst.DynamicShadow:Enable(false)
