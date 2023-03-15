@@ -214,7 +214,6 @@ function yaemiko_skill:aoeQ(damage)
   self.inst.components.energy:DoDelta(-90)
   local x, y, z = self.inst.Transform:GetWorldPosition()
   local attackcnt=0
-  --寻找附近杀生樱，距离10
   local ssycnt = TheSim:FindEntities(x, y, z, TUNING.YAE_BURST_RECYCLE_RADIUS, {"shashengying"}, nil,nil)
   for i,v in pairs(ssycnt) do
     --检查距离内同一玩家的杀生樱数量
