@@ -3,8 +3,8 @@ local assets =
 	Asset( "ANIM", "anim/yaemiko_fx.zip" ),
     Asset("ANIM", "anim/lightning_rod_fx.zip"),
 }
-
-
+-- 杀生樱连线强化最大半径
+TUNING.YAE_SSY_CONNECT_RADIUS=10
 local function summonssy()
   
 	local inst = CreateEntity()
@@ -44,9 +44,8 @@ local function summonssy()
 			inst.components.yaemiko_skill:StepRemainCnt()
 			local remainCnt = inst.components.yaemiko_skill:GetRemainCnt()
 			local x, y, z = inst.Transform:GetWorldPosition()
-			--寻找附近杀生樱，距离7
 			local amtSsy = 0
-			local ssycnt = TheSim:FindEntities(x, y, z, 7, {"shashengying"}, nil,nil)
+			local ssycnt = TheSim:FindEntities(x, y, z, TUNING.YAE_SSY_CONNECT_RADIUS, {"shashengying"}, nil,nil)
 			--初始化杀生樱存在记录
 			inst.components.yaemiko_skill:InitLineRecord()
 			for i,v in pairs(ssycnt) do

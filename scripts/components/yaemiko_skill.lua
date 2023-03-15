@@ -145,12 +145,14 @@ function yaemiko_skill:FireCheck(v,damage)
     end
   end
 end
-
+TUNING.YAE_SSY_STRIKE_RADIUS=12
+TUNING.YAE_BURST_RECYCLE_RADIUS=10
+TUNING.YAE_BURST_AOE_RADIUS=5
 local CANT_TAGS = {"INLIMBO", "player", "chester", "companion","wall","abigail"}
 local MUST_TAGS = {"_combat"}
 function yaemiko_skill:luolei(x,y,z,amtSsy)
     --为了打避雷针，MUST_TAGS为nil
-    local ents = TheSim:FindEntities(x, y, z, 12, nil, CANT_TAGS,nil)
+    local ents = TheSim:FindEntities(x, y, z, TUNING.YAE_SSY_STRIKE_RADIUS, nil, CANT_TAGS,nil)
     local damage = self:GetDamage()
 
     -- 充能特效
@@ -185,7 +187,7 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
 		end
 	end
     
-	local tgt = GetRandomInstWithTag("yaemikotarget", self.inst, 12)
+	local tgt = GetRandomInstWithTag("yaemikotarget", self.inst, TUNING.YAE_SSY_STRIKE_RADIUS)
 	if tgt == nil then
       return false
 	else
@@ -198,7 +200,7 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
 end
 
 function yaemiko_skill:aoeQ(damage)
-  local nearest = FindClosestEntity(self.inst, 12, true, MUST_TAGS, CANT_TAGS, nil, nil)
+  local nearest = FindClosestEntity(self.inst, TUNING.YAE_SSY_STRIKE_RADIUS, true, MUST_TAGS, CANT_TAGS, nil, nil)
   -- local nearest = GetClosestInstWithTag({"hostile"}, self.inst, 12)
   if nearest == nil then
     self.inst:DoTaskInTime(0.1, function()
@@ -212,9 +214,8 @@ function yaemiko_skill:aoeQ(damage)
   self.inst.components.energy:DoDelta(-90)
   local x, y, z = self.inst.Transform:GetWorldPosition()
   local attackcnt=0
-  --寻找附近杀生樱，距离8
-  --范围在游戏里感觉还是有点小，走位放容易吃不到，可以考虑加大
-  local ssycnt = TheSim:FindEntities(x, y, z, 8, {"shashengying"}, nil,nil)
+  --寻找附近杀生樱，距离10
+  local ssycnt = TheSim:FindEntities(x, y, z, TUNING.YAE_BURST_RECYCLE_RADIUS, {"shashengying"}, nil,nil)
   for i,v in pairs(ssycnt) do
     --检查距离内同一玩家的杀生樱数量
     if v.components.yaemiko_skill:GetUID()==self.inst.userid then
@@ -255,7 +256,7 @@ function yaemiko_skill:aoeQ(damage)
   x,y,z=nearest.Transform:GetWorldPosition()
   self.inst.sg:GoToState("cookbook_close")     
   SpawnPrefab("yaemiko_lightning").Transform:SetPosition(x,y,z)
-  local ents = TheSim:FindEntities(x, y, z, 5, MUST_TAGS, CANT_TAGS,nil)
+  local ents = TheSim:FindEntities(x, y, z, TUNING.YAE_BURST_AOE_RADIUS, MUST_TAGS, CANT_TAGS,nil)
     for i, v in pairs(ents) do
         if v:IsValid() and not v:IsInLimbo() then
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
@@ -275,7 +276,7 @@ function yaemiko_skill:aoeQ(damage)
       local x1,y1,z1=nearest.Transform:GetWorldPosition()
       SpawnPrefab("yaemiko_lightning").Transform:SetPosition(x1,y1,z1)
       --伤害
-      local ents = TheSim:FindEntities(x1, y1, z1, 3, MUST_TAGS, CANT_TAGS,nil)
+      local ents = TheSim:FindEntities(x1, y1, z1, TUNING.YAE_BURST_AOE_RADIUS, MUST_TAGS, CANT_TAGS,nil)
       for i, v in pairs(ents) do
         if v:IsValid() and not v:IsInLimbo() then
           if v.components.combat ~= nil and not (v.components.health ~= nil and v.components.health:IsDead()) then
