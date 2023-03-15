@@ -237,7 +237,7 @@ function yaemiko_skill:aoeQ(damage)
   -- 一命效果。每株杀生樱恢复8点能量。
   self.inst.components.energy:DoDelta(8*attackcnt)
   -- 天赋 神篱之御荫效果，返还摧毁杀生樱数量的元素战技层数
-  -- 真正的效果其实是每摧毁一株杀生樱，就重置一次元素战技CD
+  -- 原本的效果其实是每摧毁一株杀生樱，就重置一次元素战技CD，但是对于现有的CD计算实现太复杂了，遂采用直接返还层数的方式来等效
   local should_ecnt=self.ecnt + attackcnt
   -- 够充满了，直接设置3层然后取消ECD计算
   if should_ecnt >= 3 then
