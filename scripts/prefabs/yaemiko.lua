@@ -174,6 +174,7 @@ local function yaemiko_skill(inst)
                 inst.ECD = inst:DoPeriodicTask(4, function(inst)
                     inst.components.yaemiko_skill.ecnt=inst.components.yaemiko_skill.ecnt+1
                     if inst.components.yaemiko_skill.ecnt >= 3 then
+                    inst.components.yaemiko_skill.ecnt = 3
                     inst:RemoveTag("ecd")
                     inst:RemoveTag("ecd_doing")
                     inst.ECD:Cancel()
