@@ -179,6 +179,7 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
             v.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
           end
           v:PushEvent("lightningstrike")
+          yaemiko_skill:FireCheck(v,damage)
           return true
         end
         --打避雷针，未有效命中
