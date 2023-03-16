@@ -181,8 +181,8 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
           v:PushEvent("lightningstrike")
           return true
         end
+        --打避雷针，未有效命中
         v:PushEvent("lightningstrike")
-        --未有效命中
         return false
     end
 		if v ~= self.inst and v:IsValid() and not v:IsInLimbo() then
@@ -275,7 +275,6 @@ function yaemiko_skill:aoeQ(damage)
             else
               v.components.combat:GetAttacked(self.attacker, damage*self.thxzDamageMultiply[1], nil, "electro")
             end
-            -- 来源为nil，是为了避免被伏特羊返雷
             yaemiko_skill:FireCheck(v,damage*self.thxzDamageMultiply[1])
           end
         end
