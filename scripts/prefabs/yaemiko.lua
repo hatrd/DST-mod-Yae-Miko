@@ -9,8 +9,13 @@ TUNING.YAEMIKO_HEALTH = 100
 TUNING.YAEMIKO_HUNGER = 150
 TUNING.YAEMIKO_SANITY = 200
 
--- 基本技能伤害
-TUNING.YAEMIKO_SKILL_DAMAGE_BASE = 20
+-- 基本技能伤害，技能基准伤害为<所持武器伤害+基本技能伤害>
+TUNING.YAEMIKO_SKILL_DAMAGE_BASE = 10
+
+-- 天赋等级保存上限，高于此等级的天赋等级不会被保存
+-- 例如本项若设置为10，则八重虽可以在游戏内提升天赋等级到13级。但重新登入后，将会被回退到天赋等级10级。
+-- 设置该项是为了在平衡性调整时，作为一个可以考虑的方向
+TUNING.YAEMIKO_KEEP_SKILL_LEVEL = 13
 
 -- 初始道具
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.YAEMIKO = {
@@ -34,8 +39,13 @@ local function onbecameghost(inst)
    inst.components.locomotor:RemoveExternalSpeedMultiplier(inst, "yaemiko_speed_mod")
 end
 
+local function onsave(inst, data)
+    -- 保存天赋等级
+	data.skill_level = inst.components.yaemiko_skill:GetSkillLvl()
+end
+
 -- When loading or spawning the character
-local function onload(inst)
+local function onload(inst,data)
     inst:ListenForEvent("ms_respawnedfromghost", onbecamehuman)
     inst:ListenForEvent("ms_becameghost", onbecameghost)
 
@@ -43,6 +53,16 @@ local function onload(inst)
         onbecameghost(inst)
     else
         onbecamehuman(inst)
+    end
+
+    -- 读取保存的天赋等级
+    if data and data.skill_level then
+        -- 超出设置的限制，回退到限制值
+        if data.skill_level>TUNING.YAEMIKO_KEEP_SKILL_LEVEL then
+            inst.components.yaemiko_skill:SetSkillLvl(TUNING.YAEMIKO_KEEP_SKILL_LEVEL) 
+        else
+            inst.components.yaemiko_skill:SetSkillLvl(data.skill_level) 
+        end
     end
 end
 
@@ -79,11 +99,12 @@ local function yaemiko_nowdamage(inst_f)
             elseif item.prefab == "thecatch" and type(TUNING.THECATCH_DAMAGE)=="number" then --雷电将军：渔获
                 atkDamage = TUNING.THECATCH_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
             else
-                atkDamage = 10 + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+                -- 不认识的无法适配武器，给矛伤害
+                atkDamage = TUNING.SPEAR_DAMAGE + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
             end
         else
-            --其他情况给10伤害保底
-            atkDamage = 10 + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
+            --其他情况给空手伤害
+            atkDamage = 20 + TUNING.YAEMIKO_SKILL_DAMAGE_BASE
         end
     end
     if inst_f.components.combat then
@@ -120,7 +141,7 @@ local function MoveAndSummonSsy(inst)
     -- inst.components.playercontroller:Enable(true)
 
     --记录杀生樱信息
-    ssy.components.yaemiko_skill:SsySetInit(inst,yaemiko_nowdamage(inst))
+    ssy.components.yaemiko_skill:SsySetInit(inst,yaemiko_nowdamage(inst),inst.components.yaemiko_skill:GetSkillLvl())
     inst.components.sanity:DoDelta(-0.3)
 
     --寻找附近杀生樱，距离20不够。比如在屏幕边缘放
@@ -220,8 +241,6 @@ local function Update(inst)
 
 end
 
-
-
 -------------------------------------------------------------
 
 -- This initializes for both the server and client. Tags can be added here.
@@ -282,6 +301,7 @@ local master_postinit = function(inst)
 	-- Hunger rate (optional)
 	inst.components.hunger.hungerrate = 1 * TUNING.WILSON_HUNGER_RATE
 	
+    inst.OnSave = onsave
 	inst.OnLoad = onload
     inst.OnNewSpawn = onload
 

@@ -6,7 +6,8 @@ local yaeyubi_info = Class(function(self, inst)
     -- 1阶基础伤害，每阶精炼增加伤害
     -- 御币是电属性伤害，受1.5倍加成(潮湿目标2.5倍加成)，不建议面板伤害过高。技能伤害计算时会单独判断御币并乘上1.5的乘数
     self.basedamage = 20
-    self.refineMultiply = 7.5
+    -- 每阶精炼的伤害提升，该数值正好使得满强化、6级天赋下的三阶杀生樱一下秒不掉蜘蛛，且伤害略逊于玻璃刀、暗影剑
+    self.refineMultiply = 5
 end,
 nil,
 {
