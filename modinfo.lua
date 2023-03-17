@@ -69,7 +69,7 @@ configuration_options = {
 		name="yaeyubi_limit",
 		label="Yubi Strengthen 御币强化",
 		options={
-			{description="No Limit 无限制",data=0},
+			{description="No Limit 无限制",data=2147483647},
 			{description="Can't 不能强化",data=1},
 			{description="3",data=3},
 			{description="5",data=5},

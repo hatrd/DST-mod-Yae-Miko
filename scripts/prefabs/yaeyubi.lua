@@ -13,7 +13,7 @@ end
 
 -- 进行精炼
 local function onRefine(inst, giver, item)
-    if TUNING.YAEYUBI_REFINE_LIMIT == 0 or inst.components.yaeyubi_info:GetRefine()<TUNING.YAEYUBI_REFINE_LIMIT then
+    if inst.components.yaeyubi_info:GetRefine()<TUNING.YAEYUBI_REFINE_LIMIT then
         inst.components.yaeyubi_info:RefineDoDelta(1)
     end
     inst.SoundEmitter:PlaySound("dontstarve/common/telebase_gemplace")
