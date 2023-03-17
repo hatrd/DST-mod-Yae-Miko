@@ -76,6 +76,8 @@ TUNING.YAEMIKO_CHARGE_KEY = GetModConfigData("charge")
 TUNING.YAEMIKO_SKILL_KEY = GetModConfigData("skill")
 TUNING.YAEMIKO_BURST_KEY = GetModConfigData("burst")
 
+TUNING.YAEYUBI_REFINE_LIMIT=GetModConfigData("yaeyubi_limit")
+
 -- The skins shown in the cycle view window on the character select screen.
 -- A good place to see what you can put in here is in skinutils.lua, in the function GetSkinModes
 local skin_modes = {

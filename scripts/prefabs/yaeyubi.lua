@@ -11,9 +11,6 @@ local function onunequip(inst, owner)
     owner.AnimState:Show("ARM_normal")
 end
 
--- 可以在考虑modinfo里配置强化上限以支持更高的强化(或禁止强化)，0为无限
-TUNING.YAEYUBI_REFINE_LIMIT=5
-
 -- 进行精炼
 local function onRefine(inst, giver, item)
     if TUNING.YAEYUBI_REFINE_LIMIT == 0 or inst.components.yaeyubi_info:GetRefine()<TUNING.YAEYUBI_REFINE_LIMIT then

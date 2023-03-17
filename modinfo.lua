@@ -56,7 +56,7 @@ configuration_options = {
 	-- },
 	{
 		name = "er",
-		label = "Energy Recharge",
+		label = "Energy Recharge 充能效率",
 		hover = "",
 		options = {
 			{description = "100%", data = 1},
@@ -66,6 +66,19 @@ configuration_options = {
 		default = 1
 	},
 	{
+		name="yaeyubi_limit",
+		label="Yubi Strengthen 御币强化",
+		options={
+			{description="No Limit 无限制",data=0},
+			{description="Can't 不能强化",data=1},
+			{description="3",data=3},
+			{description="5",data=5},
+			{description="10",data=10},
+			{description="20",data=20},
+		},
+		default=5
+	},
+	{
 		name = "Key",
 		hover = "",
 		options={{description = "", data = 0}},
@@ -73,14 +86,14 @@ configuration_options = {
 	},
 	{
 		name = "skill",
-		label = "Elemental Skill",
+		label = "Elemental Skill 元素战技",
 		hover = "",
 		options = list,
 		default = "KEY_Z",	
 	},
 	{
 		name = "burst",
-		label = "Elemental Burst",
+		label = "Elemental Burst 元素爆发",
 		hover = "",
 		options = list,
 		default = "KEY_X",	
