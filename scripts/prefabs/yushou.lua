@@ -71,7 +71,7 @@ local function fn()
   
 
   inst:AddComponent("equippable")
-  inst.components.equippable.equipslot = EQUIPSLOTS.HEAD
+  inst.components.equippable.equipslot = EQUIPSLOTS.NECK or EQUIPSLOTS.HEAD -- 我们无法让饰品栏主动把我们扔进对应的槽位，那我们就自己往那个槽位去靠！
   inst.components.equippable:SetOnEquip(OnEquip)
   inst.components.equippable:SetOnUnequip(OnUnequip)
   return inst
