@@ -1,4 +1,3 @@
-
 --技能的代码实现
 local yaemiko_skill = Class(function(self, inst)
 	self.inst = inst
@@ -6,7 +5,6 @@ local yaemiko_skill = Class(function(self, inst)
   self.skill_level = 1
 
   -- 杀生樱与天狐显真的伤害倍率，数值目前完全参zhao考ban原神内原倍率。
-  -- 在高天赋等级的情况下伤害偏高，可能需要平衡性调整。
 	self.ssyDamageMultiply = {
     {0.61,0.65,0.70,0.76,0.80,0.85,0.91,0.97,1.03,1.09,1.15,1.21,1.29},-- 一阶杀生樱伤害倍率 (未升级空手时不到三阶连鸟都劈不死XD)
     {0.76,0.82,0.87,0.95,1.01,1.06,1.14,1.21,1.29,1.37,1.44,1.52,1.61},-- 二阶杀生樱伤害倍率
@@ -182,7 +180,8 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
 
     -- 充能特效
     SpawnPrefab("electricchargedfx"):SetTarget(self.inst)
-    damage = damage*self.ssyDamageMultiply[amtSsy][self.skill_level]
+    damage = damage*((self.ssyDamageMultiply[amtSsy][self.skill_level] - self.ssyDamageMultiply[amtSsy][1])
+      *TUNING.YAEMIKO_SKILL_LEVELING_MULTIPLY + self.ssyDamageMultiply[amtSsy][1])
 
 	for i, v in pairs(ents) do
     --打避雷针
@@ -284,7 +283,8 @@ function yaemiko_skill:aoeQ(damage)
   end
   
   --根据坐标范围伤害
-  local suppostDamage = damage*self.thxzDamageMultiply[1][self.skill_level]
+  local suppostDamage = damage*((self.thxzDamageMultiply[1][self.skill_level] - self.thxzDamageMultiply[1][1])
+    *TUNING.YAEMIKO_SKILL_LEVELING_MULTIPLY + self.thxzDamageMultiply[1][1])
   x,y,z=nearest.Transform:GetWorldPosition()
   self.inst.sg:GoToState("cookbook_close")     
   SpawnPrefab("yaemiko_lightning").Transform:SetPosition(x,y,z)
@@ -307,7 +307,8 @@ function yaemiko_skill:aoeQ(damage)
         end
     end
   --根据attackcnt召唤落雷。天狐霆雷会略晚于天狐显真发生
-  suppostDamage = damage*self.thxzDamageMultiply[2][self.skill_level]
+  suppostDamage = damage*((self.thxzDamageMultiply[2][self.skill_level] - self.thxzDamageMultiply[2][1])
+    *TUNING.YAEMIKO_SKILL_LEVELING_MULTIPLY + self.thxzDamageMultiply[2][1])
   nearest:DoTaskInTime(0.5,function(nearest)
     nearest.aoetask=nearest:DoPeriodicTask(0.3,function(nearest)
       --闪电
