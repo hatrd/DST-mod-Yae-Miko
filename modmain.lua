@@ -77,6 +77,9 @@ TUNING.YAEMIKO_SKILL_KEY = GetModConfigData("skill")
 TUNING.YAEMIKO_BURST_KEY = GetModConfigData("burst")
 
 TUNING.YAEYUBI_REFINE_LIMIT=GetModConfigData("yaeyubi_limit")
+  -- 每级（相较于起始倍率）对伤害的提升的倍率。1.0为原倍率。由于原倍率偏高，默认为0.5倍
+  -- 例如若为0.5，则每级对伤害的提升为原倍率的一半，若为2，则每级对伤害的提升为原倍率的2倍。
+TUNING.YAEMIKO_SKILL_LEVELING_MULTIPLY = GetModConfigData("yaemiko_skill_leveling_multiply_config")
 
 -- The skins shown in the cycle view window on the character select screen.
 -- A good place to see what you can put in here is in skinutils.lua, in the function GetSkinModes
@@ -136,3 +139,5 @@ end)
 
 -- Add mod character to mod character list. Also specify a gender. Possible genders are MALE, FEMALE, ROBOT, NEUTRAL, and PLURAL.
 AddModCharacter("yaemiko", "FEMALE", skin_modes)
+
+modimport("scripts/yaemiko_postinit.lua")

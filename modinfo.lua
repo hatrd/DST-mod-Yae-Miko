@@ -79,6 +79,20 @@ configuration_options = {
 		default=5
 	},
 	{
+		name="yaemiko_skill_leveling_multiply_config",
+		label="DamageStrengthenMultiplier天赋伤害提升倍率",
+		options={
+			{description="No Increase[0.0]",data=1},
+			{description="It's TOO EASY[0.2]",data=0.2},
+			{description="Recommend推荐[0.5]",data=0.5},
+			{description="Make it easer[0.8]",data=0.8},
+			{description="Same as GS[1.0]",data=1},
+			{description="Their are IMBA![1.4]",data=1.4},
+			{description="Seriously? [2.0]",data=2},
+		},
+		default=0.5
+	},
+	{
 		name = "Key",
 		hover = "",
 		options={{description = "", data = 0}},

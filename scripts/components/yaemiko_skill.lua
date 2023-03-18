@@ -1,12 +1,19 @@
-
 --技能的代码实现
 local yaemiko_skill = Class(function(self, inst)
 	self.inst = inst
 	self.attacker = inst
+  self.skill_level = 1
 
-  --杀生樱与天狐显真的伤害倍率 可能需要平衡性调整
-	self.ssyDamageMultiply = {0.6,0.75,0.94} --一/二/三阶杀生樱伤害倍率 (空手时不到三阶连鸟都劈不死XD)
-  self.thxzDamageMultiply = {2.6,3.34} --天狐显真/天狐霆雷伤害倍率
+  -- 杀生樱与天狐显真的伤害倍率，数值目前完全参zhao考ban原神内原倍率。
+	self.ssyDamageMultiply = {
+    {0.61,0.65,0.70,0.76,0.80,0.85,0.91,0.97,1.03,1.09,1.15,1.21,1.29},-- 一阶杀生樱伤害倍率 (未升级空手时不到三阶连鸟都劈不死XD)
+    {0.76,0.82,0.87,0.95,1.01,1.06,1.14,1.21,1.29,1.37,1.44,1.52,1.61},-- 二阶杀生樱伤害倍率
+    {0.95,1.01,1.09,1.19,1.26,1.33,1.42,1.52,1.61,1.71,1.80,1.90,2.02} -- 三阶杀生樱伤害倍率
+  } 
+  self.thxzDamageMultiply = {
+    {2.60,2.80,2.99,3.25,3.45,3.64,3.90,4.16,4.42,4.68,4.94,5.20,5.53},-- 天狐显真伤害倍率
+    {3.34,3.59,3.84,4.17,4.42,4.67,5.01,5.34,5.68,6.01,6.34,6.68,7.09} -- 天狐霆雷伤害倍率
+  } 
 
   self.ssyCreatorId = nil --释放本杀生樱的玩家uid/玩家uid
 
@@ -100,11 +107,27 @@ function yaemiko_skill:GetDamage()
 	return self.dmg
 end
 
+--获取天赋等级
+function yaemiko_skill:GetSkillLvl()
+	return self.skill_level
+end
+
+--设置天赋等级
+function yaemiko_skill:SetSkillLvl(val)
+	self.skill_level = val
+end
+
+--修改天赋等级
+function yaemiko_skill:DeltaSkillLvl(delta)
+	self.skill_level = self.skill_level + delta
+end
+
 --初始化杀生樱参数
-function yaemiko_skill:SsySetInit(creator,damage)
+function yaemiko_skill:SsySetInit(creator,damage,creatorSkill)
   self.dmg = damage
   self.attacker = creator
   self.ssyCreatorId = creator.userid
+  self.skill_level = creatorSkill
 end
 
 --初始化神子参数
@@ -157,7 +180,8 @@ function yaemiko_skill:luolei(x,y,z,amtSsy)
 
     -- 充能特效
     SpawnPrefab("electricchargedfx"):SetTarget(self.inst)
-    damage = damage*self.ssyDamageMultiply[amtSsy]
+    damage = damage*((self.ssyDamageMultiply[amtSsy][self.skill_level] - self.ssyDamageMultiply[amtSsy][1])
+      *TUNING.YAEMIKO_SKILL_LEVELING_MULTIPLY + self.ssyDamageMultiply[amtSsy][1])
 
 	for i, v in pairs(ents) do
     --打避雷针
@@ -259,6 +283,8 @@ function yaemiko_skill:aoeQ(damage)
   end
   
   --根据坐标范围伤害
+  local suppostDamage = damage*((self.thxzDamageMultiply[1][self.skill_level] - self.thxzDamageMultiply[1][1])
+    *TUNING.YAEMIKO_SKILL_LEVELING_MULTIPLY + self.thxzDamageMultiply[1][1])
   x,y,z=nearest.Transform:GetWorldPosition()
   self.inst.sg:GoToState("cookbook_close")     
   SpawnPrefab("yaemiko_lightning").Transform:SetPosition(x,y,z)
@@ -270,18 +296,19 @@ function yaemiko_skill:aoeQ(damage)
             -- 鉴于有的地方存在不会进行攻击者的空校验的情况，最好还是单独仅排除伏特羊
             -- 同时，部分模组（例如海难模组）的水母也会造成反雷，但伤害属实不怎么样，就暂时不管
             if v:HasTag("lightninggoat") then
-              v.components.combat:GetAttacked(nil, damage*self.thxzDamageMultiply[1], nil, "electro")
+              v.components.combat:GetAttacked(nil, suppostDamage, nil, "electro")
               -- 手动设置仇恨。虽然伏特羊被雷击后进入攻击状态，但玩家太远会原地发呆。
               v.components.combat:SuggestTarget(self.attacker)
             else
-              v.components.combat:GetAttacked(self.attacker, damage*self.thxzDamageMultiply[1], nil, "electro")
+              v.components.combat:GetAttacked(self.attacker, suppostDamage, nil, "electro")
             end
-            yaemiko_skill:FireCheck(v,damage*self.thxzDamageMultiply[1])
+            yaemiko_skill:FireCheck(v,suppostDamage)
           end
         end
     end
   --根据attackcnt召唤落雷。天狐霆雷会略晚于天狐显真发生
-  damage=damage*self.thxzDamageMultiply[2]
+  suppostDamage = damage*((self.thxzDamageMultiply[2][self.skill_level] - self.thxzDamageMultiply[2][1])
+    *TUNING.YAEMIKO_SKILL_LEVELING_MULTIPLY + self.thxzDamageMultiply[2][1])
   nearest:DoTaskInTime(0.5,function(nearest)
     nearest.aoetask=nearest:DoPeriodicTask(0.3,function(nearest)
       --闪电
@@ -296,14 +323,14 @@ function yaemiko_skill:aoeQ(damage)
             -- 鉴于有的地方存在不会进行攻击者的空校验的情况，最好还是单独仅排除伏特羊
             -- 同时，部分模组（例如海难模组）的水母也会造成反雷，但伤害属实不怎么样，就暂时不管
             if v:HasTag("lightninggoat") then
-              v.components.combat:GetAttacked(nil, damage, nil, "electro")
+              v.components.combat:GetAttacked(nil, suppostDamage, nil, "electro")
               -- 手动设置仇恨。虽然伏特羊被雷击后进入攻击状态，但玩家太远会原地发呆。
               v.components.combat:SuggestTarget(self.attacker)
             else
-              v.components.combat:GetAttacked(self.attacker, damage, nil, "electro")
+              v.components.combat:GetAttacked(self.attacker, suppostDamage, nil, "electro")
             end
           end
-          yaemiko_skill:FireCheck(v,damage)
+          yaemiko_skill:FireCheck(v,suppostDamage)
         end
       end
     end)
