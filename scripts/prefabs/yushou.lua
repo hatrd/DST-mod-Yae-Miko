@@ -24,6 +24,17 @@ local function OnEquip(inst, owner)
 
 end
 
+local function descOverride(inst,viewer)
+  if inst == viewer then
+    return
+  end
+  if viewer and viewer.prefab=="yaemiko" then
+    return string.format(STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.YUSHOU_ADDITIONAL_DESCRIBE ,viewer.components.yaemiko_skill:GetSkillLvl())
+  else
+    return STRINGS.CHARACTERS.GENERIC.DESCRIBE.YUSHOU
+  end
+end
+
 local function OnUnequip(inst, owner)
 
 
@@ -50,6 +61,7 @@ local function fn()
   STRINGS.NAMES.YUSHOU = "御守"
   STRINGS.RECIPE_DESC.YUSHOU = "想我的时候也可以拿出来看看哦？"
   STRINGS.CHARACTERS.GENERIC.DESCRIBE.YUSHOU = "这是才智与美貌兼具的八重神子大人赠予我的！"
+  STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.YUSHOU_ADDITIONAL_DESCRIBE = "天赋等级…%u级？" --我想不出来这里说什么骚话，反正格式先写这里。
 
   anim:SetBank("yushou")
   anim:SetBuild("yushou")
@@ -64,6 +76,7 @@ local function fn()
   end
 
   inst:AddComponent("inspectable")
+  inst.components.inspectable.descriptionfn = descOverride
   inst:AddComponent("tradable")
   inst:AddComponent("inventoryitem")
   inst.components.inventoryitem.imagename = "yushou"
