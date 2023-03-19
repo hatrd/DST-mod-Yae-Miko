@@ -16,7 +16,8 @@ local function onRefine(inst, giver, item)
     if inst.components.yaeyubi_info:GetRefine()<TUNING.YAEYUBI_REFINE_LIMIT then
         inst.components.yaeyubi_info:RefineDoDelta(1)
     end
-    inst.SoundEmitter:PlaySound("dontstarve/common/telebase_gemplace")
+    -- inst.SoundEmitter:PlaySound("dontstarve/common/telebase_gemplace")
+    inst.SoundEmitter:PlaySound("yaemiko_sfx/yaemiko_sfx/gs_levelup")
 end
 
 -- 判断给予的物品是否符合要求；是否现在还可以精炼

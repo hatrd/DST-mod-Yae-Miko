@@ -19,14 +19,17 @@ AddAction("YAEMIKO_SKILLLEVELING", STRINGS.ACTIONS.USEITEM, function(act)
         if act.doer.components.yaemiko_skill:GetSkillLvl()<TUNING.YAEMIKO_SKILL_STAGE_1_MAXIMUM_LEVEL and act.invobject.prefab=="moonrocknugget" then
           act.doer.components.yaemiko_skill:DeltaSkillLvl(1)
           act.invobject.components.stackable:Get():Remove()
+          act.doer.SoundEmitter:PlaySound("yaemiko_sfx/yaemiko_sfx/gs_levelup")
           return true
         elseif  act.doer.components.yaemiko_skill:GetSkillLvl()<TUNING.YAEMIKO_SKILL_STAGE_2_MAXIMUM_LEVEL and act.invobject.prefab=="moonglass" then
           act.doer.components.yaemiko_skill:DeltaSkillLvl(1)
           act.invobject.components.stackable:Get():Remove()
+          act.doer.SoundEmitter:PlaySound("yaemiko_sfx/yaemiko_sfx/gs_levelup")
           return true
         elseif  act.doer.components.yaemiko_skill:GetSkillLvl()<TUNING.YAEMIKO_SKILL_STAGE_3_MAXIMUM_LEVEL and act.invobject.prefab=="moonglass_charged" then
           act.doer.components.yaemiko_skill:DeltaSkillLvl(1)
           act.invobject.components.stackable:Get():Remove()
+          act.doer.SoundEmitter:PlaySound("yaemiko_sfx/yaemiko_sfx/gs_levelup")
           return true
         end
     end
