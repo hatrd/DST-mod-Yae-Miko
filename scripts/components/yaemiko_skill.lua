@@ -114,12 +114,24 @@ end
 
 --设置天赋等级
 function yaemiko_skill:SetSkillLvl(val)
-	self.skill_level = val
+  if val < 1 then
+    self.skill_level=1
+  elseif val>13 then
+    self.skill_level=13
+  else  
+  	self.skill_level = val
+  end
 end
 
 --修改天赋等级
 function yaemiko_skill:DeltaSkillLvl(delta)
-	self.skill_level = self.skill_level + delta
+	if self.skill_level+delta<1 then
+    self.skill_level=1
+  elseif self.skill_level+delta>13 then
+    self.skill_level=13
+  else
+    self.skill_level = self.skill_level + delta
+  end
 end
 
 --初始化杀生樱参数
