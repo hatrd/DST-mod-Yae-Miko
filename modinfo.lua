@@ -28,8 +28,8 @@ end
 configuration_options = {
 	{
 		name = "language",
-		label = "Language",
-		hover = "",
+		label = "Language  语言",
+		hover = "In-game display language.\n游戏内显示语言。",
 		options = {
 			{description = "English", data = 1, hover = ""},
 			{description = "中文", data = 2, hover = ""}
@@ -56,8 +56,8 @@ configuration_options = {
 	-- },
 	{
 		name = "er",
-		label = "Energy Recharge 充能效率",
-		hover = "",
+		label = "Recharge Rate 充能效率",
+		hover = "Energy Recharge Rate.\n元素充能效率",
 		options = {
 			{description = "100%", data = 1},
 			{description = "150%", data = 1.5},
@@ -67,28 +67,30 @@ configuration_options = {
 	},
 	{
 		name="yaeyubi_limit",
-		label="Yubi Strengthen 御币强化",
+		hover="Gohei Refinement Level Limit, use Purple Gem to Refine.\n御币的精炼等阶限制，使用紫水晶精炼。\n",
+		label="Gohei Refinement 御币强化",
 		options={
-			{description="No Limit 无限制",data=2147483647},
-			{description="Can't 不能强化",data=1},
-			{description="3",data=3},
-			{description="5",data=5},
-			{description="10",data=10},
-			{description="20",data=20},
+			{description="Unlimited 无限制",data=2147483647,hover="Maximum Damage Unknown  最大伤害未知"},
+			{description="Disabled 不能精炼",data=1,hover="Initital 20 Electric Damage  初始的20带电伤害"},
+			{description="3",data=3,hover="Max of 30 Electric Damage  最高30带电伤害"},
+			{description="5",data=5,hover="Max of 40 Electric Damage  最高40带电伤害"},
+			{description="10",data=10,hover="Max of 65 Electric Damage  最高65带电伤害"},
+			{description="20",data=20,hover="Max of 115 Electric Damage  最高115带电伤害"},
 		},
 		default=5
 	},
 	{
 		name="yaemiko_skill_leveling_multiply_config",
-		label="DamageStrengthenMultiplier天赋伤害提升倍率",
+		hover="Multiplier for talents leveling damaged increased, compared with original in Genshin.\n相比于原神的原数值，提升天赋等级对伤害的提高的倍率。",
+		label="Talents Multiplier 天赋倍率",
 		options={
-			{description="No Increase[0.0]",data=1},
-			{description="It's TOO EASY[0.2]",data=0.2},
-			{description="Recommend推荐[0.5]",data=0.5},
-			{description="Make it easer[0.8]",data=0.8},
-			{description="Same as GS[1.0]",data=1},
-			{description="Their are IMBA![1.4]",data=1.4},
-			{description="Seriously? [2.0]",data=2},
+			{description="0.0",data=0,hover="No Increase   没有提升"},
+			{description="0.2",data=0.2,hover="DST is TOO EASY   非常简单"},
+			{description="0.5",data=0.5,hover="Recommended   推荐倍率"},
+			{description="0.8",data=0.8,hover="Want to relax   我想放松"},
+			{description="1.0",data=1,hover="Just same as Genshin   原神联机版"},
+			{description="1.4",data=1.4,hover="They are Overpowered!   队友超模了！"},
+			{description="2.0",data=2,hover="Seriously?   轮椅人"},
 		},
 		default=0.5
 	},
@@ -101,14 +103,14 @@ configuration_options = {
 	{
 		name = "skill",
 		label = "Elemental Skill 元素战技",
-		hover = "",
+		hover = "Keybinding for Elemental Skill.\n元素战技键位绑定。",
 		options = list,
 		default = "KEY_Z",	
 	},
 	{
 		name = "burst",
 		label = "Elemental Burst 元素爆发",
-		hover = "",
+		hover = "Keybinding for Elemental Burst.\n元素爆发键位绑定。",
 		options = list,
 		default = "KEY_X",	
 	},
