@@ -13,7 +13,7 @@ TUNING.YAEMIKO_SKILL_STAGE_1_MAXIMUM_LEVEL = 2 -- 使用月岩可到达的最高
 TUNING.YAEMIKO_SKILL_STAGE_2_MAXIMUM_LEVEL = 6 -- 使用月亮碎片可到达的最高天赋等级
 TUNING.YAEMIKO_SKILL_STAGE_3_MAXIMUM_LEVEL = 13 -- 使用注能月亮碎片可到达的最高天赋等级，也是最后的上限，他不应高于13
 
-AddAction("YAEMIKO_SKILLLEVELING",STRINGS.ACTIONS.USEITEM, function(act)
+AddAction("YAEMIKO_SKILLLEVELING", STRINGS.ACTIONS.USEITEM, function(act)
   if act.invobject then
     if act.invobject.components.stackable then
         if act.doer.components.yaemiko_skill:GetSkillLvl()<TUNING.YAEMIKO_SKILL_STAGE_1_MAXIMUM_LEVEL and act.invobject.prefab=="moonrocknugget" then
@@ -30,7 +30,7 @@ AddAction("YAEMIKO_SKILLLEVELING",STRINGS.ACTIONS.USEITEM, function(act)
           return true
         end
     end
-    return true
+    return false
   end
 end)
 
