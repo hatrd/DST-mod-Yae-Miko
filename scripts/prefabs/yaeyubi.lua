@@ -21,7 +21,7 @@ end
 
 -- 判断给予的物品是否符合要求；是否现在还可以精炼
 local function canRefine(inst, item)
-    if item == nil or item.prefab ~= "purplegem" or (TUNING.YAEYUBI_REFINE_LIMIT ~= 0 and inst.components.yaeyubi_info:GetRefine()>=TUNING.YAEYUBI_REFINE_LIMIT) then
+    if item == nil or item.prefab ~= "purplegem" or inst.components.yaeyubi_info:GetRefine()>=TUNING.YAEYUBI_REFINE_LIMIT then
         return false
     end
     return true
