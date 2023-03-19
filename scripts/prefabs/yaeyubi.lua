@@ -68,6 +68,18 @@ local function onattack_yubi(inst, attacker, target, skipsanity)
     -- end
 end
 
+
+local function descOverride(inst,viewer)
+    if inst == viewer then
+      return
+    end
+    if viewer and viewer.prefab=="yaemiko" then
+      return string.format(STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.YAEYUBI_ADDITIONAL_DESCRIBE ,inst.components.yaeyubi_info:GetRefine())
+    else
+      return STRINGS.CHARACTERS.GENERIC.DESCRIBE.YUSHOU
+    end
+end
+
 local function fn()
     local inst = CreateEntity()
     local trans = inst.entity:AddTransform()
@@ -80,6 +92,7 @@ local function fn()
     STRINGS.NAMES.YAEYUBI = "御币"
     STRINGS.RECIPE_DESC.YAEYUBI = "驱魔好帮手（物理）。合成的御币可以用紫水晶进一步强化。"
     STRINGS.CHARACTERS.GENERIC.DESCRIBE.YAEYUBI = "紫水晶给了它雷的力量，这很科学。"
+    STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.YAEYUBI_ADDITIONAL_DESCRIBE = "已经用了…%u个紫水晶？"
   
     anim:SetBank("yubi")
     anim:SetBuild("yubi") --编译时的名称是yubi.zip，但是可以改名/anim/yaeyubi.zip并正常工作
@@ -100,6 +113,7 @@ local function fn()
     end
   
     inst:AddComponent("inspectable")
+    inst.components.inspectable.descriptionfn = descOverride
     inst:AddComponent("tradable")
     inst:AddComponent("inventoryitem")
     inst.components.inventoryitem.imagename = "yaeyubi"

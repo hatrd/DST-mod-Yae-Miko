@@ -262,11 +262,18 @@ local common_postinit = function(inst)
 	inst.energy_current = net_ushortint(inst.GUID, "energy_current", "energy_currentdirty")
     inst._ecnt= net_ushortint(inst.GUID, "inst._ecnt", "inst._ecnt")
 
-  --按键
+    -- 按键
 	inst:AddComponent("genshinkey")
 	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_SKILL_KEY], "yaemiko_skill")
 	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_BURST_KEY], "yaemiko_burst")
-  
+
+    -- 描述
+    STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.PURPLEGEM = "似乎蕴含着雷元素力？"
+    STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.MOONROCKNUGGET = "可以用来提升天赋等级至2级"
+    STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.MOONGLASS = "可以用来提升天赋等级至6级"
+    STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.MOONGLASS_CHARGED = "可以用来提升天赋等级至13级"
+    -- 文案可太难写了
+
 end
 
 -- This initializes for the server only. Components are added here.
