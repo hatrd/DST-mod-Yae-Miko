@@ -88,11 +88,17 @@ local function fn()
     inst.entity:AddNetwork()
   
     MakeInventoryPhysics(inst)
-  
-    STRINGS.NAMES.YAEYUBI = "御币"
-    STRINGS.RECIPE_DESC.YAEYUBI = "驱魔好帮手（物理）。合成的御币可以用紫水晶进一步强化。"
-    STRINGS.CHARACTERS.GENERIC.DESCRIBE.YAEYUBI = "紫水晶给了它雷的力量，这很科学。"
-    STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.YAEYUBI_ADDITIONAL_DESCRIBE = "已经用了…%u个紫水晶？"
+    if TUNING.LANG ==1 then
+        STRINGS.NAMES.YAEYUBI = "Gohei"
+        STRINGS.RECIPE_DESC.YAEYUBI = "A good helper for exorcism (physical). Gohei can be further strengthened with purple gem."
+        STRINGS.CHARACTERS.GENERIC.DESCRIBE.YAEYUBI = "The purple gems gave it the power of thunder, this is very scientific."
+        STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.YAEYUBI_ADDITIONAL_DESCRIBE = "Comsumed... %u purple gems？"
+    else
+        STRINGS.NAMES.YAEYUBI = "御币"
+        STRINGS.RECIPE_DESC.YAEYUBI = "驱魔好帮手（物理）。合成的御币可以用紫水晶进一步强化。"
+        STRINGS.CHARACTERS.GENERIC.DESCRIBE.YAEYUBI = "紫水晶给了它雷的力量，这很科学。"
+        STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.YAEYUBI_ADDITIONAL_DESCRIBE = "已经用了…%u个紫水晶？"
+    end
   
     anim:SetBank("yubi")
     anim:SetBuild("yubi") --编译时的名称是yubi.zip，但是可以改名/anim/yaeyubi.zip并正常工作

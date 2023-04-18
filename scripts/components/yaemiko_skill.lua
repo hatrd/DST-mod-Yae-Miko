@@ -248,7 +248,11 @@ function yaemiko_skill:aoeQ(damage)
   if nearest == nil then
     self.inst:DoTaskInTime(0.1, function()
       if self.inst.components.talker then
-        self.inst.components.talker:Say("附近没有什么有趣的东西呢。")
+        if TUNING.LANG ==1 then
+          self.inst.components.talker:Say("Nothing interseting around...")
+        else
+          self.inst.components.talker:Say("附近没有什么有趣的东西呢。")
+        end
       end
     end)
     return

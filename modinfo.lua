@@ -27,14 +27,15 @@ end
 
 configuration_options = {
 	{
-		name = "language",
+		name = "lang",
 		label = "Language  语言",
 		hover = "In-game display language.\n游戏内显示语言。",
 		options = {
+			{description = "(Auto)", data = 0, hover=""},
 			{description = "English", data = 1, hover = ""},
 			{description = "中文", data = 2, hover = ""}
 		},
-		default = 2
+		default = 0
 	},
 	{
 		name = "Stats",

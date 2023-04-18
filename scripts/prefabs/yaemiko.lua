@@ -268,12 +268,18 @@ local common_postinit = function(inst)
 	inst.components.genshinkey:Press(_G[TUNING.YAEMIKO_BURST_KEY], "yaemiko_burst")
 
     -- 描述
-    STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.PURPLEGEM = "似乎蕴含着雷元素力？"
-    STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.MOONROCKNUGGET = "可以用来提升天赋等级至2级"
-    STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.MOONGLASS = "可以用来提升天赋等级至6级"
-    STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.MOONGLASS_CHARGED = "可以用来提升天赋等级至13级"
-    -- 文案可太难写了
-
+    if TUNING.LANG==1 then
+        STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.PURPLEGEM = "Seems to contain the power of Electro?"
+        STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.MOONROCKNUGGET = "Can be used to increase Talent to lv2"
+        STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.MOONGLASS = "Can be used to increase Talent to lv6"
+        STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.MOONGLASS_CHARGED = "Can be used to increase Talent to lv13"
+    else
+        STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.PURPLEGEM = "似乎蕴含着雷元素力？"
+        STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.MOONROCKNUGGET = "可以用来提升天赋等级至2级"
+        STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.MOONGLASS = "可以用来提升天赋等级至6级"
+        STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.MOONGLASS_CHARGED = "可以用来提升天赋等级至13级"
+        -- 文案可太难写了
+    end
 end
 
 -- This initializes for the server only. Components are added here.

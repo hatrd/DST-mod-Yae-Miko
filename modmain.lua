@@ -56,12 +56,31 @@ AddMinimapAtlas("images/map_icons/yaemiko.xml")
 --环境初始化
 GLOBAL.setmetatable(env, {__index = function(t,k) return GLOBAL.rawget(GLOBAL,k) end})
 
+local language = GetModConfigData("lang")
+if language == 0 then
+	-- if STRINGS.UI.OPTIONS.LANGUAGES == "Ngôn ngữ" then
+	-- 	language = 3
+	if STRINGS.UI.OPTIONS.LANGUAGES == "语言" then
+		TUNING.LANG = 2
+	else -- default fall back as English
+		TUNING.LANG = 1
+	end
+end
+
 -- The character select screen lines
-STRINGS.CHARACTER_TITLES.yaemiko = "屑狐狸"
-STRINGS.CHARACTER_NAMES.yaemiko = "八重神子"
-STRINGS.CHARACTER_DESCRIPTIONS.yaemiko = "重生，然后化身八重宫司大人。\n想得美哦。"
-STRINGS.CHARACTER_QUOTES.yaemiko = "\"呜呜呜呜，好可怜呐\""
-STRINGS.CHARACTER_SURVIVABILITY.yaemiko = "严峻"
+if TUNING.LANG == 1 then
+	STRINGS.CHARACTER_TITLES.yaemiko = "Smug fox"
+	STRINGS.CHARACTER_NAMES.yaemiko = "Yae Miko"
+	STRINGS.CHARACTER_DESCRIPTIONS.yaemiko = "Reborn as Guuji Yae..\nIn your dreams."
+	STRINGS.CHARACTER_QUOTES.yaemiko = "\"crying and ranting and raving.\""
+	STRINGS.CHARACTER_SURVIVABILITY.yaemiko = "Grim"
+else
+	STRINGS.CHARACTER_TITLES.yaemiko = "屑狐狸"
+	STRINGS.CHARACTER_NAMES.yaemiko = "八重神子"
+	STRINGS.CHARACTER_DESCRIPTIONS.yaemiko = "重生，然后化身八重宫司大人。\n想得美哦。"
+	STRINGS.CHARACTER_QUOTES.yaemiko = "\"呜呜呜呜，好可怜呐\""
+	STRINGS.CHARACTER_SURVIVABILITY.yaemiko = "严峻"
+end
 
 -- Custom speech strings
 STRINGS.CHARACTERS.YAEMIKO = require "speech_wilson"

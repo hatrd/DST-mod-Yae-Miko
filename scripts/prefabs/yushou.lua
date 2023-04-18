@@ -57,11 +57,17 @@ local function fn()
 
   MakeInventoryPhysics(inst)
 
-
-  STRINGS.NAMES.YUSHOU = "御守"
-  STRINGS.RECIPE_DESC.YUSHOU = "想我的时候也可以拿出来看看哦？"
-  STRINGS.CHARACTERS.GENERIC.DESCRIBE.YUSHOU = "这是才智与美貌兼具的八重神子大人赠予我的！"
-  STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.YUSHOU_ADDITIONAL_DESCRIBE = "当前天赋等级…%u级？" --我想不出来这里说什么骚话，反正格式先写这里。
+  if TUNING.LANG ==1 then
+    STRINGS.NAMES.YUSHOU = "Omamori"
+    STRINGS.RECIPE_DESC.YUSHOU = "If you ever think about me during your journey, take it out, won't you?"
+    STRINGS.CHARACTERS.GENERIC.DESCRIBE.YUSHOU = "It was given to me by none other than Yae Miko, the wise and beautiful!"
+    STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.YUSHOU_ADDITIONAL_DESCRIBE = "Now Talent lv…%u？" --我想不出来这里说什么骚话，反正格式先写这里。
+  else
+    STRINGS.NAMES.YUSHOU = "御守"
+    STRINGS.RECIPE_DESC.YUSHOU = "想我的时候也可以拿出来看看哦？"
+    STRINGS.CHARACTERS.GENERIC.DESCRIBE.YUSHOU = "这是才智与美貌兼具的八重神子大人赠予我的！"
+    STRINGS.CHARACTERS.YAEMIKO.DESCRIBE.YUSHOU_ADDITIONAL_DESCRIBE = "当前天赋等级…%u级？" --我想不出来这里说什么骚话，反正格式先写这里。
+  end
 
   anim:SetBank("yushou")
   anim:SetBuild("yushou")
