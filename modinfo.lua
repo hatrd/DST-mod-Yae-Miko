@@ -18,7 +18,7 @@ icon = "modicon.tex"
 server_filter_tags = {"character",}
 
 
-local keys = {"B","C","G","H","J","K","L","N","O","R","T","V","X","Z","LAlt","RAlt","LCtrl","RCtrl","LShift","RShift"}
+local keys = {"B","C","G","H","J","K","L","N","O","R","T","V","X","Z","LAlt","RAlt","LCtrl","RCtrl","LShift","RShift","E","Q"}
 local list = {}
 local string = ""
 for i = 1, #keys do

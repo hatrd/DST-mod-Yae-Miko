@@ -151,7 +151,7 @@ function yaemiko_skill:chaozai(tgt,damage)
   local x,y,z=tgt.Transform:GetWorldPosition()
   --爆炸特效
   local inst=SpawnPrefab("explosivehit").Transform:SetPosition(tgt.Transform:GetWorldPosition())
-	
+	-- 没有排除自己，很真实的爆炸。
   local ents = TheSim:FindEntities(x, y, z, 3, nil, nil)
   
 	for i, v in pairs(ents) do
