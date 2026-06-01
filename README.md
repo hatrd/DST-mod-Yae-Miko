@@ -7,6 +7,7 @@ Don't Starve Together Mod of Yae Miko in Genshin Impact.
 [![Steam Workshop](https://img.shields.io/badge/Steam%20Workshop-DST--mod--Yae--Miko-1b2838?logo=steam&logoColor=white)](https://steamcommunity.com/sharedfiles/filedetails/?id=2792849242)
 ![Steam subscriptions](https://img.shields.io/badge/Steam%20subscriptions-60%2C543-blue)
 ![Steam lifetime subscriptions](https://img.shields.io/badge/lifetime%20subscriptions-82%2C664-brightgreen)
+![Steam favorites](https://img.shields.io/badge/Favorites-2%2C326-yellow)
 ![Steam views](https://img.shields.io/badge/views-133%2C810-lightgrey)
 
 This mod is published on Steam Workshop and has public user adoption outside GitHub.
