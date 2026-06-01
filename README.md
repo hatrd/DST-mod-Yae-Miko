@@ -1,6 +1,23 @@
 # DST-mod-Yae-Miko
 Don't Starve Together Mod of Yae Miko in Genshin Impact.  
 饥荒联机版八重神子模组。
+
+## Public usage
+
+[![Steam Workshop](https://img.shields.io/badge/Steam%20Workshop-DST--mod--Yae--Miko-1b2838?logo=steam&logoColor=white)](https://steamcommunity.com/sharedfiles/filedetails/?id=2792849242)
+![Steam subscriptions](https://img.shields.io/badge/Steam%20subscriptions-60%2C543-blue)
+![Steam lifetime subscriptions](https://img.shields.io/badge/lifetime%20subscriptions-82%2C664-brightgreen)
+![Steam favorites](https://img.shields.io/badge/Favorites-2%2C326-yellow)
+![Steam views](https://img.shields.io/badge/views-133%2C810-lightgrey)
+
+This mod is published on Steam Workshop and has public user adoption outside GitHub.
+Current public Steam Workshop metrics checked on 2026-06-01:
+
+- Current subscriptions: 60,543
+- Lifetime subscriptions: 82,664
+- Favorites: 2,326
+- Views: 133,810
+
 # FAQ
 - 多人模式下战技位移失效？
   关闭延迟预测。
